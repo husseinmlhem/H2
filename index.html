@@ -175,24 +175,7 @@
       font-size: 14px;
     }
 
-    .brand-mark {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle, var(--cyan) 0 12%, transparent 13%),
-        repeating-conic-gradient(from 10deg, rgba(255,255,255,.95) 0 8deg, rgba(103,173,222,.95) 9deg 15deg, transparent 16deg 20deg);
-      box-shadow: 0 0 34px rgba(103,173,222,.42);
-      opacity: .96;
-    }
-
-    .kicker {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      padding: 9px 13px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
+       border-radius: 999px;
       color: var(--ice);
       background: rgba(103, 173, 222, 0.08);
       font-size: 12px;
@@ -300,11 +283,7 @@
       opacity: 0;
       transform: scale(1.08);
       transition: opacity .7s ease, transform 1.15s cubic-bezier(.2,.8,.2,1), filter .55s ease;
-      filter: saturate(.85) brightness(.72) blur(.25px);
-    }
-
-    .webpage-shot::after {
-      content: "";
+      filter: satutent: "";
       position: absolute;
       inset: 0;
     }
@@ -628,7 +607,7 @@
       <div class="pin">
         <div class="frame-shell">
           <div class="stage-copy">
-            <div class="brand-row"><div class="brand-mark"></div> MA HAWA</div>
+            <div class="brand-row"><img class="brand-logo" src="assets/logo.svg" alt="Ma Hawa logo" /> <span>MA HAWA H₂</span></div>
             <div class="kicker"><span class="dot"></span><span id="stageKicker">HYDROGEN WATER</span></div>
             <h1 class="stage-title" id="stageTitle">Hydrogen-Activated <span>Hydration</span></h1>
             <p class="stage-text" id="stageText">A cinematic product story for premium water generated from air, enriched with minerals, and crafted for active lifestyles.</p>
@@ -783,13 +762,13 @@
       'assets/frames/frame-004.png'
     ];
 
+    const fallbackFrame = 'assets/logo.svg';
+
     const stages = [
       {
         kicker: 'HYDROGEN WATER',
         title: 'Hydrogen-Activated <span>Hydration</span>',
-        text: 'A cinematic macro product story for Ma Hawa Hydrogen Water: generated from air, rich in minerals, and zero sodium.',
-        pills: ['Hydrogen activated', 'Generated from air', 'Zero sodium'],
-        terminal: ['INPUT // atmospheric moisture', 'PROCESS // purification + minerals + H₂', 'OUTPUT // premium active hydration']
+        text: 'A cinematic macro product story for Ma Hawa Hydrogen Water: generated from air, rich in minerals, and zero s', 'OUTPUT // premium active hydration']
       },
       {
         kicker: 'ATMOSPHERIC WATER GENERATION',
@@ -816,20 +795,21 @@
 
     function mountImages() {
       stack.innerHTML = imageSequence.map((src, index) => `
-        <img class="webpage-shot ${index === 0 ? 'active' : ''}" src="${src}" alt="Ma Hawa scroll frame ${String(index + 1).padStart(3, '0')}" />
+        <img class="webpage-shot ${index === 0 ? 'active' : ''}" src="${src}" alt="Ma Hawa scroll frame ${String(index + 1).padStart(3, '0')}" data-frame="${src}" />
       `).join('');
+
+      stack.querySelectorAll('img').forEach((img) => {
+        img.addEventListener('error', () => {
+          console.warn('Missing frame:', img.dataset.frame);
+          img.src = fallbackFrame;
+          img.style.objectFit = 'contain';
+          img.style.padding = '18vh 18vw';
+          img.style.background = '#01040C';
+        }, { once: true });
+      });
     }
 
-    mountImages();
-    let shots = Array.from(document.querySelectorAll('.webpage-shot'));
-
-    function clamp(value, min, max) {
-      return Math.max(min, Math.min(max, value));
-    }
-
-    function updateStage() {
-      const rect = stage.getBoundingClientRect();
-      const total = Math.max(1, rect.height - window.innerHeight);
+    mtal = Math.max(1, rect.height - window.innerHeight);
       const scrolled = clamp(-rect.top / total, 0, 1);
       const index = Math.min(stages.length - 1, Math.floor(scrolled * stages.length));
 
