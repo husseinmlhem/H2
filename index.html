@@ -480,6 +480,56 @@
       }
     }
 
+  
+    .hero-progress { display: none !important; }
+  
+    /* Mobile hero text optimization */
+    @media (max-width: 768px) {
+      .hero-copy {
+        left: 20px !important;
+        right: 20px !important;
+        top: auto !important;
+        bottom: 34px !important;
+        width: auto !important;
+        transform: none !important;
+        max-width: none !important;
+        padding: 0 !important;
+      }
+
+      .hero-copy.is-changing {
+        transform: translateY(24px) !important;
+      }
+
+      .hero-copy.is-entering {
+        transform: translateY(0) !important;
+      }
+
+      .hero-title {
+        font-size: clamp(34px, 11vw, 54px) !important;
+        line-height: 0.92 !important;
+        letter-spacing: -0.055em !important;
+        margin-bottom: 14px !important;
+        max-width: 88vw !important;
+      }
+
+      .hero-text {
+        font-size: 15px !important;
+        line-height: 1.45 !important;
+        max-width: 82vw !important;
+        color: rgba(255,255,255,.82) !important;
+      }
+
+      .hero-vignette {
+        background:
+          linear-gradient(180deg, rgba(1,4,12,.10) 0%, transparent 34%, rgba(1,4,12,.82) 100%),
+          linear-gradient(90deg, rgba(1,4,12,.28) 0%, transparent 58%) !important;
+      }
+
+      .hero-frame {
+        object-position: center center !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -502,7 +552,6 @@
         <img class="hero-frame" id="sequenceFrame" src="./assets/frames/frame_0001_0.00s.webp" alt="Ma Hawa Hydrogen Water frame" />
         <div class="hero-vignette"></div>
         <div class="hero-copy" id="heroCopy"><h1 class="hero-title" id="heroTitle">Hydrogen-Activated <span>Hydration</span></h1><p class="hero-text" id="heroText">Pure water generated from air, enriched with minerals, and activated by hydrogen for a clean active lifestyle.</p></div>
-        <div class="hero-progress"><span id="heroProgressBar"></span></div>
       </div>
     </section>
 
@@ -631,7 +680,6 @@
     const heroCopy = document.getElementById('heroCopy');
     const heroTitle = document.getElementById('heroTitle');
     const heroText = document.getElementById('heroText');
-    const heroProgressBar = document.getElementById('heroProgressBar');
     const navLinks = Array.from(document.querySelectorAll('.nav-link'));
     const totalFrames = 92;
     const frameRate = 7.5;
