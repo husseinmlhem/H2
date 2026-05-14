@@ -1032,6 +1032,305 @@
         flex-direction: column;
       }
     }
+  
+    /* Final typography sizing fix */
+    .hero-title {
+      font-size: clamp(44px, 5.8vw, 88px) !important;
+      line-height: 1.02 !important;
+      letter-spacing: -0.028em !important;
+      font-weight: 800 !important;
+    }
+
+    .section-copy h2 {
+      font-size: clamp(40px, 4.45vw, 72px) !important;
+      line-height: 1.04 !important;
+      letter-spacing: -0.026em !important;
+      font-weight: 800 !important;
+      max-width: 780px !important;
+    }
+
+    html[dir="rtl"] .hero-title,
+    html[dir="rtl"] .section-copy h2 {
+      letter-spacing: 0 !important;
+      line-height: 1.16 !important;
+      font-weight: 800 !important;
+    }
+
+    .section-copy p {
+      font-size: clamp(17px, 1.08vw, 20px) !important;
+      line-height: 1.72 !important;
+    }
+
+    .hero-text {
+      font-size: clamp(18px, 1.25vw, 22px) !important;
+      line-height: 1.62 !important;
+    }
+
+  
+    /* ===============================
+       MOBILE CLEANUP + CONTACT BUTTON FIX
+       =============================== */
+
+    .contact-console a.whatsapp-button {
+      display: inline-flex !important;
+      grid-template-columns: none !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: fit-content !important;
+      min-height: 48px !important;
+      height: 48px !important;
+      padding: 0 20px !important;
+      margin-top: 8px !important;
+      border: 0 !important;
+      border-bottom: 0 !important;
+      border-radius: 999px !important;
+      gap: 10px !important;
+      background: var(--green) !important;
+      color: #03120a !important;
+      box-shadow: 0 18px 42px rgba(37,211,102,.22) !important;
+    }
+
+    .contact-console a.whatsapp-button span {
+      color: #03120a !important;
+      font-size: 13px !important;
+      line-height: 1 !important;
+      font-weight: 950 !important;
+      letter-spacing: .06em !important;
+      text-transform: uppercase !important;
+      white-space: nowrap !important;
+    }
+
+    html[dir="rtl"] .contact-console a.whatsapp-button span {
+      letter-spacing: 0 !important;
+      font-size: 14px !important;
+    }
+
+    .contact-console a.whatsapp-button svg {
+      width: 20px !important;
+      height: 20px !important;
+      flex: 0 0 20px !important;
+      display: block !important;
+    }
+
+    .contact-console a:not(.whatsapp-button) {
+      display: grid !important;
+      grid-template-columns: 1fr auto !important;
+      align-items: center !important;
+      gap: 22px !important;
+      padding: 20px 0 !important;
+      border-bottom: 1px solid rgba(103,173,222,.14) !important;
+    }
+
+    html[dir="rtl"] .contact-console a:not(.whatsapp-button) {
+      grid-template-columns: auto 1fr !important;
+    }
+
+    .section-copy h2 {
+      font-size: clamp(38px, 4vw, 66px) !important;
+      line-height: 1.06 !important;
+      letter-spacing: -0.024em !important;
+      font-weight: 800 !important;
+    }
+
+    .hero-title {
+      font-size: clamp(42px, 5.6vw, 82px) !important;
+      line-height: 1.04 !important;
+      letter-spacing: -0.026em !important;
+      font-weight: 800 !important;
+    }
+
+    .section-copy p,
+    .hero-text {
+      font-size: clamp(16px, 1.05vw, 20px) !important;
+    }
+
+    .contact-console span {
+      font-size: 14px !important;
+    }
+
+    .contact-console strong {
+      font-size: clamp(16px, 1.15vw, 22px) !important;
+    }
+
+    /* More visible lower-section motion */
+    body.js .glass-panel,
+    body.js .copy-data-strip,
+    body.js .spec-node,
+    body.js .map-stage,
+    body.js .profile-bars,
+    body.js .dashboard-header,
+    body.js .app-cell,
+    body.js .data-module,
+    body.js .origin-block,
+    body.js .whatsapp-button {
+      opacity: 0;
+      transform: translateY(34px) scale(.985);
+      filter: blur(8px);
+      transition:
+        opacity .85s ease,
+        transform .85s cubic-bezier(.22, 1, .36, 1),
+        filter .85s ease;
+      will-change: opacity, transform, filter;
+    }
+
+    body.js .glass-panel.is-visible,
+    body.js .copy-data-strip.is-visible,
+    body.js .spec-node.is-visible,
+    body.js .map-stage.is-visible,
+    body.js .profile-bars.is-visible,
+    body.js .dashboard-header.is-visible,
+    body.js .app-cell.is-visible,
+    body.js .data-module.is-visible,
+    body.js .origin-block.is-visible,
+    body.js .whatsapp-button.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    @media (max-width: 768px) {
+      .site-header {
+        height: 74px !important;
+      }
+
+      .nav-wrap {
+        height: 74px !important;
+        width: min(100% - 28px, 1440px) !important;
+        gap: 10px !important;
+      }
+
+      .nav-brand img {
+        width: 104px !important;
+      }
+
+      .nav-actions {
+        gap: 8px !important;
+      }
+
+      .nav-cta,
+      .lang-toggle {
+        height: 36px !important;
+        padding: 0 12px !important;
+        font-size: 11px !important;
+      }
+
+      html[dir="rtl"] .nav-cta,
+      html[dir="rtl"] .lang-toggle {
+        font-size: 13px !important;
+      }
+
+      .full-inner {
+        width: min(100% - 32px, 1400px) !important;
+        padding: 92px 0 52px !important;
+        gap: 28px !important;
+      }
+
+      .section-copy h2 {
+        font-size: clamp(30px, 9vw, 44px) !important;
+        line-height: 1.08 !important;
+        margin-bottom: 14px !important;
+        letter-spacing: -0.018em !important;
+      }
+
+      html[dir="rtl"] .section-copy h2 {
+        letter-spacing: 0 !important;
+        line-height: 1.22 !important;
+      }
+
+      .section-copy p {
+        font-size: 14px !important;
+        line-height: 1.58 !important;
+        max-width: 100% !important;
+      }
+
+      html[dir="rtl"] .section-copy p {
+        line-height: 1.8 !important;
+      }
+
+      .section-kicker {
+        font-size: 10px !important;
+        margin-bottom: 10px !important;
+      }
+
+      html[dir="rtl"] .section-kicker {
+        font-size: 12px !important;
+      }
+
+      .glass-panel {
+        border-radius: 26px !important;
+      }
+
+      .contact-console {
+        min-height: auto !important;
+        padding: 22px !important;
+        gap: 10px !important;
+      }
+
+      .contact-console a:not(.whatsapp-button) {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+        padding: 14px 0 !important;
+      }
+
+      html[dir="rtl"] .contact-console a:not(.whatsapp-button) {
+        grid-template-columns: 1fr !important;
+      }
+
+      .contact-console span {
+        font-size: 12px !important;
+      }
+
+      .contact-console strong {
+        font-size: 17px !important;
+        text-align: left !important;
+        word-break: break-word !important;
+      }
+
+      html[dir="rtl"] .contact-console strong {
+        text-align: right !important;
+      }
+
+      .origin-block {
+        gap: 12px !important;
+        padding-top: 14px !important;
+        font-size: 13px !important;
+        align-items: center !important;
+      }
+
+      .footer-flag {
+        width: 64px !important;
+        height: 34px !important;
+      }
+
+      .contact-console a.whatsapp-button {
+        width: 100% !important;
+        height: 44px !important;
+        min-height: 44px !important;
+        margin-top: 8px !important;
+      }
+
+      .contact-console a.whatsapp-button span {
+        font-size: 12px !important;
+      }
+
+      html[dir="rtl"] .contact-console a.whatsapp-button span {
+        font-size: 13px !important;
+      }
+
+      .contact-console a.whatsapp-button svg {
+        width: 18px !important;
+        height: 18px !important;
+        flex-basis: 18px !important;
+      }
+
+      .footer-bottom {
+        width: min(100% - 32px, 1400px) !important;
+        font-size: 11px !important;
+        line-height: 1.5 !important;
+        gap: 12px !important;
+      }
+    }
+
   </style>
 </head>
 
@@ -1051,7 +1350,7 @@
 
       <div class="nav-actions">
         <span class="nav-chip" data-i18n="product_uae">Product of UAE</span>
-        <button class="lang-toggle" id="langToggle" type="button" aria-label="Switch language">AR</button>
+        <button class="lang-toggle" id="langToggle" type="button" aria-label="Switch language" onclick="window.maHawaToggleLang && window.maHawaToggleLang()">AR</button>
         <a class="nav-cta" href="https://shop.mahawa.ae" target="_blank" rel="noopener" data-i18n="buy_now">Buy Now</a>
       </div>
     </div>
@@ -1401,10 +1700,6 @@
       ]
     };
 
-    const totalFrames = 92;
-    const frameRate = 7.5;
-    const fallbackFrame = './assets/logo.svg';
-
     const preloaded = [];
     let currentFrameIndex = -1;
     let displayedFrame = 0;
@@ -1531,7 +1826,7 @@
     }
 
     function initRevealAnimations() {
-      const revealTargets = document.querySelectorAll('.reveal');
+      const revealTargets = document.querySelectorAll('.reveal, .glass-panel, .copy-data-strip, .spec-node, .map-stage, .profile-bars, .dashboard-header, .app-cell, .data-module, .origin-block, .whatsapp-button');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) entry.target.classList.add('is-visible');
@@ -1599,6 +1894,164 @@
     requestFrameUpdate();
     requestNavUpdate();
   </script>
+
+  <script>
+    (function () {
+      const dict = {
+        en: {
+          nav_product: 'Product', nav_process: 'Process', nav_order: 'Order', nav_contact: 'Contact',
+          product_uae: 'Product of UAE', buy_now: 'Buy Now',
+          product_kicker: 'Product Architecture',
+          product_title: 'Hydrogen water, <span>built as a system</span>',
+          product_text: 'Ma Hawa H₂ is a 450 ml premium aluminum bottle generated from air, purified, mineral-balanced, sodium-free, and positioned for clean active hydration.',
+          metric_450: '450 ml', metric_450_text: 'portable bottle format',
+          metric_sodium: '0 Na', metric_sodium_text: 'zero sodium profile',
+          metric_h2: 'H₂', metric_h2_text: 'hydrogen-activated identity',
+          spec_1: 'Atmospheric source', spec_1_text: 'Generated from air',
+          spec_2: 'Purified water path', spec_2_text: 'Clean technical process',
+          spec_3: 'Mineral balance', spec_3_text: 'Smooth drinking profile',
+          spec_4: 'Hydrogen activation', spec_4_text: 'Premium H₂ positioning',
+          process_kicker: 'Atmospheric Water Flow',
+          process_title: 'From moisture to <span>bottled clarity</span>',
+          process_text: 'A clean process narrative for explaining the product without visual clutter: capture, purify, mineralize, activate, bottle.',
+          map_air: 'Air', map_air_text: 'Moisture capture',
+          map_purify: 'Purify', map_purify_text: 'Water path cleaning',
+          map_minerals: 'Minerals', map_minerals_text: 'Balanced taste',
+          map_h2: 'H₂', map_h2_text: 'Hydrogen identity',
+          map_bottle: 'Bottle', map_bottle_text: '450 ml aluminum',
+          bar_purity: 'Purity positioning', bar_light: 'Light drinking feel', bar_mineral: 'Mineral balance', bar_impact: 'Premium shelf impact',
+          order_kicker: 'Deployment Intelligence',
+          order_title: 'Designed for <span>high-frequency spaces</span>',
+          order_text: 'Instead of treating the product as a generic beverage, this section maps where the bottle has the strongest commercial and lifestyle fit.',
+          primary_use: 'Primary use case', primary_use_text: 'Fitness, wellness, offices, events, and bulk hospitality supply',
+          commercial_direction: 'Commercial direction', commercial_direction_text: 'Premium hydration with strong visual shelf presence',
+          app_fitness: 'Fitness Clubs', app_fitness_text: 'Post-workout fridges, reception counters, PT zones, and recovery lounges.',
+          app_wellness: 'Wellness', app_wellness_text: 'Spa areas, clean lifestyle counters, premium refreshment points.',
+          app_corporate: 'Corporate', app_corporate_text: 'Meeting rooms, executive pantries, visitor hospitality.',
+          app_events: 'Events', app_events_text: 'Sports activations, brand booths, VIP lounges, and sampling moments.',
+          occasion_fit: 'Occasion fit', high: 'High', visual_impact: 'Visual impact', premium: 'Premium', routine_use: 'Routine use', daily: 'Daily',
+          contact_kicker: 'Buy Ma Hawa H₂',
+          contact_title: 'Buy directly <span>from the source</span>',
+          contact_text: 'Use the official Ma Hawa online shop for direct purchase, or contact the team for gyms, offices, events, and corporate supply.',
+          buy_online: 'Buy online', explore: 'Explore Ma Hawa', toll_free: 'Toll-free support',
+          origin: 'Product of the United Arab Emirates', whatsapp: 'Contact on WhatsApp',
+          rights: '© Ma Hawa Hydrogen Water. All rights reserved.',
+          company: 'Baynunah Watergeneration Technologies SP LLC — Abu Dhabi, UAE'
+        },
+        ar: {
+          nav_product: 'المنتج', nav_process: 'العملية', nav_order: 'الاستخدامات', nav_contact: 'التواصل',
+          product_uae: 'منتج دولة الإمارات', buy_now: 'اشترِ الآن',
+          product_kicker: 'بنية المنتج',
+          product_title: 'مياه هيدروجينية <span>مصممة كنظام متكامل</span>',
+          product_text: 'ما هاوا H₂ عبوة ألمنيوم فاخرة بسعة 450 مل، مياهها مولدة من الهواء، منقاة، متوازنة بالمعادن، خالية من الصوديوم، ومصممة لهوية ترطيب نظيفة ونشطة.',
+          metric_450: '450 مل', metric_450_text: 'حجم عملي للاستخدام اليومي',
+          metric_sodium: '0 صوديوم', metric_sodium_text: 'تركيبة خالية من الصوديوم',
+          metric_h2: 'H₂', metric_h2_text: 'هوية ترطيب هيدروجينية',
+          spec_1: 'مصدر جوي', spec_1_text: 'مياه مولدة من الهواء',
+          spec_2: 'مسار تنقية', spec_2_text: 'عملية تقنية نظيفة',
+          spec_3: 'توازن معدني', spec_3_text: 'طعم سلس ومتوازن',
+          spec_4: 'تنشيط هيدروجيني', spec_4_text: 'تموضع فاخر لهوية H₂',
+          process_kicker: 'مسار المياه من الهواء',
+          process_title: 'من الرطوبة إلى <span>نقاء داخل العبوة</span>',
+          process_text: 'سرد تقني مبسط يشرح المنتج بوضوح: التقاط الرطوبة، التنقية، الموازنة المعدنية، التنشيط الهيدروجيني، ثم التعبئة.',
+          map_air: 'الهواء', map_air_text: 'التقاط الرطوبة',
+          map_purify: 'التنقية', map_purify_text: 'تنظيف مسار المياه',
+          map_minerals: 'المعادن', map_minerals_text: 'توازن الطعم',
+          map_h2: 'H₂', map_h2_text: 'هوية هيدروجينية',
+          map_bottle: 'العبوة', map_bottle_text: 'ألمنيوم 450 مل',
+          bar_purity: 'تموضع النقاء', bar_light: 'إحساس شرب خفيف', bar_mineral: 'توازن المعادن', bar_impact: 'حضور فاخر على الرف',
+          order_kicker: 'خريطة الاستخدام',
+          order_title: 'مصممة للمساحات <span>عالية الاستخدام</span>',
+          order_text: 'بدلاً من عرض المنتج كمشروب عادي، يوضح هذا القسم أين يمتلك المنتج أقوى حضور تجاري وأسلوب حياة.',
+          primary_use: 'الاستخدام الأساسي', primary_use_text: 'النوادي الرياضية، مساحات العافية، المكاتب، الفعاليات، والتوريد الكبير',
+          commercial_direction: 'الاتجاه التجاري', commercial_direction_text: 'ترطيب فاخر مع حضور بصري قوي على الرف',
+          app_fitness: 'النوادي الرياضية', app_fitness_text: 'ثلاجات ما بعد التمرين، منطقة الاستقبال، مناطق المدربين، وصالات الاستشفاء.',
+          app_wellness: 'العافية', app_wellness_text: 'مناطق السبا، نقاط الحياة الصحية، ومناطق الانتعاش الفاخرة.',
+          app_corporate: 'الشركات', app_corporate_text: 'غرف الاجتماعات، ضيافة الزوار، والمكاتب التنفيذية.',
+          app_events: 'الفعاليات', app_events_text: 'الفعاليات الرياضية، أجنحة العلامة، مناطق VIP، ولحظات التذوق.',
+          occasion_fit: 'ملاءمة الاستخدام', high: 'عالية', visual_impact: 'الأثر البصري', premium: 'فاخر', routine_use: 'الاستخدام اليومي', daily: 'يومي',
+          contact_kicker: 'شراء ما هاوا H₂',
+          contact_title: 'اشترِ مباشرة <span>من المصدر</span>',
+          contact_text: 'استخدم متجر ما هاوا الرسمي للشراء المباشر، أو تواصل مع الفريق للنوادي، المكاتب، الفعاليات، والتوريد للشركات.',
+          buy_online: 'الشراء أونلاين', explore: 'استكشف ما هاوا', toll_free: 'الدعم المجاني',
+          origin: 'منتج دولة الإمارات العربية المتحدة', whatsapp: 'تواصل عبر واتساب',
+          rights: '© مياه ما هاوا الهيدروجينية. جميع الحقوق محفوظة.',
+          company: 'Baynunah Watergeneration Technologies SP LLC — أبوظبي، الإمارات'
+        }
+      };
+
+      const heroDict = {
+        en: [
+          ['Hydrogen-Activated <span>Hydration</span>', 'Pure water generated from air, enriched with minerals, and activated by hydrogen for a clean active lifestyle.'],
+          ['Generated <span>from Air</span>', 'Atmospheric water generation transforms moisture into premium drinking water through a clean technical process.'],
+          ['Buy Directly <span>Online</span>', 'Purchase through shop.mahawa.ae or contact Ma Hawa for gyms, offices, events, and business supply.']
+        ],
+        ar: [
+          ['ترطيب هيدروجيني <span>نظيف ونشط</span>', 'مياه مولدة من الهواء، غنية بالمعادن، ومفعّلة بالهيدروجين لأسلوب حياة صحي ونشط.'],
+          ['مياه مولدة <span>من الهواء</span>', 'تقنية توليد المياه من الهواء تحول الرطوبة إلى مياه شرب فاخرة عبر مسار تقني نظيف.'],
+          ['اشترِ مباشرة <span>أونلاين</span>', 'اطلب عبر shop.mahawa.ae أو تواصل مع ما هاوا للنوادي، المكاتب، الفعاليات، والتوريد للشركات.']
+        ]
+      };
+
+      function heroIndex() {
+        const section = document.getElementById('experience');
+        if (!section) return 0;
+        const rect = section.getBoundingClientRect();
+        const travel = Math.max(1, rect.height - window.innerHeight);
+        const progress = Math.max(0, Math.min(1, -rect.top / travel));
+        if (progress < 0.34) return 0;
+        if (progress < 0.72) return 1;
+        return 2;
+      }
+
+      function setLang(lang) {
+        const data = dict[lang] || dict.en;
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        localStorage.setItem('maHawaLang', lang);
+
+        document.querySelectorAll('[data-i18n]').forEach((el) => {
+          const key = el.getAttribute('data-i18n');
+          if (data[key]) el.textContent = data[key];
+        });
+
+        document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+          const key = el.getAttribute('data-i18n-html');
+          if (data[key]) el.innerHTML = data[key];
+        });
+
+        const heroTitle = document.getElementById('heroTitle');
+        const heroText = document.getElementById('heroText');
+        const copy = heroDict[lang][heroIndex()];
+        if (heroTitle && heroText) {
+          heroTitle.innerHTML = copy[0];
+          heroText.textContent = copy[1];
+        }
+
+        const btn = document.getElementById('langToggle');
+        if (btn) btn.textContent = lang === 'ar' ? 'EN' : 'AR';
+      }
+
+      window.maHawaToggleLang = function () {
+        const next = document.documentElement.lang === 'ar' ? 'en' : 'ar';
+        setLang(next);
+      };
+
+      window.addEventListener('DOMContentLoaded', function () {
+        const saved = localStorage.getItem('maHawaLang') || 'en';
+        setLang(saved);
+        const btn = document.getElementById('langToggle');
+        if (btn) {
+          btn.onclick = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            window.maHawaToggleLang();
+          };
+        }
+      });
+    })();
+  </script>
+
 </body>
 </html>
 
