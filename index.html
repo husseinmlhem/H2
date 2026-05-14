@@ -677,11 +677,26 @@
     const imageSequence = Array.from({ length: totalFrames }, (_, index) => framePath(index));
 
     const stations = [
-      { frame: 0, layout: 'left', leftTitle: 'Hydrogen-Activated <span>Hydration</span>', leftText: 'Pure water generated from air, enriched with minerals, and activated by hydrogen for a clean active lifestyle.' },
-      { frame: 22, layout: 'splitTitles', leftTitle: 'Generated <span>from Air</span>', leftText: '', rightTitle: 'Pure Water <span>Reimagined</span>', rightText: '' },
-      { frame: 39, layout: 'splitTitles', leftTitle: 'Purified & <span>Mineralized</span>', leftText: '', rightTitle: 'Activated by <span>Hydrogen</span>', rightText: '' },
-      { frame: 57, layout: 'left', leftTitle: 'Clean Taste. <span>Light Feel.</span>', leftText: '' },
-      { frame: totalFrames - 1, layout: 'left', leftTitle: 'Scan. Order. <span>Refresh.</span>', leftText: 'Order directly through Ma Hawa online channels or contact us for gyms, offices, events, and bulk supply.' }
+      {
+        frame: 0,
+        layout: 'left',
+        leftTitle: 'Hydrogen-Activated <span>Hydration</span>',
+        leftText: 'Pure water generated from air, enriched with minerals, and activated by hydrogen for a clean active lifestyle.'
+      },
+      {
+        frame: 39,
+        layout: 'splitTitles',
+        leftTitle: 'Generated <span>from Air</span>',
+        leftText: '',
+        rightTitle: 'Activated by <span>Hydrogen</span>',
+        rightText: ''
+      },
+      {
+        frame: totalFrames - 1,
+        layout: 'left',
+        leftTitle: 'Scan. Order. <span>Refresh.</span>',
+        leftText: 'Order directly through Ma Hawa online channels or contact us for gyms, offices, events, and bulk supply.'
+      }
     ];
 
     const preloaded = [];
