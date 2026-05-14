@@ -39,21 +39,37 @@
        =============================== */
 
     .site-header {
-      position: sticky;
+      position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 80;
       width: 100%;
-      background: transparent;
-      border-bottom: 0;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      pointer-events: none;
+      height: 88px;
+      background: transparent !important;
+      border: 0 !important;
+      border-bottom: 0 !important;
+      box-shadow: none !important;
+      outline: 0 !important;
+      backdrop-filter: none !important;
+      -web.nav-wrap {
+      width: min(1400px, calc(100% - 56px));
+      margin: 0 auto;
+      height: 88px;
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      pointer-events: auto;
     }
 
-    .nav-wrap {
-      width: min(1400px, calc(100% - 56px));
+    .nav-brand     width: min(1400px, calc(100% - 56px));
       margin: 0 auto;
       min-height: 88px;
       display: flex;
@@ -75,20 +91,26 @@
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px;
-      border: 1px solid rgba(103,173,222,.10);
-      border-radius: 999px;
-      background: transparent;
-    }
-
-    .nav-link {
-      padding: 10px 14px;
-      border-radius: 999px;
+      gap: 18px;
+      padding: 0;
+      border: 0 !important;
+      border-radius: 0;
+      background: transparent !important;
+      box-shadow: none !.nav-link {
+      padding: 0;
+      border-radius: 0;
       color: rgba(231,248,255,.74);
       font-size: 12px;
       font-weight: 800;
       letter-spacing: .12em;
+      text-transform: uppercase;
+      transition: .25s ease;
+      background: transparent !important;
+      box-shadow: none !important;
+      border: 0 !important;
+    }
+
+    .nav-link:hoveretter-spacing: .12em;
       text-transform: uppercase;
       transition: .25s ease;
     }
@@ -96,8 +118,10 @@
     .nav-link:hover,
     .nav-link.active {
       color: #fff;
-      background: rgba(103,173,222,.10);
-      box-shadow: inset 0 0 0 1px rgba(103,173,222,.18), 0 0 22px rgba(103,173,222,.10);
+      background: transparent !important;
+      box-shadow: none !important;
+      border: 0 !important;
+      text-shadow: 0 0 14px rgba(103,173,222,.45);
     }
 
     .nav-actions { display: flex; align-items: center; gap: 10px; }
@@ -135,6 +159,7 @@
       height: 100vh;
       position: relative;
       background: #01040c;
+      margin-top: 0;
     }
 
     .pin {
@@ -770,13 +795,11 @@
 
     function isStageReadyForLockedScroll() {
       const rect = stage.getBoundingClientRect();
-      const header = document.querySelector('.site-header');
-      const headerHeight = header ? header.offsetHeight : 0;
       const tolerance = 8;
 
-      // Capture the wheel only when the scroller is aligned under the sticky navbar.
-      // This prevents reverse animation from starting while only a small edge of the video is visible.
-      return Math.abs(rect.top - headerHeight) <= tolerance;
+      // Capture wheel only when the video section is fully aligned with the viewport.
+      // This prevents reverse frame-control when only a small edge of the video is visible.
+      return Math.abs(rect.top) <= tolerance;
     }
 
     function handleWheel(event) {
