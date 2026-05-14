@@ -130,25 +130,23 @@
       height: 100vh;
       object-fit: cover;
       object-position: center center;
-      opacity: 0;
-      transform: scale(1.08);
-      filter: saturate(.86) brightness(.72) blur(.2px);
-      transition:
-        opacity .55s ease,
-        transform 1.1s cubic-bezier(.2,.8,.2,1),
-        filter .55s ease;
+      opacity: 1;
+      transform: scale(1.012);
+      filter: saturate(1.06) brightness(.9);
+      transition: none;
+      will-change: contents;
     }
 
     .webpage-shot.active {
       opacity: 1;
-      transform: scale(1);
-      filter: saturate(1.08) brightness(.9) blur(0);
+      transform: scale(1.012);
+      filter: saturate(1.06) brightness(.9);
     }
 
     .webpage-shot.preload {
-      opacity: 0;
-      transform: scale(1.05);
-      filter: saturate(.7) brightness(.55) blur(1.4px);
+      opacity: 1;
+      transform: scale(1.012);
+      filter: saturate(1.06) brightness(.9);
     }
 
     .webpage-stack::after {
@@ -262,40 +260,29 @@
     .brand-row {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
       width: auto;
-      margin-bottom: 32px;
-      padding: 10px 14px;
-      border-radius: 18px;
-      border: 1px solid rgba(103,173,222,.32);
-      background: rgba(1, 10, 24, .28);
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,.035) inset,
-        0 0 34px rgba(103,173,222,.18),
-        0 0 90px rgba(103,173,222,.08);
-      backdrop-filter: blur(12px);
+      margin-bottom: 34px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      box-shadow: none;
+      backdrop-filter: none;
       position: relative;
     }
 
     .brand-row::before {
-      content: "";
-      position: absolute;
-      inset: -2px;
-      border-radius: 20px;
-      border: 1px solid rgba(156,232,255,.18);
-      filter: blur(.4px);
-      pointer-events: none;
+      content: none;
     }
 
     .brand-logo {
-      width: clamp(92px, 8vw, 132px);
+      width: clamp(150px, 12vw, 220px);
       height: auto;
       display: block;
       object-fit: contain;
       filter:
-        drop-shadow(0 0 1px rgba(255,255,255,.95))
-        drop-shadow(0 0 10px rgba(103,173,222,.42))
-        drop-shadow(0 0 26px rgba(103,173,222,.25));
+        drop-shadow(0 0 2px rgba(255,255,255,.42))
+        drop-shadow(0 0 16px rgba(103,173,222,.36));
     }
 
     .brand-row span { display: none; }
@@ -734,7 +721,9 @@
       <div class="pin">
         <div class="frame-shell">
           <div class="visual-zone">
-            <div class="webpage-stack" id="webpageStack"></div>
+            <div class="webpage-stack" id="webpageStack">
+              <img class="webpage-shot" id="sequenceFrame" src="./assets/frames/frame_0001_0.00s.webp" alt="Ma Hawa scroll frame" />
+            </div>
             <div class="hud-ring"></div>
             <div class="molecule-field">
               <div class="mol a"><span></span><small>H₂</small></div>
@@ -828,31 +817,29 @@
 
   <script>
     const stage = document.getElementById('scrollStage');
-    const stack = document.getElementById('webpageStack');
     const progressBar = document.getElementById('progressBar');
     const title = document.getElementById('stageTitle');
     const kicker = document.getElementById('stageKicker');
     const text = document.getElementById('stageText');
     const pills = document.getElementById('stagePills');
     const terminal = document.getElementById('stageTerminal');
+    const sequenceFrame = document.getElementById('sequenceFrame');
 
     /*
-      Your frame files are inside:
+      Frame folder:
       ./assets/frames/
 
-      Naming pattern:
+      Your naming:
       frame_0001_0.00s.webp
       frame_0002_0.13s.webp
       frame_0003_0.27s.webp
       ...
-
-      IMPORTANT:
-      totalFrames = 92 because the render count starts from 0,
-      but your visible file naming starts from frame_0001.
+      frame_0092_12.13s.webp
     */
 
     const totalFrames = 92;
     const frameRate = 7.5;
+    const fallbackFrame = './assets/logo.svg';
 
     function framePath(index) {
       const frameNumber = String(index + 1).padStart(4, '0');
@@ -861,7 +848,6 @@
     }
 
     const imageSequence = Array.from({ length: totalFrames }, (_, index) => framePath(index));
-    const fallbackFrame = './assets/logo.svg';
 
     const stages = [
       {
@@ -894,50 +880,38 @@
       }
     ];
 
-    function mountImages() {
-      stack.innerHTML = imageSequence.map((src, index) => `
-        <img
-          class="webpage-shot ${index === 0 ? 'active' : ''}"
-          src="${src}"
-          alt="Ma Hawa scroll frame ${String(index + 1).padStart(3, '0')}"
-          data-frame="${src}"
-          loading="eager"
-        />
-      `).join('');
+    const preloaded = [];
+    let currentFrameIndex = -1;
+    let currentTextIndex = -1;
+    let targetFrameIndex = 0;
+    let ticking = false;
 
-      stack.querySelectorAll('img').forEach((img) => {
-        img.addEventListener('error', () => {
-          console.error('Frame not found or blocked:', img.dataset.frame);
-          img.src = fallbackFrame;
-          img.style.objectFit = 'contain';
-          img.style.padding = '18vh 18vw';
-          img.style.background = 'radial-gradient(circle at center, rgba(103,173,222,.16), #01040C 58%)';
-        }, { once: true });
+    function preloadFrames() {
+      imageSequence.forEach((src, index) => {
+        const img = new Image();
+        img.src = src;
+        img.onload = () => { preloaded[index] = src; };
+        img.onerror = () => {
+          console.error('Missing frame:', src);
+          preloaded[index] = fallbackFrame;
+        };
       });
     }
-
-    mountImages();
-    let shots = Array.from(document.querySelectorAll('.webpage-shot'));
 
     function clamp(value, min, max) {
       return Math.max(min, Math.min(max, value));
     }
 
-    function updateStage() {
-      const rect = stage.getBoundingClientRect();
-      const total = Math.max(1, rect.height - window.innerHeight);
-      const scrolled = clamp(-rect.top / total, 0, 1);
-      const frameIndex = Math.min(shots.length - 1, Math.round(scrolled * (shots.length - 1)));
-      const textIndex = Math.min(stages.length - 1, Math.floor(scrolled * stages.length));
+    function setFrame(index) {
+      if (index === currentFrameIndex) return;
+      currentFrameIndex = index;
+      sequenceFrame.src = preloaded[index] || imageSequence[index];
+    }
 
-      progressBar.style.width = `${scrolled * 100}%`;
-
-      shots.forEach((img, i) => {
-        img.classList.toggle('active', i === frameIndex);
-        img.classList.toggle('preload', i === frameIndex + 1);
-      });
-
-      const data = stages[textIndex];
+    function setText(index) {
+      if (index === currentTextIndex) return;
+      currentTextIndex = index;
+      const data = stages[index];
       kicker.textContent = data.kicker;
       title.innerHTML = data.title;
       text.textContent = data.text;
@@ -948,9 +922,42 @@
       }).join('');
     }
 
-    window.addEventListener('scroll', updateStage, { passive: true });
-    window.addEventListener('resize', updateStage);
-    updateStage();
+    function calculate() {
+      const rect = stage.getBoundingClientRect();
+      const total = Math.max(1, rect.height - window.innerHeight);
+      const scrolled = clamp(-rect.top / total, 0, 1);
+      targetFrameIndex = Math.min(totalFrames - 1, Math.floor(scrolled * totalFrames));
+      const textIndex = Math.min(stages.length - 1, Math.floor(scrolled * stages.length));
+
+      progressBar.style.width = `${scrolled * 100}%`;
+      setText(textIndex);
+    }
+
+    function render() {
+      calculate();
+      setFrame(targetFrameIndex);
+      ticking = false;
+    }
+
+    function requestRender() {
+      if (!ticking) {
+        window.requestAnimationFrame(render);
+        ticking = true;
+      }
+    }
+
+    sequenceFrame.addEventListener('error', () => {
+      console.error('Displayed frame failed:', sequenceFrame.src);
+      sequenceFrame.src = fallbackFrame;
+      sequenceFrame.style.objectFit = 'contain';
+      sequenceFrame.style.padding = '18vh 18vw';
+      sequenceFrame.style.background = 'radial-gradient(circle at center, rgba(103,173,222,.16), #01040C 58%)';
+    });
+
+    preloadFrames();
+    window.addEventListener('scroll', requestRender, { passive: true });
+    window.addEventListener('resize', requestRender);
+    requestRender();
   </script>
 </body>
 </html>
