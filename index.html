@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ma Hawa Hydrogen Water — Premium Hydration</title>
+<meta name="description" content="Ma Hawa Hydrogen Water — ultra-pure water activated by hydrogen. Premium hydration experience in a 450ml aluminum bottle." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #76ADDE;
+  --blue-strong: #55A8E8;
+  --blue-soft: rgba(118,173,222,0.14);
+  --blue-glow: rgba(118,173,222,0.45);
+  --black: #000812;
+  --dark: #03101d;
+  --surface: #071b2d;
+  --surface2: #0a2238;
+  --text: #F2F8FF;
+  --muted: #8EA8BD;
+  --border: rgba(118,173,222,0.18);
+  --white: #ffffff;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--black);
+  color: var(--text);
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+body.rtl { direction: rtl; font-family: 'Cairo', sans-serif; }
+body.rtl * { font-family: 'Cairo', sans-serif; }
+
+/* Cursor */
+.cursor, .cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+.cursor {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--blue);
+  box-shadow: 0 0 18px var(--blue-glow), 0 0 44px rgba(118,173,222,0.25);
+}
+.cursor-ring {
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(118,173,222,0.5);
+  border-radius: 999px;
+  transition: width .18s ease, height .18s ease, border-color .18s ease, background .18s ease;
+}
+body.cursor-hover .cursor-ring {
+  width: 64px;
+  height: 64px;
+  background: rgba(118,173,222,0.045);
+  border-color: rgba(118,173,222,0.85);
+}
+.cursor-trail {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(118,173,222,0.42);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  animation: trailFade .7s ease forwards;
+}
+@keyframes trailFade {
+  from { opacity: .55; transform: translate(-50%, -50%) scale(1); }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(.15); }
+}
+
+/* Progress */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--blue);
+  box-shadow: 0 0 12px var(--blue-glow);
+  z-index: 1000;
+}
+
+/* Ambient molecular background */
+.site-hydrogen-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: .32;
+  mix-blend-mode: screen;
+}
+.site-hydrogen-bg span,
+.site-hydrogen-bg::before,
+.site-hydrogen-bg::after {
+  content: '';
+  position: absolute;
+  width: clamp(180px, 24vw, 440px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(118,173,222,.48), transparent);
+  box-shadow: 0 0 22px rgba(118,173,222,.22);
+  transform: rotate(var(--angle));
+  animation: threadMove var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+.site-hydrogen-bg::before { top: 18%; left: -8%; --angle: 14deg; --duration: 12s; --delay: -2s; }
+.site-hydrogen-bg::after { bottom: 16%; right: -10%; --angle: -18deg; --duration: 14s; --delay: -5s; }
+.site-hydrogen-bg span:nth-child(1) { top: 12%; right: 8%; --angle: -12deg; --duration: 11s; --delay: -1s; }
+.site-hydrogen-bg span:nth-child(2) { top: 34%; left: 12%; --angle: 8deg; --duration: 15s; --delay: -6s; }
+.site-hydrogen-bg span:nth-child(3) { top: 56%; right: 15%; --angle: 16deg; --duration: 13s; --delay: -4s; }
+.site-hydrogen-bg span:nth-child(4) { bottom: 22%; left: 22%; --angle: -10deg; --duration: 16s; --delay: -8s; }
+@keyframes threadMove {
+  0%, 100% { opacity: .08; transform: translate3d(-18px, 0, 0) rotate(var(--angle)); filter: blur(.4px); }
+  48% { opacity: .75; transform: translate3d(30px, -8px, 0) rotate(var(--angle)); filter: blur(0); }
+}
+
+/* Nav */
+nav {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 76px;
+  padding: 0 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  transition: background .3s ease, border-color .3s ease, height .3s ease;
+}
+nav.scrolled {
+  height: 64px;
+  background: rgba(0,8,18,.82);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+.logo span { color: var(--blue); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  transition: color .25s ease;
+}
+.nav-links a:hover { color: var(--blue); }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.lang-toggle { display: flex; border: 1px solid var(--border); overflow: hidden; }
+.lang-btn {
+  padding: 7px 13px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: none;
+}
+.lang-btn.active { background: var(--blue); color: #00101f; font-weight: 800; }
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0 22px;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  transition: background .25s ease, color .25s ease, box-shadow .25s ease;
+}
+.nav-cta:hover { background: var(--blue); color: #00101f; box-shadow: 0 0 24px rgba(118,173,222,.18); }
+
+/* Scroll scrubber hero */
+#scrubber-section {
+  height: 520vh;
+  position: relative;
+  z-index: 5;
+  background: #000812;
+}
+.scrub-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: #000812;
+}
+#scrubber-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #000812;
+}
+.scrub-vignette {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 52%, transparent 0%, transparent 48%, rgba(0,8,18,.18) 74%, rgba(0,8,18,.72) 100%),
+    linear-gradient(180deg, rgba(0,8,18,.35), transparent 20%, transparent 75%, rgba(0,8,18,.45));
+}
+.scrub-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 6;
+  color: var(--blue);
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  background: rgba(0,8,18,.54);
+  backdrop-filter: blur(12px);
+}
+.scrub-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+.scrub-stage {
+  position: absolute;
+  left: 60px;
+  top: 50%;
+  width: min(520px, calc(100vw - 120px));
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity .18s linear, transform .18s linear;
+}
+body.rtl .scrub-stage { left: auto; right: 60px; text-align: right; }
+.scrub-stage.active { opacity: 1; transform: translateY(-50%); }
+.scrub-kicker {
+  color: var(--blue);
+  font-size: 11px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  font-weight: 700;
+}
+.scrub-title {
+  font-size: clamp(42px, 6vw, 92px);
+  line-height: .95;
+  letter-spacing: -.055em;
+  font-weight: 900;
+  color: var(--text);
+  text-shadow: 0 0 48px rgba(0,8,18,.7);
+}
+.scrub-title em {
+  display: block;
+  font-style: normal;
+  color: var(--blue);
+  text-shadow: 0 0 32px rgba(118,173,222,.24);
+}
+.scrub-sub {
+  margin-top: 24px;
+  max-width: 440px;
+  color: #c2d8ea;
+  font-size: 16px;
+  line-height: 1.75;
+  font-weight: 300;
+}
+.scrub-final-cta {
+  margin-top: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  background: var(--blue);
+  color: #00101f;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  pointer-events: all;
+  box-shadow: 0 0 36px rgba(118,173,222,.16);
+}
+.scroll-indicator {
+  position: absolute;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.scroll-line {
+  width: 1px;
+  height: 42px;
+  background: linear-gradient(to bottom, var(--blue), transparent);
+  animation: scrollPulse 1.9s ease-in-out infinite;
+}
+@keyframes scrollPulse { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+
+/* Sections */
+section {
+  position: relative;
+  z-index: 6;
+  padding: 115px 60px;
+}
+.section-label {
+  color: var(--blue);
+  font-size: 11px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+.section-title {
+  font-size: clamp(36px, 5vw, 68px);
+  line-height: 1;
+  letter-spacing: -.05em;
+  font-weight: 900;
+  color: var(--text);
+}
+.section-intro {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.85;
+  max-width: 560px;
+  font-weight: 300;
+}
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+/* Stats */
+.stats-bar {
+  position: relative;
+  z-index: 6;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(7,27,45,.82);
+}
+.stat-item {
+  padding: 44px 30px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat-item:last-child { border-right: 0; }
+.stat-num {
+  color: var(--blue);
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+.stat-label {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: .17em;
+  text-transform: uppercase;
+}
+
+/* Product story */
+.story-section {
+  background:
+    radial-gradient(circle at 78% 12%, rgba(118,173,222,.12), transparent 35%),
+    var(--surface);
+}
+.story-quote {
+  border-left: 2px solid var(--blue);
+  padding-left: 28px;
+  color: var(--blue);
+  font-size: clamp(24px, 3.4vw, 42px);
+  line-height: 1.22;
+  font-weight: 900;
+  letter-spacing: -.035em;
+}
+body.rtl .story-quote { border-left: 0; border-right: 2px solid var(--blue); padding-left: 0; padding-right: 28px; }
+.story-text p {
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.9;
+  font-weight: 300;
+}
+.story-text p + p { margin-top: 18px; }
+
+/* Cards */
+.card-section { background: var(--black); }
+.cards-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  margin-bottom: 56px;
+}
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.card {
+  background:
+    radial-gradient(circle at 80% 0%, rgba(118,173,222,.08), transparent 40%),
+    var(--dark);
+  padding: 44px 38px;
+  min-height: 270px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .35s ease, background .35s ease;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background: var(--blue);
+  transition: width .35s ease;
+}
+.card:hover { transform: translateY(-5px); background: var(--surface2); }
+.card:hover::before { width: 100%; }
+.card-num {
+  color: var(--blue);
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  margin-bottom: 34px;
+}
+.card-title {
+  font-size: 22px;
+  line-height: 1.15;
+  font-weight: 900;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+.card-desc {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+/* Routine */
+.routine-section {
+  background:
+    radial-gradient(circle at 10% 0%, rgba(118,173,222,.12), transparent 34%),
+    var(--surface);
+}
+.steps {
+  margin-top: 70px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  position: relative;
+}
+.step {
+  position: relative;
+  padding-top: 18px;
+}
+.step-num {
+  color: var(--blue);
+  font-size: 54px;
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -.05em;
+  margin-bottom: 20px;
+}
+.step-title { color: var(--text); font-size: 18px; font-weight: 800; margin-bottom: 10px; }
+.step-desc { color: var(--muted); font-size: 14px; line-height: 1.75; font-weight: 300; }
+
+/* FAQ */
+.faq-section { background: var(--surface); }
+.faq-inner { max-width: 840px; margin: 64px auto 0; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-q {
+  width: 100%;
+  padding: 28px 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  font-size: 17px;
+  font-family: inherit;
+  text-align: left;
+  cursor: none;
+}
+body.rtl .faq-q { text-align: right; }
+.faq-q:hover { color: var(--blue); }
+.faq-icon { color: var(--blue); font-size: 24px; transition: transform .25s ease; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.85;
+  font-weight: 300;
+  transition: max-height .35s ease, padding .35s ease;
+}
+.faq-item.open .faq-a { max-height: 280px; padding-bottom: 28px; }
+
+/* Contact */
+.contact-section {
+  background: var(--black);
+  text-align: center;
+  overflow: hidden;
+}
+.contact-section::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -260px;
+  transform: translateX(-50%);
+  width: 720px;
+  height: 720px;
+  background: radial-gradient(circle, rgba(118,173,222,.16), transparent 68%);
+  pointer-events: none;
+}
+.contact-inner { position: relative; max-width: 700px; margin: 0 auto; }
+.contact-sub { color: var(--muted); margin: 20px auto 44px; max-width: 560px; line-height: 1.8; font-weight: 300; }
+.contact-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-primary, .btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 30px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: none;
+}
+.btn-primary { background: var(--blue); color: #00101f; }
+.btn-ghost { border: 1px solid var(--border); color: var(--muted); }
+.btn-ghost:hover { border-color: var(--blue); color: var(--blue); }
+
+/* Footer */
+footer {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 44px 60px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.footer-copy { color: var(--muted); font-size: 12px; letter-spacing: .06em; }
+.footer-links { display: flex; gap: 28px; }
+.footer-links a { color: var(--muted); text-decoration: none; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+.footer-links a:hover { color: var(--blue); }
+
+.wa-float {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 900;
+  width: 54px;
+  height: 54px;
+  border-radius: 999px;
+  background: var(--blue);
+  display: grid;
+  place-items: center;
+  color: #00101f;
+  text-decoration: none;
+  box-shadow: 0 0 28px rgba(118,173,222,.34);
+  cursor: none;
+  transition: transform .25s ease;
+}
+.wa-float:hover { transform: scale(1.08); }
+.wa-float svg { width: 26px; height: 26px; fill: currentColor; }
+
+/* Reveal */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+
+@media (max-width: 980px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  section { padding: 85px 24px; }
+  .scrub-stage { left: 24px; width: calc(100vw - 48px); top: auto; bottom: 82px; transform: translateY(0); }
+  body.rtl .scrub-stage { right: 24px; }
+  .scrub-stage.active { transform: translateY(0); }
+  .scrub-title { font-size: clamp(38px, 12vw, 62px); }
+  .scrub-sub { font-size: 14px; max-width: 360px; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .stat-item:nth-child(2) { border-right: 0; }
+  .two-col, .grid-3, .steps { grid-template-columns: 1fr; gap: 28px; }
+  .cards-header { flex-direction: column; align-items: flex-start; }
+  footer { flex-direction: column; padding: 40px 24px; text-align: center; }
+  .footer-links { flex-wrap: wrap; justify-content: center; }
+}
+@media (max-width: 560px) {
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none; }
+  .nav-cta { display: none; }
+  .stats-bar { grid-template-columns: 1fr; }
+  .stat-item, .stat-item:nth-child(2) { border-right: 0; border-bottom: 1px solid var(--border); }
+  .stat-item:last-child { border-bottom: 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="site-hydrogen-bg" aria-hidden="true">
+  <span></span><span></span><span></span><span></span>
+</div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div id="progress-bar"></div>
+
+<nav id="nav">
+  <a class="logo" href="#scrubber-section" aria-label="Ma Hawa Hydrogen"><span>MA HAWA</span> H₂</a>
+  <ul class="nav-links">
+    <li><a href="#product" data-en="Product" data-ar="المنتج">Product</a></li>
+    <li><a href="#benefits" data-en="Benefits" data-ar="المزايا">Benefits</a></li>
+    <li><a href="#routine" data-en="Routine" data-ar="الروتين">Routine</a></li>
+    <li><a href="#why" data-en="Why Ma Hawa" data-ar="لماذا ما هاوا">Why Ma Hawa</a></li>
+    <li><a href="#faq" data-en="FAQ" data-ar="الأسئلة">FAQ</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-ar" onclick="setLang('ar')">ع</button>
+    </div>
+    <a class="nav-cta wa-link" href="#" target="_blank" rel="noopener" data-en="Order Now" data-ar="اطلب الآن">Order Now</a>
+  </div>
+</nav>
+
+<main>
+  <section id="scrubber-section" aria-label="Ma Hawa Hydrogen cinematic scroll">
+    <div class="scrub-sticky">
+      <canvas id="scrubber-canvas"></canvas>
+      <div class="scrub-vignette"></div>
+      <div class="scrub-loader" id="scrub-loader">Loading frames</div>
+
+      <div class="scrub-copy">
+        <div class="scrub-stage" data-start="0" data-end="0.28">
+          <div class="scrub-kicker" data-en="Hydrogen begins here" data-ar="هنا يبدأ الهيدروجين">Hydrogen begins here</div>
+          <h1 class="scrub-title"><span data-en="Hydration," data-ar="ترطيب">Hydration,</span><em data-en="Reimagined." data-ar="بمفهوم جديد.">Reimagined.</em></h1>
+          <p class="scrub-sub" data-en="A premium visual journey from pure hydrogen energy to a modern hydration experience." data-ar="رحلة بصرية فاخرة من طاقة الهيدروجين إلى تجربة ترطيب حديثة.">A premium visual journey from pure hydrogen energy to a modern hydration experience.</p>
+        </div>
+
+        <div class="scrub-stage" data-start="0.28" data-end="0.62">
+          <div class="scrub-kicker" data-en="The future takes shape" data-ar="المستقبل يأخذ شكله">The future takes shape</div>
+          <h2 class="scrub-title"><span data-en="Hydrogen" data-ar="الهيدروجين"></span><em data-en="Takes Shape." data-ar="يتحوّل إلى منتج.">Takes Shape.</em></h2>
+          <p class="scrub-sub" data-en="Ma Hawa Hydrogen Water, presented as a clean, refined, and premium 450ml aluminum bottle." data-ar="ما هاوا هايدروجين ووتر، بتجربة نظيفة وفاخرة ضمن عبوة ألمنيوم 450 مل.">Ma Hawa Hydrogen Water, presented as a clean, refined, and premium 450ml aluminum bottle.</p>
+        </div>
+
+        <div class="scrub-stage" data-start="0.62" data-end="1">
+          <div class="scrub-kicker" data-en="Premium daily refreshment" data-ar="انتعاش يومي فاخر">Premium daily refreshment</div>
+          <h2 class="scrub-title"><span data-en="Refreshment," data-ar="انتعاش">Refreshment,</span><em data-en="Elevated." data-ar="بمستوى أعلى.">Elevated.</em></h2>
+          <p class="scrub-sub" data-en="Zero sugar. No additives. A smooth hydrogen water experience for your daily routine." data-ar="بدون سكر. بدون إضافات. تجربة مياه هايدروجين ناعمة تناسب روتينك اليومي.">Zero sugar. No additives. A smooth hydrogen water experience for your daily routine.</p>
+          <a class="scrub-final-cta wa-link" href="#" target="_blank" rel="noopener" data-en="Order Now" data-ar="اطلب الآن">Order Now</a>
+        </div>
+      </div>
+
+      <div class="scroll-indicator">
+        <span data-en="Scroll" data-ar="مرر">Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stat-item reveal"><div class="stat-num">450ml</div><div class="stat-label" data-en="Aluminum Bottle" data-ar="عبوة ألمنيوم">Aluminum Bottle</div></div>
+    <div class="stat-item reveal reveal-delay-1"><div class="stat-num">0</div><div class="stat-label" data-en="Calories" data-ar="سعرات حرارية">Calories</div></div>
+    <div class="stat-item reveal reveal-delay-2"><div class="stat-num">No</div><div class="stat-label" data-en="Sugar" data-ar="سكر">Sugar</div></div>
+    <div class="stat-item reveal reveal-delay-3"><div class="stat-num">H₂</div><div class="stat-label" data-en="Activated by Hydrogen" data-ar="مدعّمة بالهيدروجين">Activated by Hydrogen</div></div>
+  </div>
+
+  <section id="product" class="story-section">
+    <div class="two-col">
+      <div class="reveal">
+        <div class="section-label" data-en="The Product" data-ar="المنتج">The Product</div>
+        <h2 class="section-title" data-en="Ultra-pure water, activated by hydrogen." data-ar="مياه نقية عالية الجودة، مدعّمة بالهيدروجين.">Ultra-pure water, activated by hydrogen.</h2>
+      </div>
+      <div class="story-text reveal reveal-delay-1">
+        <p data-en="Ma Hawa Hydrogen Water is designed as a premium hydration experience: clean taste, modern aluminum packaging, and a refined visual identity that fits an elevated daily routine." data-ar="ما هاوا هايدروجين ووتر صُممت كتجربة ترطيب فاخرة: طعم نظيف، عبوة ألمنيوم عصرية، وهوية بصرية راقية تناسب الروتين اليومي الحديث.">Ma Hawa Hydrogen Water is designed as a premium hydration experience: clean taste, modern aluminum packaging, and a refined visual identity that fits an elevated daily routine.</p>
+        <p data-en="The product keeps the message simple: zero calories, no sugar, no additives, and a smooth hydrogen water experience for moments when you want something clean and refreshing." data-ar="رسالة المنتج بسيطة: بدون سعرات حرارية، بدون سكر، بدون إضافات، وتجربة مياه هايدروجين ناعمة للحظات التي تحتاج فيها إلى انتعاش نظيف.">The product keeps the message simple: zero calories, no sugar, no additives, and a smooth hydrogen water experience for moments when you want something clean and refreshing.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="benefits" class="card-section">
+    <div class="cards-header reveal">
+      <div>
+        <div class="section-label" data-en="Benefits" data-ar="المزايا">Benefits</div>
+        <h2 class="section-title" data-en="A cleaner way to refresh." data-ar="طريقة أنظف للانتعاش.">A cleaner way to refresh.</h2>
+      </div>
+      <p class="section-intro" data-en="Premium product messaging without medical exaggeration: simple, clean, believable, and strong for digital campaigns." data-ar="رسالة منتج فاخرة بدون مبالغات طبية: بسيطة، نظيفة، واقعية، وقوية للحملات الرقمية.">Premium product messaging without medical exaggeration: simple, clean, believable, and strong for digital campaigns.</p>
+    </div>
+    <div class="grid-3">
+      <article class="card reveal"><div class="card-num">01</div><h3 class="card-title" data-en="Clean Taste" data-ar="طعم نظيف">Clean Taste</h3><p class="card-desc" data-en="A smooth and refreshing water experience suitable for everyday hydration moments." data-ar="تجربة مياه ناعمة ومنعشة تناسب لحظات الترطيب اليومية.">A smooth and refreshing water experience suitable for everyday hydration moments.</p></article>
+      <article class="card reveal reveal-delay-1"><div class="card-num">02</div><h3 class="card-title" data-en="Zero Sugar" data-ar="بدون سكر">Zero Sugar</h3><p class="card-desc" data-en="No sugar, no additives, and zero calories — clear, simple, and easy to communicate." data-ar="بدون سكر، بدون إضافات، وبدون سعرات حرارية — رسالة واضحة وبسيطة.">No sugar, no additives, and zero calories — clear, simple, and easy to communicate.</p></article>
+      <article class="card reveal reveal-delay-2"><div class="card-num">03</div><h3 class="card-title" data-en="Premium Aluminum" data-ar="ألمنيوم فاخر">Premium Aluminum</h3><p class="card-desc" data-en="A modern 450ml aluminum bottle with a refined blue identity and strong shelf presence." data-ar="عبوة ألمنيوم 450 مل بهوية زرقاء راقية وحضور بصري قوي.">A modern 450ml aluminum bottle with a refined blue identity and strong shelf presence.</p></article>
+    </div>
+  </section>
+
+  <section id="routine" class="routine-section">
+    <div class="reveal">
+      <div class="section-label" data-en="Daily Routine" data-ar="الروتين اليومي">Daily Routine</div>
+      <h2 class="section-title" data-en="Made for modern moments." data-ar="مصممة للحظات اليومية الحديثة.">Made for modern moments.</h2>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="step-num">01</div><h3 class="step-title" data-en="After Workout" data-ar="بعد التمرين">After Workout</h3><p class="step-desc" data-en="A clean refreshing choice after the gym, without heavy taste or sugar." data-ar="اختيار نظيف ومنعش بعد الجيم، بدون طعم ثقيل أو سكر.">A clean refreshing choice after the gym, without heavy taste or sugar.</p></div>
+      <div class="step reveal reveal-delay-1"><div class="step-num">02</div><h3 class="step-title" data-en="At Work" data-ar="أثناء العمل">At Work</h3><p class="step-desc" data-en="Premium hydration that looks elegant on the desk and feels simple in the routine." data-ar="ترطيب فاخر يبدو أنيقاً على المكتب ويناسب الروتين ببساطة.">Premium hydration that looks elegant on the desk and feels simple in the routine.</p></div>
+      <div class="step reveal reveal-delay-2"><div class="step-num">03</div><h3 class="step-title" data-en="On the Go" data-ar="خارج المنزل">On the Go</h3><p class="step-desc" data-en="A modern 450ml bottle for active days, events, meetings, and premium lifestyle moments." data-ar="عبوة عصرية 450 مل للأيام النشطة، الاجتماعات، الفعاليات، واللحظات الفاخرة.">A modern 450ml bottle for active days, events, meetings, and premium lifestyle moments.</p></div>
+      <div class="step reveal reveal-delay-3"><div class="step-num">04</div><h3 class="step-title" data-en="Anytime" data-ar="في أي وقت">Anytime</h3><p class="step-desc" data-en="A clean water experience designed to fit naturally into everyday hydration." data-ar="تجربة مياه نظيفة صُممت لتناسب الترطيب اليومي بشكل طبيعي.">A clean water experience designed to fit naturally into everyday hydration.</p></div>
+    </div>
+  </section>
+
+  <section id="why" class="card-section">
+    <div class="cards-header reveal">
+      <div>
+        <div class="section-label" data-en="Why Ma Hawa" data-ar="لماذا ما هاوا">Why Ma Hawa</div>
+        <h2 class="section-title" data-en="Born from innovation." data-ar="وُلدت من الابتكار.">Born from innovation.</h2>
+      </div>
+      <p class="section-intro" data-en="Ma Hawa brings a future-facing water brand identity into a premium consumer experience." data-ar="ما هاوا تنقل هوية علامة مياه مستقبلية إلى تجربة استهلاكية فاخرة.">Ma Hawa brings a future-facing water brand identity into a premium consumer experience.</p>
+    </div>
+    <div class="grid-3">
+      <article class="card reveal"><div class="card-num">01</div><h3 class="card-title" data-en="Hydrogen Story" data-ar="قصة الهيدروجين">Hydrogen Story</h3><p class="card-desc" data-en="A strong visual language built around hydrogen, purity, and modern refreshment." data-ar="لغة بصرية قوية مبنية حول الهيدروجين، النقاء، والانتعاش الحديث.">A strong visual language built around hydrogen, purity, and modern refreshment.</p></article>
+      <article class="card reveal reveal-delay-1"><div class="card-num">02</div><h3 class="card-title" data-en="Premium Identity" data-ar="هوية فاخرة">Premium Identity</h3><p class="card-desc" data-en="A blue aluminum bottle with refined bilingual branding and strong product presence." data-ar="عبوة ألمنيوم زرقاء بهوية ثنائية اللغة وحضور منتج واضح.">A blue aluminum bottle with refined bilingual branding and strong product presence.</p></article>
+      <article class="card reveal reveal-delay-2"><div class="card-num">03</div><h3 class="card-title" data-en="UAE Ready" data-ar="مناسبة للسوق الإماراتي">UAE Ready</h3><p class="card-desc" data-en="A clean premium product experience suitable for UAE lifestyle, events, and retail communication." data-ar="تجربة منتج فاخرة ونظيفة مناسبة لنمط الحياة والفعاليات والتواصل التجاري في الإمارات.">A clean premium product experience suitable for UAE lifestyle, events, and retail communication.</p></article>
+    </div>
+  </section>
+
+  <section id="faq" class="faq-section">
+    <div class="reveal" style="text-align:center">
+      <div class="section-label" data-en="FAQ" data-ar="الأسئلة الشائعة">FAQ</div>
+      <h2 class="section-title" data-en="Simple answers." data-ar="إجابات بسيطة.">Simple answers.</h2>
+    </div>
+    <div class="faq-inner reveal reveal-delay-1">
+      <div class="faq-item open"><button class="faq-q"><span data-en="What is Ma Hawa Hydrogen Water?" data-ar="ما هي مياه ما هاوا هايدروجين؟">What is Ma Hawa Hydrogen Water?</span><span class="faq-icon">+</span></button><div class="faq-a" data-en="It is Ma Hawa ultra-pure water activated by hydrogen, presented in a premium 450ml aluminum bottle." data-ar="هي مياه ما هاوا نقية عالية الجودة ومدعّمة بالهيدروجين، مقدمة في عبوة ألمنيوم فاخرة 450 مل.">It is Ma Hawa ultra-pure water activated by hydrogen, presented in a premium 450ml aluminum bottle.</div></div>
+      <div class="faq-item"><button class="faq-q"><span data-en="Does it contain sugar or additives?" data-ar="هل تحتوي على سكر أو إضافات؟">Does it contain sugar or additives?</span><span class="faq-icon">+</span></button><div class="faq-a" data-en="The product messaging on the bottle highlights zero calories, no sugar, and no additives." data-ar="رسالة المنتج على العبوة توضّح أنها بدون سعرات حرارية، بدون سكر، وبدون إضافات.">The product messaging on the bottle highlights zero calories, no sugar, and no additives.</div></div>
+      <div class="faq-item"><button class="faq-q"><span data-en="When should I drink it?" data-ar="متى يمكن شربها؟">When should I drink it?</span><span class="faq-icon">+</span></button><div class="faq-a" data-en="It fits everyday hydration moments: after the gym, during work, on the go, or whenever you want a clean refreshing water choice." data-ar="تناسب لحظات الترطيب اليومية: بعد الجيم، أثناء العمل، خارج المنزل، أو عندما تريد خيار مياه نظيف ومنعش.">It fits everyday hydration moments: after the gym, during work, on the go, or whenever you want a clean refreshing water choice.</div></div>
+      <div class="faq-item"><button class="faq-q"><span data-en="Is this a medical product?" data-ar="هل هو منتج طبي؟">Is this a medical product?</span><span class="faq-icon">+</span></button><div class="faq-a" data-en="No. Present it as a premium hydration product, not as a medical treatment or performance claim." data-ar="لا. يتم تقديمه كمنتج ترطيب فاخر وليس كعلاج طبي أو ادعاء أداء.">No. Present it as a premium hydration product, not as a medical treatment or performance claim.</div></div>
+    </div>
+  </section>
+
+  <section id="order" class="contact-section">
+    <div class="contact-inner reveal">
+      <div class="section-label" data-en="Order" data-ar="الطلب">Order</div>
+      <h2 class="section-title" data-en="Experience Ma Hawa Hydrogen Water." data-ar="جرّب مياه ما هاوا هايدروجين.">Experience Ma Hawa Hydrogen Water.</h2>
+      <p class="contact-sub" data-en="A premium, clean, and modern hydration experience designed for everyday refreshment." data-ar="تجربة ترطيب فاخرة ونظيفة وحديثة صُممت للانتعاش اليومي.">A premium, clean, and modern hydration experience designed for everyday refreshment.</p>
+      <div class="contact-actions">
+        <a class="btn-primary wa-link" href="#" target="_blank" rel="noopener" data-en="Order on WhatsApp" data-ar="اطلب عبر واتساب">Order on WhatsApp</a>
+        <a class="btn-ghost" href="#scrubber-section" data-en="Replay Experience" data-ar="إعادة التجربة">Replay Experience</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <a class="logo" href="#scrubber-section"><span>MA HAWA</span> H₂</a>
+  <div class="footer-copy">© <span id="year"></span> Ma Hawa. Premium Hydrogen Water Experience.</div>
+  <div class="footer-links"><a href="#product">Product</a><a href="#benefits">Benefits</a><a href="#order">Order</a></div>
+</footer>
+
+<a class="wa-float wa-link" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.11 17.37c-.29-.15-1.7-.84-1.96-.94-.26-.1-.45-.15-.64.15-.19.29-.74.94-.91 1.13-.17.19-.34.22-.63.07-.29-.15-1.22-.45-2.33-1.44-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.43-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.07-.15-.64-1.54-.88-2.11-.23-.55-.47-.48-.64-.49h-.55c-.19 0-.51.07-.77.36-.26.29-1.01.98-1.01 2.4 0 1.42 1.03 2.79 1.18 2.98.15.19 2.03 3.1 4.91 4.34.69.3 1.22.48 1.64.61.69.22 1.31.19 1.81.12.55-.08 1.7-.7 1.94-1.37.24-.67.24-1.25.17-1.37-.07-.12-.26-.19-.55-.34z"/><path d="M16.02 3C8.84 3 3 8.78 3 15.88c0 2.27.6 4.49 1.75 6.44L3.02 29l6.86-1.79c1.89 1.03 4.02 1.57 6.14 1.57C23.2 28.78 29 23 29 15.88S23.2 3 16.02 3zm0 23.56c-1.92 0-3.8-.52-5.44-1.5l-.39-.23-4.07 1.06 1.09-3.95-.25-.41a10.58 10.58 0 0 1-1.62-5.65c0-5.87 4.79-10.64 10.68-10.64 5.87 0 10.64 4.77 10.64 10.64S21.89 26.56 16.02 26.56z"/></svg>
+</a>
+
+<script>
+/* =========================================================
+   IMPORTANT SETTINGS
+   ضع الفريمات داخل: assets/frames/
+
+   الأفضل أن تعيد تسمية الملفات إلى:
+   frame_0001.webp, frame_0002.webp, frame_0003.webp...
+
+   لو بقيت الأسماء كما في الصورة:
+   frame_0001_0.00s.webp, frame_0002_0.13s.webp...
+   اجعل FRAME_NAMING = 'timestamp' وعدّل SOURCE_FPS حسب الفريمات.
+   من صورتك واضح تقريباً أنها 7.5fps لأن 0.00 ثم 0.13 ثم 0.27 ثم 0.40.
+========================================================= */
+const FRAME_COUNT = 144;               // غيّر الرقم حسب عدد الفريمات الحقيقي داخل assets/frames
+const FRAME_FOLDER = 'assets/frames/';  // لا تضع / في البداية على GitHub Pages
+const FRAME_EXTENSION = 'webp';
+const FRAME_NAMING = 'timestamp';       // 'simple' أو 'timestamp'
+const SOURCE_FPS = 7.5;                 // يستخدم فقط مع timestamp
+const WHATSAPP_NUMBER = '971542882950';
+
+const waTextEn = encodeURIComponent('Hi, I am interested in Ma Hawa Hydrogen Water. Please share ordering details.');
+const waTextAr = encodeURIComponent('مرحباً، أنا مهتم بطلب مياه ما هاوا هايدروجين. أرجو إرسال تفاصيل الطلب.');
+let currentLang = localStorage.getItem('mahawa_lang') || 'en';
+
+function pad(num, size = 4) {
+  return String(num).padStart(size, '0');
+}
+
+function getFrameSrc(index) {
+  const n = index + 1;
+  if (FRAME_NAMING === 'timestamp') {
+    const seconds = ((n - 1) / SOURCE_FPS).toFixed(2);
+    return `${FRAME_FOLDER}frame_${pad(n)}_${seconds}s.${FRAME_EXTENSION}`;
+  }
+  return `${FRAME_FOLDER}frame_${pad(n)}.${FRAME_EXTENSION}`;
+}
+
+const canvas = document.getElementById('scrubber-canvas');
+const ctx = canvas.getContext('2d', { alpha: false });
+const scrubberSection = document.getElementById('scrubber-section');
+const loader = document.getElementById('scrub-loader');
+const frameImages = [];
+let loadedFrames = 0;
+let lastDrawnFrame = -1;
+let resizeTimer = null;
+
+function resizeCanvas() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = Math.floor(rect.width * dpr);
+  canvas.height = Math.floor(rect.height * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  lastDrawnFrame = -1;
+  drawFrame(getCurrentFrameIndex());
+}
+
+function drawCoverImage(img) {
+  const rect = canvas.getBoundingClientRect();
+  const cw = rect.width;
+  const ch = rect.height;
+  const iw = img.naturalWidth || img.width;
+  const ih = img.naturalHeight || img.height;
+  const scale = Math.max(cw / iw, ch / ih);
+  const sw = iw * scale;
+  const sh = ih * scale;
+  const x = (cw - sw) / 2;
+  const y = (ch - sh) / 2;
+  ctx.clearRect(0, 0, cw, ch);
+  ctx.drawImage(img, x, y, sw, sh);
+}
+
+function getScrollProgress() {
+  const rect = scrubberSection.getBoundingClientRect();
+  const scrollable = scrubberSection.offsetHeight - window.innerHeight;
+  const progressed = Math.min(Math.max(-rect.top, 0), scrollable);
+  return scrollable > 0 ? progressed / scrollable : 0;
+}
+
+function getCurrentFrameIndex() {
+  const progress = getScrollProgress();
+  return Math.min(FRAME_COUNT - 1, Math.max(0, Math.round(progress * (FRAME_COUNT - 1))));
+}
+
+function drawFrame(index) {
+  if (index === lastDrawnFrame) return;
+  const img = frameImages[index];
+  if (!img || !img.complete || !img.naturalWidth) return;
+  drawCoverImage(img);
+  lastDrawnFrame = index;
+}
+
+function updateScrubText(progress) {
+  document.querySelectorAll('.scrub-stage').forEach(stage => {
+    const start = Number(stage.dataset.start);
+    const end = Number(stage.dataset.end);
+    const isActive = progress >= start && progress <= end;
+    stage.classList.toggle('active', isActive);
+    if (isActive) {
+      const local = Math.min(Math.max((progress - start) / Math.max(end - start, 0.001), 0), 1);
+      const fadeIn = Math.min(local / 0.18, 1);
+      const fadeOut = Math.min((1 - local) / 0.18, 1);
+      const opacity = Math.min(fadeIn, fadeOut);
+      stage.style.opacity = opacity.toFixed(3);
+    } else {
+      stage.style.opacity = 0;
+    }
+  });
+}
+
+function onScroll() {
+  const progress = getScrollProgress();
+  drawFrame(getCurrentFrameIndex());
+  updateScrubText(progress);
+
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pageProgress = docHeight > 0 ? (window.scrollY / docHeight) * 100 : 0;
+  document.getElementById('progress-bar').style.width = `${pageProgress}%`;
+
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+}
+
+function preloadFrames() {
+  loader.style.display = 'block';
+  for (let i = 0; i < FRAME_COUNT; i++) {
+    const img = new Image();
+    img.decoding = 'async';
+    img.loading = 'eager';
+    img.src = getFrameSrc(i);
+    img.onload = () => {
+      loadedFrames++;
+      loader.textContent = `Loading frames ${Math.round((loadedFrames / FRAME_COUNT) * 100)}%`;
+      if (loadedFrames === 1) drawFrame(0);
+      if (loadedFrames >= Math.min(FRAME_COUNT, 24)) loader.style.display = 'none';
+    };
+    img.onerror = () => {
+      loadedFrames++;
+      if (loadedFrames >= Math.min(FRAME_COUNT, 24)) loader.style.display = 'none';
+      console.warn('Missing frame:', img.src);
+    };
+    frameImages.push(img);
+  }
+}
+
+/* Language */
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('mahawa_lang', lang);
+  document.documentElement.lang = lang;
+  document.body.classList.toggle('rtl', lang === 'ar');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const val = el.dataset[lang];
+    if (val !== undefined) el.textContent = val;
+  });
+
+  const waText = lang === 'ar' ? waTextAr : waTextEn;
+  document.querySelectorAll('.wa-link').forEach(a => {
+    a.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${waText}`;
+  });
+}
+window.setLang = setLang;
+
+/* FAQ */
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    document.querySelectorAll('.faq-item').forEach(i => { if (i !== item) i.classList.remove('open'); });
+    item.classList.toggle('open');
+  });
+});
+
+/* Reveal */
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* Cursor */
+const cursor = document.getElementById('cursor');
+const cursorRing = document.getElementById('cursorRing');
+let lastTrail = 0;
+document.addEventListener('mousemove', e => {
+  cursor.style.left = `${e.clientX}px`;
+  cursor.style.top = `${e.clientY}px`;
+  cursorRing.style.left = `${e.clientX}px`;
+  cursorRing.style.top = `${e.clientY}px`;
+
+  const now = Date.now();
+  if (now - lastTrail > 42 && window.innerWidth > 560) {
+    const t = document.createElement('span');
+    t.className = 'cursor-trail';
+    t.style.left = `${e.clientX}px`;
+    t.style.top = `${e.clientY}px`;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 720);
+    lastTrail = now;
+  }
+});
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(resizeCanvas, 120);
+});
+window.addEventListener('scroll', onScroll, { passive: true });
+
+/* Init */
+document.getElementById('year').textContent = new Date().getFullYear();
+setLang(currentLang);
+resizeCanvas();
+preloadFrames();
+onScroll();
+</script>
+</body>
+</html>
