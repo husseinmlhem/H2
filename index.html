@@ -104,7 +104,7 @@
 
     .page { position: relative; z-index: 3; }
 
-    .scroll-stage { height: 520vh; position: relative; }
+    .scroll-stage { height: 760vh; position: relative; }
 
     .pin {
       position: sticky;
@@ -164,18 +164,55 @@
     }
 
     .brand-row {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 14px;
+      justify-content: center;
+      width: auto;
       margin-bottom: 32px;
-      color: var(--blue);
-      letter-spacing: 0.32em;
-      font-weight: 800;
-      text-transform: uppercase;
-      font-size: 14px;
+      padding: 10px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(103,173,222,.32);
+      background: rgba(1, 10, 24, .28);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,.035) inset,
+        0 0 34px rgba(103,173,222,.18),
+        0 0 90px rgba(103,173,222,.08);
+      backdrop-filter: blur(12px);
+      position: relative;
     }
 
-       border-radius: 999px;
+    .brand-row::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 20px;
+      border: 1px solid rgba(156,232,255,.18);
+      filter: blur(.4px);
+      pointer-events: none;
+    }
+
+    .brand-logo {
+      width: clamp(92px, 8vw, 132px);
+      height: auto;
+      display: block;
+      object-fit: contain;
+      filter:
+        drop-shadow(0 0 1px rgba(255,255,255,.95))
+        drop-shadow(0 0 10px rgba(103,173,222,.42))
+        drop-shadow(0 0 26px rgba(103,173,222,.25));
+    }
+
+    .brand-row span {
+      display: none;
+    }
+
+    .kicker {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 9px 13px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
       color: var(--ice);
       background: rgba(103, 173, 222, 0.08);
       font-size: 12px;
@@ -283,7 +320,11 @@
       opacity: 0;
       transform: scale(1.08);
       transition: opacity .7s ease, transform 1.15s cubic-bezier(.2,.8,.2,1), filter .55s ease;
-      filter: satutent: "";
+      filter: saturate(.85) brightness(.72) blur(.25px);
+    }
+
+    .webpage-shot::after {
+      content: "";
       position: absolute;
       inset: 0;
     }
@@ -755,12 +796,13 @@
       'assets/frames/frame-002.png',
       'assets/frames/frame-003.png'
     */
-    const imageSequence = [
-      'assets/frames/frame-001.png',
-      'assets/frames/frame-002.png',
-      'assets/frames/frame-003.png',
-      'assets/frames/frame-004.png'
-    ];
+    const totalFrames = 92;
+
+    const imageSequence = Array.from({ length: totalFrames }, (_, index) => {
+      const frameNumber = String(index + 1).padStart(4, '0');
+      const seconds = (index * 0.1333333333).toFixed(2);
+      return `assets/frames/frame_${frameNumber}_${seconds}s.webp`;
+    });
 
     const fallbackFrame = 'assets/logo.svg';
 
@@ -768,7 +810,9 @@
       {
         kicker: 'HYDROGEN WATER',
         title: 'Hydrogen-Activated <span>Hydration</span>',
-        text: 'A cinematic macro product story for Ma Hawa Hydrogen Water: generated from air, rich in minerals, and zero s', 'OUTPUT // premium active hydration']
+        text: 'A cinematic macro product story for Ma Hawa Hydrogen Water: generated from air, rich in minerals, and zero sodium.',
+        pills: ['Hydrogen activated', 'Generated from air', 'Zero sodium'],
+        terminal: ['INPUT // atmospheric moisture', 'PROCESS // purification + minerals + H₂', 'OUTPUT // premium active hydration']
       },
       {
         kicker: 'ATMOSPHERIC WATER GENERATION',
@@ -809,18 +853,28 @@
       });
     }
 
-    mtal = Math.max(1, rect.height - window.innerHeight);
+    mountImages();
+    let shots = Array.from(document.querySelectorAll('.webpage-shot'));
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function updateStage() {
+      const rect = stage.getBoundingClientRect();
+      const total = Math.max(1, rect.height - window.innerHeight);
       const scrolled = clamp(-rect.top / total, 0, 1);
-      const index = Math.min(stages.length - 1, Math.floor(scrolled * stages.length));
+      const frameIndex = Math.min(shots.length - 1, Math.round(scrolled * (shots.length - 1)));
+      const textIndex = Math.min(stages.length - 1, Math.floor(scrolled * stages.length));
 
       progressBar.style.width = `${scrolled * 100}%`;
 
       shots.forEach((img, i) => {
-        img.classList.toggle('active', i === index);
-        img.classList.toggle('preload', i === index + 1);
+        img.classList.toggle('active', i === frameIndex);
+        img.classList.toggle('preload', i === frameIndex + 1);
       });
 
-      const data = stages[index];
+      const data = stages[textIndex];
       kicker.textContent = data.kicker;
       title.innerHTML = data.title;
       text.textContent = data.text;
