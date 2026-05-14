@@ -56,13 +56,15 @@
        =============================== */
 
     .site-header {
-      position: relative;
-      z-index: 20;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 30;
       width: 100%;
-      background:
-        radial-gradient(circle at 20% 0%, rgba(103,173,222,.14), transparent 34%),
-        linear-gradient(180deg, #020a15 0%, #01040c 100%);
-      border-bottom: 1px solid rgba(103,173,222,.16);
+      background: transparent;
+      border-bottom: 0;
+      pointer-events: none;
     }
 
     .nav-wrap {
@@ -73,6 +75,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 24px;
+      pointer-events: auto;
     }
 
     .nav-brand {
@@ -95,10 +98,10 @@
       align-items: center;
       gap: 8px;
       padding: 8px;
-      border: 1px solid rgba(103,173,222,.16);
+      border: 1px solid rgba(103,173,222,.10);
       border-radius: 999px;
-      background: rgba(255,255,255,.035);
-      backdrop-filter: blur(14px);
+      background: transparent;
+      backdrop-filter: none;
     }
 
     .nav-link {
@@ -129,13 +132,13 @@
     .nav-chip {
       padding: 10px 12px;
       border-radius: 999px;
-      border: 1px solid rgba(103,173,222,.18);
-      color: rgba(231,248,255,.76);
+      border: 1px solid rgba(103,173,222,.20);
+      color: rgba(231,248,255,.82);
       font-size: 12px;
       font-weight: 850;
       letter-spacing: .12em;
       text-transform: uppercase;
-      background: rgba(1, 9, 20, .42);
+      background: rgba(1, 9, 20, .12);
     }
 
     .nav-cta {
@@ -265,9 +268,9 @@
       width: min(680px, 45vw);
       pointer-events: none;
       will-change: transform, opacity;
-      padding: clamp(26px, 3vw, 44px);
-      border-radius: 34px;
-      background: radial-gradient(ellipse at left, rgba(1, 4, 12, 0.74) 0%, rgba(1, 4, 12, 0.24) 72%, transparent 100%);
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
     }
 
     .brand-row {
@@ -987,10 +990,6 @@
           </div>
 
           <div class="stage-copy">
-            <div class="brand-row">
-              <img class="brand-logo" src="./assets/logo.svg" alt="Ma Hawa logo" />
-            </div>
-
             <h1 class="stage-title" id="stageTitle">Hydrogen-Activated <span>Hydration</span></h1>
             <p class="stage-text" id="stageText">A cinematic product story for premium water generated from air, enriched with minerals, and crafted for active lifestyles.</p>
           </div>
@@ -998,6 +997,8 @@
 
         <div class="station-dots" id="stationDots">
           <span class="station-dot active"></span>
+          <span class="station-dot"></span>
+          <span class="station-dot"></span>
           <span class="station-dot"></span>
           <span class="station-dot"></span>
         </div>
@@ -1185,20 +1186,32 @@
 
     const imageSequence = Array.from({ length: totalFrames }, (_, index) => framePath(index));
 
-    // Three locked video stops only:
-    // 1) first frame: frame_0001_0.00s.webp
-    // 2) middle stop: frame_0040_5.20s.webp
-    // 3) final frame: last frame
+    // Five locked video stops only:
+    // 1) frame_0001_0.00s.webp
+    // 2) frame_0017_2.13s.webp
+    // 3) frame_0040_5.20s.webp
+    // 4) frame_0075_9.87s.webp
+    // 5) final frame
     const stations = [
       {
         frame: 0,
         title: 'Hydrogen-Activated <span>Hydration</span>',
-        text: 'Generated from air, rich in minerals, zero sodium, and crafted for a clean active lifestyle.'
+        text: 'Pure water generated from air, enriched with minerals, and activated by hydrogen for a clean active lifestyle.'
+      },
+      {
+        frame: 16,
+        title: 'From Air to <span>Water</span>',
+        text: 'Atmospheric water generation captures moisture from the air and transforms it into a premium drinking water source.'
       },
       {
         frame: 39,
         title: 'Technology You <span>Can Drink</span>',
-        text: 'Atmospheric water generation transforms moisture in the air into premium drinking water.'
+        text: 'Purification, mineral balance, and hydrogen activation create a smarter hydration experience.'
+      },
+      {
+        frame: 74,
+        title: 'Made for <span>Active Spaces</span>',
+        text: 'A refined 450 ml aluminum bottle designed for gyms, wellness spaces, offices, events, and daily routines.'
       },
       {
         frame: totalFrames - 1,
@@ -1251,8 +1264,11 @@
     function animateToStation(nextStationIndex) {
       if (isAnimatingFrames || nextStationIndex === currentStationIndex) return;
 
-      const fromFrame = stations[currentStationIndex].frame;
+      const fromStationIndex = currentStationIndex;
+      const fromFrame = stations[fromStationIndex].frame;
       const toFrame = stations[nextStationIndex].frame;
+      const fromProgress = fromStationIndex / (stations.length - 1);
+      const toProgress = nextStationIndex / (stations.length - 1);
       const startTime = performance.now();
       const duration = 950;
 
@@ -1265,18 +1281,16 @@
         const t = clamp(elapsed / duration, 0, 1);
         const eased = easeInOutCubic(t);
         const frame = fromFrame + (toFrame - fromFrame) * eased;
-        setFrame(frame);
+        const progress = fromProgress + (toProgress - fromProgress) * eased;
 
-        progressBar.style.width = `${((nextStationIndex - 1 + eased) / (stations.length - 1)) * 100}%`;
-        if (nextStationIndex === 0) progressBar.style.width = `${(1 - eased) * 50}%`;
-        if (nextStationIndex === 1 && fromFrame === stations[0].frame) progressBar.style.width = `${eased * 50}%`;
-        if (nextStationIndex === 2) progressBar.style.width = `${50 + eased * 50}%`;
+        setFrame(frame);
+        progressBar.style.width = `${progress * 100}%`;
 
         if (t < 1) {
           requestAnimationFrame(step);
         } else {
           setFrame(toFrame);
-          progressBar.style.width = `${(nextStationIndex / (stations.length - 1)) * 100}%`;
+          progressBar.style.width = `${toProgress * 100}%`;
           isAnimatingFrames = false;
         }
       }
