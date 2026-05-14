@@ -3,915 +3,166 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ma Hawa H₂ — Hydrogen Water Scroll Experience</title>
+  <title>Ma Hawa H₂ — Hydrogen Water</title>
 
   <style>
     :root {
       --bg: #01040c;
-      --bg-2: #031122;
+      --bg2: #06182e;
       --blue: #67adde;
-      --blue-2: #2f8ed1;
+      --blue2: #2f8ed1;
       --cyan: #9ce8ff;
       --ice: #e7f8ff;
-      --muted: #8aa8ba;
-      --line: rgba(103, 173, 222, 0.24);
+      --muted: rgba(231,248,255,.68);
+      --line: rgba(103,173,222,.22);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html {
-      scroll-behavior: smooth;
-      background: var(--bg);
-      scroll-snap-type: y proximity;
-    }
-
-    body {
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      color: #fff;
-      background: var(--bg);
-      overflow-x: hidden;
-    }
-
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; background: var(--bg); color: #fff; overflow-x: hidden; }
     a { color: inherit; text-decoration: none; }
 
-    .page { position: relative; z-index: 3; }
+    .site-header { position: fixed; inset: 0 0 auto 0; z-index: 100; height: 92px; background: transparent !important; border: 0 !important; box-shadow: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; pointer-events: none; }
+    .nav-wrap { width: min(1440px, calc(100% - 96px)); height: 92px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 28px; pointer-events: auto; }
+    .nav-brand { display: inline-flex; align-items: center; flex: 0 0 auto; }
+    .nav-brand img { width: clamp(118px, 8vw, 168px); height: auto; display: block; filter: drop-shadow(0 0 2px rgba(255,255,255,.28)) drop-shadow(0 0 16px rgba(103,173,222,.26)); }
+    .nav-links { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center; gap: clamp(16px, 2vw, 34px); white-space: nowrap; }
+    .nav-link { color: rgba(231,248,255,.82); font-size: 12px; line-height: 1; font-weight: 850; letter-spacing: .14em; text-transform: uppercase; background: transparent !important; border: 0 !important; box-shadow: none !important; transition: color .25s ease, text-shadow .25s ease; }
+    .nav-link:hover, .nav-link.active { color: #fff; text-shadow: 0 0 16px rgba(103,173,222,.58); }
+    .nav-actions { display: flex; align-items: center; justify-content: flex-end; gap: 18px; flex: 0 0 auto; white-space: nowrap; }
+    .nav-chip { color: rgba(231,248,255,.80); font-size: 12px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; background: transparent; border: 0; box-shadow: none; }
+    .nav-cta { display: inline-flex; align-items: center; justify-content: center; height: 44px; padding: 0 22px; border-radius: 999px; background: linear-gradient(90deg, var(--blue), var(--cyan)); color: #00101e; font-size: 12px; font-weight: 950; letter-spacing: .12em; text-transform: uppercase; box-shadow: 0 18px 38px rgba(103,173,222,.24); }
 
-    /* ===============================
-       TRANSPARENT FIXED NAVBAR
-       =============================== */
+    .hero-scroll { position: relative; height: 520vh; background: #01040c; }
+    .hero-pin { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: #01040c; isolation: isolate; }
+    .hero-frame { position: absolute; inset: 0; width: 100vw; height: 100vh; object-fit: cover; object-position: center center; transform: scale(1.01); filter: saturate(1.08) brightness(.98); will-change: contents; }
+    .hero-vignette { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(90deg, rgba(1,4,12,.74) 0%, rgba(1,4,12,.30) 36%, rgba(1,4,12,.06) 68%), linear-gradient(180deg, rgba(1,4,12,.42) 0%, transparent 20%, transparent 72%, #01040c 100%); }
+    .hero-copy { position: absolute; z-index: 5; left: clamp(28px, 5vw, 86px); top: 50%; transform: translateY(-50%); width: min(680px, 44vw); pointer-events: none; transition: opacity .65s ease, transform .75s cubic-bezier(.22, 1, .36, 1), filter .65s ease; will-change: opacity, transform, filter; }
+    .hero-copy.is-changing { opacity: 0; transform: translateY(calc(-50% + 36px)); filter: blur(8px); }
+    .hero-copy.is-entering { opacity: 1; transform: translateY(-50%); filter: blur(0); }
+    .hero-title { font-size: clamp(58px, 7.4vw, 116px); line-height: .9; letter-spacing: -0.07em; font-weight: 900; margin-bottom: 26px; text-shadow: 0 30px 90px rgba(0,0,0,.48); }
+    .hero-title span { display: block; color: var(--blue); text-shadow: 0 0 42px rgba(103,173,222,.35); }
+    .hero-text { max-width: 620px; color: rgba(255,255,255,.88); font-size: clamp(20px, 1.55vw, 27px); line-height: 1.58; }
+    .hero-progress { position: absolute; z-index: 6; left: 50%; bottom: 26px; transform: translateX(-50%); width: min(620px, 46vw); height: 3px; border-radius: 999px; background: rgba(255,255,255,.10); overflow: hidden; }
+    .hero-progress span { display: block; width: 0%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), var(--cyan), #fff); box-shadow: 0 0 26px rgba(103,173,222,.66); }
 
-    .site-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 999;
-      width: 100%;
-      height: 96px;
-      background: transparent !important;
-      border: 0 !important;
-      box-shadow: none !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      pointer-events: none;
-    }
+    .full-section { position: relative; min-height: 100vh; display: grid; place-items: center; overflow: hidden; isolation: isolate; background: #01040c; }
+    .section-bg { position: absolute; inset: 0; z-index: 0; background: radial-gradient(circle at 76% 20%, rgba(103,173,222,.22), transparent 34%), radial-gradient(circle at 14% 76%, rgba(156,232,255,.10), transparent 34%), linear-gradient(180deg, #01040c 0%, #06182e 50%, #01040c 100%); }
+    .section-bg::before { content: ""; position: absolute; inset: 0; opacity: .44; background: linear-gradient(rgba(103,173,222,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(103,173,222,.04) 1px, transparent 1px); background-size: 58px 58px; mask-image: radial-gradient(circle at 50% 38%, black, transparent 78%); }
+    .full-inner { position: relative; z-index: 2; width: min(1400px, calc(100% - 88px)); min-height: 76vh; display: grid; grid-template-columns: minmax(460px, .92fr) minmax(620px, 1.08fr); align-items: center; gap: clamp(44px, 6vw, 96px); padding: 120px 0 80px; }
+    .section-copy h2 { font-size: clamp(60px, 6.7vw, 118px); line-height: .89; letter-spacing: -0.075em; font-weight: 950; margin-bottom: 28px; max-width: 800px; }
+    .section-copy h2 span { display: block; color: var(--blue); background: linear-gradient(90deg, #fff, var(--cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .section-copy p { color: rgba(255,255,255,.74); font-size: clamp(18px, 1.35vw, 23px); line-height: 1.66; max-width: 680px; }
+    .section-kicker { color: var(--cyan); font-size: 12px; font-weight: 950; letter-spacing: .24em; text-transform: uppercase; margin-bottom: 18px; }
+    .glass-panel { position: relative; overflow: hidden; border-radius: 38px; border: 1px solid rgba(103,173,222,.24); background: radial-gradient(circle at 80% 0%, rgba(103,173,222,.16), transparent 38%), linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.018)); box-shadow: 0 36px 120px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.035); backdrop-filter: blur(20px); }
 
-    .nav-wrap {
-      width: min(1440px, calc(100% - 96px));
-      height: 96px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      pointer-events: auto;
-      background: transparent !important;
-    }
-
-    .nav-brand {
-      flex: 0 0 auto;
-      display: flex;
-      align-items: center;
-      line-height: 0;
-    }
-
-    .nav-brand img {
-      width: clamp(118px, 8vw, 168px);
-      height: auto;
-      display: block;
-      filter: drop-shadow(0 0 2px rgba(255,255,255,.34)) drop-shadow(0 0 16px rgba(103,173,222,.26));
-    }
-
-    .nav-links {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-      white-space: nowrap;
-      background: transparent !important;
-      border: 0 !important;
-      box-shadow: none !important;
-    }
-
-    .nav-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      color: rgba(231,248,255,.86);
-      font-size: 12px;
-      font-weight: 850;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      background: transparent !important;
-      border: 0 !important;
-      box-shadow: none !important;
-      transition: color .25s ease, text-shadow .25s ease;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-      color: #fff;
-      text-shadow: 0 0 14px rgba(103,173,222,.55);
-    }
-
-    .nav-actions {
-      flex: 0 0 auto;
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      white-space: nowrap;
-    }
-
-    .nav-chip {
-      color: rgba(231,248,255,.82);
-      font-size: 12px;
-      font-weight: 850;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      background: transparent !important;
-      border: 0 !important;
-      box-shadow: none !important;
-    }
-
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      height: 42px;
-      padding: 0 20px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--blue), var(--cyan));
-      color: #00101e;
-      font-size: 12px;
-      font-weight: 950;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      box-shadow: 0 16px 34px rgba(103,173,222,.22);
-    }
-
-    /* ===============================
-       HERO FRAME SEQUENCE
-       =============================== */
-
-    .scroll-stage {
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-      background: var(--bg);
-      scroll-snap-align: start;
-    }
-
-    .pin {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      background: var(--bg);
-      isolation: isolate;
-    }
-
-    .frame-shell,
-    .visual-zone,
-    .webpage-stack {
-      position: absolute;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-    }
-
-    .webpage-shot {
-      position: absolute;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      object-position: center center;
-      opacity: 1;
-      transform: scale(1.012);
-      filter: saturate(1.06) brightness(1);
-      transition: none;
-      will-change: contents;
-    }
-
-    .molecule-field {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 10;
-    }
-
-    .mol {
-      position: absolute;
-      width: 78px;
-      height: 34px;
-      opacity: .55;
-      filter: drop-shadow(0 0 18px rgba(103,173,222,.45));
-      animation: moleculeFloat 7s ease-in-out infinite alternate;
-    }
-
-    .mol::before,
-    .mol::after {
-      content: "";
-      position: absolute;
-      top: 6px;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fff, var(--cyan) 30%, #075b9f 70%);
-    }
-
-    .mol::before { left: 0; }
-    .mol::after { right: 0; }
-
-    .mol span {
-      position: absolute;
-      left: 26px;
-      top: 15px;
-      width: 28px;
-      height: 1px;
-      background: rgba(156,232,255,.76);
-      transform: rotate(-12deg);
-    }
-
-    .mol small {
-      position: absolute;
-      left: 25px;
-      top: -12px;
-      color: rgba(231,248,255,.8);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .mol.a { top: 12%; right: 9%; }
-    .mol.b { top: 62%; right: 47%; transform: scale(.72) rotate(-8deg); animation-delay: -2s; }
-    .mol.c { bottom: 13%; right: 18%; transform: scale(.58) rotate(16deg); animation-delay: -4s; }
-
-    @keyframes moleculeFloat {
-      from { translate: 0 0; }
-      to { translate: 18px -28px; }
-    }
-
-    .stage-copy {
-      position: absolute;
-      z-index: 12;
-      top: 50%;
-      transform: translateY(-50%);
-      width: min(680px, 45vw);
-      pointer-events: none;
-      will-change: transform, opacity;
-      opacity: 1;
-      transition: opacity .62s ease, transform .78s cubic-bezier(.22,1,.36,1), filter .62s ease;
-    }
-
-    .stage-copy-left { left: clamp(28px, 5vw, 86px); text-align: left; }
-    .stage-copy-right { right: clamp(28px, 5vw, 86px); text-align: right; width: min(560px, 38vw); }
-
-    .stage-copy.is-hidden {
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(calc(-50% + 28px));
-      filter: blur(8px);
-    }
-
-    .stage-copy.is-changing {
-      opacity: 0;
-      transform: translateY(calc(-50% + 34px));
-      filter: blur(6px);
-    }
-
-    .stage-copy.is-entering {
-      opacity: 1;
-      transform: translateY(-50%);
-      filter: blur(0);
-    }
-
-    .stage-title {
-      font-size: clamp(58px, 7.4vw, 112px);
-      line-height: .9;
-      letter-spacing: -0.07em;
-      max-width: 700px;
-      font-weight: 850;
-      margin-bottom: 26px;
-      text-shadow: 0 24px 80px rgba(0,0,0,.42);
-    }
-
-    .stage-title span {
-      display: block;
-      color: var(--blue);
-      text-shadow: 0 0 42px rgba(103,173,222,.3);
-    }
-
-    .stage-text {
-      max-width: 610px;
-      color: rgba(255,255,255,.9);
-      font-size: clamp(20px, 1.8vw, 27px);
-      line-height: 1.56;
-    }
-
-    .stage-copy-right .stage-text { margin-left: auto; }
-
-    /* ===============================
-       FULL SCREEN CONTENT SECTIONS
-       =============================== */
-
-    .full-section {
-      position: relative;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      scroll-snap-align: start;
-      background: #01040c;
-      isolation: isolate;
-    }
-
-    .section-motion-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      background:
-        radial-gradient(circle at 78% 22%, rgba(103,173,222,.23), transparent 34%),
-        radial-gradient(circle at 15% 78%, rgba(156,232,255,.10), transparent 34%),
-        linear-gradient(180deg, #01040c, #06182e 52%, #01040c);
-    }
-
-    .section-motion-bg::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      opacity: .48;
-      background:
-        linear-gradient(rgba(103,173,222,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(103,173,222,.04) 1px, transparent 1px);
-      background-size: 58px 58px;
-      mask-image: radial-gradient(circle at 50% 38%, black, transparent 78%);
-    }
-
-    .full-inner {
-      position: relative;
-      z-index: 3;
-      width: min(1380px, calc(100% - 72px));
-      min-height: 74vh;
-      display: grid;
-      grid-template-columns: .9fr 1.1fr;
-      align-items: center;
-      gap: clamp(34px, 5vw, 88px);
-    }
-
-    .section-kicker {
-      color: var(--cyan);
-      letter-spacing: .22em;
-      text-transform: uppercase;
-      font-size: 13px;
-      font-weight: 850;
-      margin-bottom: 16px;
-      text-shadow: 0 0 15px rgba(156,232,255,.3);
-    }
-
-    .section-copy-block h2 {
-      font-size: clamp(56px, 6.8vw, 116px);
-      line-height: .9;
-      letter-spacing: -0.07em;
-      margin-bottom: 28px;
-      max-width: 780px;
-    }
-
-    .section-copy-block h2 span {
-      display: block;
-      color: var(--blue);
-      background: linear-gradient(90deg, #fff, var(--cyan));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .section-copy-block p {
-      max-width: 620px;
-      color: rgba(255,255,255,.75);
-      font-size: clamp(18px, 1.35vw, 23px);
-      line-height: 1.65;
-    }
-
-    .product-hud-card,
-    .contact-console,
-    .deployment-grid,
-    .process-timeline {
-      position: relative;
-      border-radius: 38px;
-      border: 1px solid rgba(103,173,222,.22);
-      background: linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.018));
-      box-shadow: 0 36px 120px rgba(0,0,0,.34), inset 0 0 0 1px rgba(255,255,255,.035);
-      backdrop-filter: blur(20px);
-    }
-
-    .product-hud-card {
-      min-height: 560px;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-    }
-
-    .hud-core {
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      font-size: 62px;
-      font-weight: 950;
-      color: #00101e;
-      background: radial-gradient(circle at 34% 28%, #fff, var(--cyan) 28%, var(--blue-2) 72%);
-      box-shadow: 0 0 90px rgba(103,173,222,.52);
-      z-index: 3;
-    }
-
+    .product-panel { min-height: 560px; display: grid; place-items: center; }
+    .hud-core { width: 190px; height: 190px; border-radius: 50%; display: grid; place-items: center; font-size: 66px; font-weight: 950; color: #00101e; background: radial-gradient(circle at 34% 28%, #fff, var(--cyan) 28%, var(--blue2) 72%); box-shadow: 0 0 90px rgba(103,173,222,.52); z-index: 3; }
     .hud-orbit { position: absolute; border-radius: 50%; border: 1px solid rgba(156,232,255,.22); }
-    .orbit-a { width: 360px; height: 360px; animation: orbitSpin 18s linear infinite; }
-    .orbit-b { width: 470px; height: 470px; border-style: dashed; animation: orbitSpin 28s linear infinite reverse; }
+    .orbit-a { width: 370px; height: 370px; animation: orbitSpin 18s linear infinite; }
+    .orbit-b { width: 500px; height: 500px; border-style: dashed; animation: orbitSpin 28s linear infinite reverse; }
     @keyframes orbitSpin { to { transform: rotate(360deg); } }
+    .hud-pill { position: absolute; padding: 12px 16px; border-radius: 999px; color: var(--cyan); background: rgba(1,8,18,.54); border: 1px solid rgba(103,173,222,.22); font-size: 12px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+    .p-a { top: 15%; left: 12%; } .p-b { right: 12%; top: 28%; } .p-c { bottom: 16%; left: 24%; }
 
-    .hud-pill {
-      position: absolute;
-      padding: 12px 16px;
-      border-radius: 999px;
-      color: var(--cyan);
-      background: rgba(1,8,18,.52);
-      border: 1px solid rgba(103,173,222,.22);
-      font-weight: 850;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: 12px;
-    }
-
-    .p-a { top: 16%; left: 12%; }
-    .p-b { right: 12%; top: 28%; }
-    .p-c { bottom: 16%; left: 24%; }
-
-    .process-timeline {
-      min-height: 420px;
-      padding: clamp(28px, 4vw, 54px);
-      display: grid;
-      grid-template-columns: 1fr 42px 1fr 42px 1fr 42px 1fr;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .process-step {
-      min-height: 210px;
-      border-radius: 28px;
-      background: rgba(1,8,18,.42);
-      border: 1px solid rgba(103,173,222,.16);
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 24px;
-    }
-
-    .process-step i {
-      font-style: normal;
-      width: 70px;
-      height: 70px;
-      display: grid;
-      place-items: center;
-      border-radius: 24px;
-      margin-bottom: 18px;
-      color: var(--cyan);
-      background: rgba(103,173,222,.10);
-      border: 1px solid rgba(103,173,222,.22);
-      font-size: 30px;
-    }
-
-    .process-step strong { font-size: 22px; margin-bottom: 6px; }
+    .process-panel { min-height: 470px; padding: clamp(32px, 4vw, 58px); display: grid; grid-template-columns: 1fr 42px 1fr 42px 1fr 42px 1fr; align-items: center; gap: 12px; }
+    .process-step { min-height: 230px; border-radius: 28px; background: rgba(1,8,18,.42); border: 1px solid rgba(103,173,222,.16); display: grid; align-content: center; justify-items: center; text-align: center; padding: 24px; }
+    .process-step i { font-style: normal; width: 72px; height: 72px; display: grid; place-items: center; border-radius: 24px; margin-bottom: 18px; color: var(--cyan); background: rgba(103,173,222,.10); border: 1px solid rgba(103,173,222,.22); font-size: 30px; }
+    .process-step strong { font-size: 22px; margin-bottom: 7px; }
     .process-step small { color: rgba(255,255,255,.58); line-height: 1.35; }
     .process-connector { height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); box-shadow: 0 0 18px rgba(103,173,222,.35); }
 
-    .deployment-grid {
-      min-height: 520px;
-      padding: clamp(28px, 4vw, 54px);
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
+    .deployment-grid { min-height: 560px; padding: clamp(32px, 4vw, 58px); display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .deployment-grid div { border-radius: 28px; display: grid; place-items: center; gap: 12px; text-align: center; background: rgba(1,8,18,.44); border: 1px solid rgba(103,173,222,.16); color: rgba(255,255,255,.78); font-weight: 850; transition: transform .45s cubic-bezier(.22, 1, .36, 1), border-color .45s ease, background .45s ease; }
+    .deployment-grid div:hover { transform: translateY(-10px); border-color: rgba(156,232,255,.55); background: rgba(103,173,222,.09); }
+    .deployment-grid i { font-style: normal; font-size: 40px; }
 
-    .deployment-grid div {
-      border-radius: 28px;
-      display: grid;
-      place-items: center;
-      gap: 10px;
-      text-align: center;
-      background: rgba(1,8,18,.44);
-      border: 1px solid rgba(103,173,222,.16);
-      color: rgba(255,255,255,.78);
-      font-weight: 850;
-      transition: transform .45s cubic-bezier(.22,1,.36,1), border-color .45s ease;
-    }
-
-    .deployment-grid div:hover { transform: translateY(-10px); border-color: rgba(156,232,255,.55); }
-    .deployment-grid i { font-style: normal; font-size: 38px; }
-
-    .contact-console {
-      padding: clamp(34px, 4vw, 60px);
-      display: grid;
-      gap: 18px;
-    }
-
-    .contact-console a {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 22px;
-      padding: 22px 0;
-      border-bottom: 1px solid rgba(103,173,222,.14);
-    }
-
+    .contact-console { min-height: 440px; padding: clamp(34px, 4vw, 60px); display: grid; gap: 18px; align-content: center; }
+    .contact-console a { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 22px; padding: 22px 0; border-bottom: 1px solid rgba(103,173,222,.14); }
     .contact-console span { color: rgba(255,255,255,.62); font-size: 15px; font-weight: 700; }
-    .contact-console strong { color: var(--cyan); font-size: clamp(18px, 1.45vw, 26px); }
+    .contact-console strong { color: var(--cyan); font-size: clamp(18px, 1.45vw, 26px); text-align: right; }
+    .uae-origin { display: flex; align-items: center; gap: 18px; padding-top: 24px; color: rgba(255,255,255,.76); font-weight: 850; }
+    .footer-flag { width: 86px; height: 46px; flex: 0 0 auto; background: linear-gradient(90deg, #d71920 0 25%, transparent 25% 100%), linear-gradient(180deg, #00732f 0 33.333%, #fff 33.333% 66.666%, #000 66.666% 100%); box-shadow: 0 12px 28px rgba(0,0,0,.36); }
+    .site-footer { background: #01040c; border-top: 1px solid rgba(103,173,222,.14); padding: 34px 0; }
+    .footer-bottom { width: min(1400px, calc(100% - 88px)); margin: 0 auto; display: flex; justify-content: space-between; gap: 24px; color: rgba(255,255,255,.46); font-size: 13px; }
 
-    .uae-origin {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      padding-top: 24px;
-      color: rgba(255,255,255,.76);
-      font-weight: 850;
-    }
+    .reveal { opacity: 0; transform: translateY(42px) scale(.985); filter: blur(10px); transition: opacity .95s ease, transform .95s cubic-bezier(.22, 1, .36, 1), filter .95s ease; will-change: opacity, transform, filter; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    .reveal-delay-1 { transition-delay: .10s; } .reveal-delay-2 { transition-delay: .18s; }
 
-    .footer-flag {
-      width: 86px;
-      height: 46px;
-      background:
-        linear-gradient(90deg, #d71920 0 25%, transparent 25% 100%),
-        linear-gradient(180deg, #00732f 0 33.333%, #fff 33.333% 66.666%, #000 66.666% 100%);
-      box-shadow: 0 12px 28px rgba(0,0,0,.36);
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(42px) scale(.985);
-      filter: blur(10px);
-      transition: opacity 1s ease, transform 1s cubic-bezier(.22,1,.36,1), filter 1s ease;
-      will-change: opacity, transform, filter;
-    }
-
-    .reveal.is-visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      filter: blur(0);
-    }
-
-    .site-footer {
-      background: #01040c;
-      border-top: 1px solid rgba(103,173,222,.12);
-      padding: 30px 0;
-      scroll-snap-align: end;
-    }
-
-    .footer-bottom {
-      width: min(1380px, calc(100% - 72px));
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      color: rgba(255,255,255,.5);
-      font-size: 13px;
-    }
-
-    @media (max-width: 1100px) {
-      .nav-links { display: none; }
-      .full-inner,
-      .process-timeline,
-      .deployment-grid {
-        grid-template-columns: 1fr;
-      }
-      .process-connector { display: none; }
-      .full-inner { min-height: auto; padding: 130px 0 70px; }
-      .full-section { min-height: auto; }
-      .nav-wrap { width: min(100% - 36px, 1440px); }
-    }
-
-    @media (max-width: 720px) {
-      .nav-chip { display: none; }
-      .nav-brand img { width: 120px; }
-      .nav-cta { height: 38px; padding: 0 16px; }
-      .stage-copy,
-      .stage-copy-left,
-      .stage-copy-right {
-        left: 20px !important;
-        right: 20px !important;
-        width: auto;
-        top: auto;
-        bottom: 80px;
-        transform: translateY(40px);
-        text-align: left;
-      }
-      .stage-copy.is-entering { transform: translateY(0); }
-      .stage-title { font-size: clamp(48px, 12vw, 82px); }
-      .footer-bottom { flex-direction: column; }
-    }
+    @media (max-width: 1100px) { .nav-links { display: none; } .nav-wrap { width: min(100% - 36px, 1440px); } .full-inner { grid-template-columns: 1fr; min-height: auto; padding: 130px 0 80px; } .full-section { min-height: auto; } .process-panel, .deployment-grid { grid-template-columns: 1fr; } .process-connector { display: none; } }
+    @media (max-width: 720px) { .nav-chip { display: none; } .hero-copy { width: auto; left: 22px; right: 22px; } .hero-title { font-size: clamp(50px, 15vw, 78px); } .full-inner, .footer-bottom { width: min(100% - 34px, 1400px); } .contact-console a { grid-template-columns: 1fr; } .contact-console strong { text-align: left; } .footer-bottom { flex-direction: column; } }
   </style>
 </head>
-
 <body>
   <header class="site-header" id="top">
     <div class="nav-wrap">
       <a class="nav-brand" href="#top" aria-label="Ma Hawa Home"><img src="./assets/logo.svg" alt="Ma Hawa logo" /></a>
       <nav class="nav-links" aria-label="Main Navigation">
-        <a class="nav-link active" href="#experience">Experience</a>
-        <a class="nav-link" href="#product">Product</a>
+        <a class="nav-link active" href="#product">Product</a>
         <a class="nav-link" href="#process">Process</a>
         <a class="nav-link" href="#order">Order</a>
         <a class="nav-link" href="#contact">Contact</a>
       </nav>
-      <div class="nav-actions"><span class="nav-chip">Product of UAE</span><a class="nav-cta" href="#contact">Order Now</a></div>
+      <div class="nav-actions"><span class="nav-chip">Product of UAE</span><a class="nav-cta" href="https://shop.mahawa.ae" target="_blank" rel="noopener">Buy Now</a></div>
     </div>
   </header>
 
-  <main class="page">
-    <section class="scroll-stage" id="experience">
-      <div class="pin">
-        <div class="frame-shell">
-          <div class="visual-zone">
-            <div class="webpage-stack"><img class="webpage-shot" id="sequenceFrame" src="./assets/frames/frame_0001_0.00s.webp" alt="Ma Hawa scroll frame" /></div>
-            <div class="molecule-field"><div class="mol a"><span></span><small>H₂</small></div><div class="mol b"><span></span><small>H₂</small></div><div class="mol c"><span></span><small>H₂</small></div></div>
-          </div>
-          <div class="stage-copy stage-copy-left" id="stageCopyLeft"><h1 class="stage-title" id="stageTitleLeft">Hydrogen-Activated <span>Hydration</span></h1><p class="stage-text" id="stageTextLeft">Pure water generated from air, enriched with minerals, and activated by hydrogen for a clean active lifestyle.</p></div>
-          <div class="stage-copy stage-copy-right is-hidden" id="stageCopyRight"><h1 class="stage-title" id="stageTitleRight"></h1><p class="stage-text" id="stageTextRight"></p></div>
-        </div>
+  <main>
+    <section class="hero-scroll" id="experience">
+      <div class="hero-pin">
+        <img class="hero-frame" id="sequenceFrame" src="./assets/frames/frame_0001_0.00s.webp" alt="Ma Hawa Hydrogen Water frame" />
+        <div class="hero-vignette"></div>
+        <div class="hero-copy" id="heroCopy"><h1 class="hero-title" id="heroTitle">Hydrogen-Activated <span>Hydration</span></h1><p class="hero-text" id="heroText">Pure water generated from air, enriched with minerals, and activated by hydrogen for a clean active lifestyle.</p></div>
+        <div class="hero-progress"><span id="heroProgressBar"></span></div>
       </div>
     </section>
 
-    <section class="full-section product-section" id="product">
-      <div class="section-motion-bg"></div>
-      <div class="full-inner product-layout reveal">
-        <div class="section-copy-block">
-          <div class="section-kicker">Product System</div>
-          <h2>Hydrogen Water, <span>engineered from air</span></h2>
-          <p>Ma Hawa Hydrogen Water is a 450 ml premium aluminum bottle generated from air, purified, mineralized, and activated with hydrogen for a clean active lifestyle.</p>
-        </div>
-        <div class="product-hud-card">
-          <div class="hud-core">H₂</div>
-          <div class="hud-orbit orbit-a"></div>
-          <div class="hud-orbit orbit-b"></div>
-          <div class="hud-pill p-a">450 ml</div>
-          <div class="hud-pill p-b">Zero sodium</div>
-          <div class="hud-pill p-c">Rich minerals</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="full-section process-section" id="process">
-      <div class="section-motion-bg"></div>
-      <div class="full-inner process-layout reveal">
-        <div class="section-copy-block">
-          <div class="section-kicker">Atmospheric Flow</div>
-          <h2>From moisture to <span>premium water</span></h2>
-          <p>A simplified technical flow showing the Ma Hawa story: capture moisture from air, purify it, balance minerals, then finish with hydrogen activation.</p>
-        </div>
-        <div class="process-timeline">
-          <div class="process-step"><i>☁</i><strong>Capture</strong><small>Atmospheric moisture</small></div>
-          <div class="process-connector"></div>
-          <div class="process-step"><i>◇</i><strong>Purify</strong><small>Clean water path</small></div>
-          <div class="process-connector"></div>
-          <div class="process-step"><i>Mg</i><strong>Mineralize</strong><small>Balanced taste</small></div>
-          <div class="process-connector"></div>
-          <div class="process-step"><i>H₂</i><strong>Activate</strong><small>Hydrogen profile</small></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="full-section order-section" id="order">
-      <div class="section-motion-bg"></div>
-      <div class="full-inner order-layout reveal">
-        <div class="section-copy-block">
-          <div class="section-kicker">Order & Deployment</div>
-          <h2>Designed for <span>active spaces</span></h2>
-          <p>Built for gyms, wellness spaces, offices, events, bulk supply, and premium daily hydration routines.</p>
-        </div>
-        <div class="deployment-grid">
-          <div><i>🏋</i><span>Gyms</span></div>
-          <div><i>🌿</i><span>Wellness</span></div>
-          <div><i>💼</i><span>Offices</span></div>
-          <div><i>🎟</i><span>Events</span></div>
-          <div><i>📦</i><span>Bulk Orders</span></div>
-          <div><i>🏠</i><span>Daily Use</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="full-section contact-section" id="contact">
-      <div class="section-motion-bg"></div>
-      <div class="full-inner contact-layout reveal">
-        <div class="section-copy-block">
-          <div class="section-kicker">Contact Ma Hawa</div>
-          <h2>Scan. Order. <span>Refresh.</span></h2>
-          <p>Connect directly with Ma Hawa for online orders, product information, gyms, events, and business supply.</p>
-        </div>
-        <div class="contact-console">
-          <a href="https://shop.mahawa.ae" target="_blank" rel="noopener"><span>Order online</span><strong>shop.mahawa.ae</strong></a>
-          <a href="https://www.mahawa.ae" target="_blank" rel="noopener"><span>Explore Ma Hawa</span><strong>www.mahawa.ae</strong></a>
-          <a href="tel:8006666"><span>Toll-free support</span><strong>8006666</strong></a>
-          <div class="uae-origin"><div class="footer-flag"></div><span>Product of the United Arab Emirates</span></div>
-        </div>
-      </div>
-    </section>
+    <section class="full-section" id="product"><div class="section-bg"></div><div class="full-inner reveal"><div class="section-copy"><div class="section-kicker">Product System</div><h2>Hydrogen Water, <span>engineered from air</span></h2><p>Ma Hawa Hydrogen Water is a 450 ml premium aluminum bottle generated from air, purified, mineralized, and activated with hydrogen for a clean active lifestyle.</p></div><div class="glass-panel product-panel"><div class="hud-orbit orbit-a"></div><div class="hud-orbit orbit-b"></div><div class="hud-core">H₂</div><div class="hud-pill p-a">450 ml</div><div class="hud-pill p-b">Zero sodium</div><div class="hud-pill p-c">Rich minerals</div></div></div></section>
+    <section class="full-section" id="process"><div class="section-bg"></div><div class="full-inner reveal"><div class="section-copy"><div class="section-kicker">Atmospheric Flow</div><h2>From moisture to <span>premium water</span></h2><p>A simplified technical flow showing the Ma Hawa story: capture moisture from air, purify it, balance minerals, then finish with hydrogen activation.</p></div><div class="glass-panel process-panel"><div class="process-step"><i>☁</i><strong>Capture</strong><small>Atmospheric moisture</small></div><div class="process-connector"></div><div class="process-step"><i>◇</i><strong>Purify</strong><small>Clean water path</small></div><div class="process-connector"></div><div class="process-step"><i>Mg</i><strong>Mineralize</strong><small>Balanced taste</small></div><div class="process-connector"></div><div class="process-step"><i>H₂</i><strong>Activate</strong><small>Hydrogen profile</small></div></div></div></section>
+    <section class="full-section" id="order"><div class="section-bg"></div><div class="full-inner reveal"><div class="section-copy"><div class="section-kicker">Order & Deployment</div><h2>Designed for <span>active spaces</span></h2><p>Built for gyms, wellness spaces, offices, events, bulk supply, and premium daily hydration routines.</p></div><div class="glass-panel deployment-grid"><div><i>🏋</i><span>Gyms</span></div><div><i>🌿</i><span>Wellness</span></div><div><i>💼</i><span>Offices</span></div><div><i>🎟</i><span>Events</span></div><div><i>📦</i><span>Bulk Orders</span></div><div><i>🏠</i><span>Daily Use</span></div></div></div></section>
+    <section class="full-section" id="contact"><div class="section-bg"></div><div class="full-inner reveal"><div class="section-copy"><div class="section-kicker">Buy Ma Hawa H₂</div><h2>Buy Directly <span>Online</span></h2><p>Purchase Ma Hawa Hydrogen Water through the official shop, or contact the team for gyms, offices, events, and business supply.</p></div><div class="glass-panel contact-console"><a href="https://shop.mahawa.ae" target="_blank" rel="noopener"><span>Buy online</span><strong>shop.mahawa.ae</strong></a><a href="https://www.mahawa.ae" target="_blank" rel="noopener"><span>Explore Ma Hawa</span><strong>www.mahawa.ae</strong></a><a href="tel:8006666"><span>Toll-free support</span><strong>8006666</strong></a><div class="uae-origin"><div class="footer-flag"></div><span>Product of the United Arab Emirates</span></div></div></div></section>
   </main>
-
-  <footer class="site-footer">
-    <div class="footer-bottom">
-      <span>© Ma Hawa Hydrogen Water. All rights reserved.</span>
-      <span>Baynunah Watergeneration Technologies SP LLC — Abu Dhabi, UAE</span>
-    </div>
-  </footer>
+  <footer class="site-footer"><div class="footer-bottom"><span>© Ma Hawa Hydrogen Water. All rights reserved.</span><span>Baynunah Watergeneration Technologies SP LLC — Abu Dhabi, UAE</span></div></footer>
 
   <script>
-    const stage = document.getElementById('experience');
-    const stageCopyLeft = document.getElementById('stageCopyLeft');
-    const stageCopyRight = document.getElementById('stageCopyRight');
-    const titleLeft = document.getElementById('stageTitleLeft');
-    const textLeft = document.getElementById('stageTextLeft');
-    const titleRight = document.getElementById('stageTitleRight');
-    const textRight = document.getElementById('stageTextRight');
     const sequenceFrame = document.getElementById('sequenceFrame');
+    const heroScroll = document.getElementById('experience');
+    const heroCopy = document.getElementById('heroCopy');
+    const heroTitle = document.getElementById('heroTitle');
+    const heroText = document.getElementById('heroText');
+    const heroProgressBar = document.getElementById('heroProgressBar');
     const navLinks = Array.from(document.querySelectorAll('.nav-link'));
-
     const totalFrames = 92;
     const frameRate = 7.5;
     const fallbackFrame = './assets/logo.svg';
-
-    function framePath(index) {
-      const frameNumber = String(index + 1).padStart(4, '0');
-      const seconds = (Math.round((index / frameRate) * 100) / 100).toFixed(2);
-      return `./assets/frames/frame_${frameNumber}_${seconds}s.webp`;
-    }
-
-    const imageSequence = Array.from({ length: totalFrames }, (_, index) => framePath(index));
-
-    const stations = [
-      { frame: 0, layout: 'left', leftTitle: 'Hydrogen-Activated <span>Hydration</span>', leftText: 'Pure water generated from air, enriched with minerals, and activated by hydrogen for a clean active lifestyle.' },
-      { frame: 39, layout: 'splitTitles', leftTitle: 'Generated <span>from Air</span>', leftText: '', rightTitle: 'Activated by <span>Hydrogen</span>', rightText: '' },
-      { frame: totalFrames - 1, layout: 'left', leftTitle: 'Scan. Order. <span>Refresh.</span>', leftText: 'Order directly through Ma Hawa online channels or contact us for gyms, offices, events, and bulk supply.' }
-    ];
-
     const preloaded = [];
     let currentFrameIndex = -1;
-    let currentStationIndex = 0;
-    let isAnimatingFrames = false;
+    let displayedFrame = 0;
+    let targetFrame = 0;
+    let frameTicking = false;
     let navTicking = false;
-    let textTimer = null;
-    let wheelAccumulator = 0;
-    const wheelThreshold = 35;
+    let activeCopy = 'start';
 
-    function preloadFrames() {
-      imageSequence.forEach((src, index) => {
-        const img = new Image();
-        img.src = src;
-        img.onload = () => { preloaded[index] = src; };
-        img.onerror = () => { console.error('Missing frame:', src); preloaded[index] = fallbackFrame; };
-      });
-    }
-
+    function framePath(index) { const frameNumber = String(index + 1).padStart(4, '0'); const seconds = (Math.round((index / frameRate) * 100) / 100).toFixed(2); return `./assets/frames/frame_${frameNumber}_${seconds}s.webp`; }
+    const imageSequence = Array.from({ length: totalFrames }, (_, index) => framePath(index));
+    function preloadFrames() { imageSequence.forEach((src, index) => { const img = new Image(); img.src = src; img.onload = () => { preloaded[index] = src; }; img.onerror = () => { console.error('Missing frame:', src); preloaded[index] = fallbackFrame; }; }); }
     function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
     function smootherstep(t) { return t * t * t * (t * (t * 6 - 15) + 10); }
-
-    function setFrame(index) {
-      const safeIndex = clamp(Math.round(index), 0, totalFrames - 1);
-      if (safeIndex === currentFrameIndex && sequenceFrame.src) return;
-      currentFrameIndex = safeIndex;
-      sequenceFrame.src = preloaded[safeIndex] || imageSequence[safeIndex];
-    }
-
-    function setStationText(index) {
-      const station = stations[index];
-      clearTimeout(textTimer);
-
-      stageCopyLeft.classList.add('is-changing');
-      stageCopyRight.classList.add('is-changing');
-
-      textTimer = window.setTimeout(() => {
-        titleLeft.innerHTML = station.leftTitle || '';
-        textLeft.textContent = station.leftText || '';
-        titleRight.innerHTML = station.rightTitle || '';
-        textRight.textContent = station.rightText || '';
-
-        stageCopyLeft.classList.toggle('is-hidden', !station.leftTitle && !station.leftText);
-        stageCopyRight.classList.toggle('is-hidden', station.layout !== 'splitTitles');
-
-        stageCopyLeft.classList.remove('is-changing');
-        stageCopyRight.classList.remove('is-changing');
-        stageCopyLeft.classList.add('is-entering');
-        stageCopyRight.classList.add('is-entering');
-      }, 260);
-    }
-
-    function animateToStation(nextStationIndex) {
-      if (isAnimatingFrames || nextStationIndex === currentStationIndex) return;
-
-      const fromFrame = stations[currentStationIndex].frame;
-      const toFrame = stations[nextStationIndex].frame;
-      const startTime = performance.now();
-      const duration = 1050;
-
-      isAnimatingFrames = true;
-      currentStationIndex = nextStationIndex;
-      setStationText(nextStationIndex);
-
-      function step(now) {
-        const elapsed = now - startTime;
-        const t = clamp(elapsed / duration, 0, 1);
-        const eased = smootherstep(t);
-        setFrame(fromFrame + (toFrame - fromFrame) * eased);
-
-        if (t < 1) requestAnimationFrame(step);
-        else {
-          setFrame(toFrame);
-          isAnimatingFrames = false;
-        }
-      }
-
-      requestAnimationFrame(step);
-    }
-
-    function isStageAligned() {
-      const rect = stage.getBoundingClientRect();
-      const tolerance = 10;
-      return rect.top <= tolerance && rect.bottom >= window.innerHeight - tolerance;
-    }
-
-    function handleWheel(event) {
-      if (!isStageAligned()) return;
-
-      const direction = Math.sign(event.deltaY);
-      if (direction === 0) return;
-
-      if (direction > 0 && currentStationIndex === stations.length - 1) return;
-      if (direction < 0 && currentStationIndex === 0) return;
-
-      event.preventDefault();
-      if (isAnimatingFrames) return;
-
-      wheelAccumulator += event.deltaY;
-      if (Math.abs(wheelAccumulator) < wheelThreshold) return;
-
-      const nextDirection = Math.sign(wheelAccumulator);
-      wheelAccumulator = 0;
-
-      if (nextDirection > 0 && currentStationIndex < stations.length - 1) animateToStation(currentStationIndex + 1);
-      else if (nextDirection < 0 && currentStationIndex > 0) animateToStation(currentStationIndex - 1);
-    }
-
-    function setActiveNav() {
-      const sections = ['experience', 'product', 'process', 'order', 'contact'];
-      let active = 'experience';
-
-      sections.forEach((id) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.35 && rect.bottom >= window.innerHeight * 0.35) active = id;
-      });
-
-      navLinks.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === `#${active}`));
-      navTicking = false;
-    }
-
-    function requestNavUpdate() {
-      if (!navTicking) {
-        requestAnimationFrame(setActiveNav);
-        navTicking = true;
-      }
-    }
-
-    function initRevealAnimations() {
-      const revealTargets = document.querySelectorAll('.reveal');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('is-visible');
-        });
-      }, { threshold: 0.22 });
-      revealTargets.forEach((el) => observer.observe(el));
-    }
-
-    sequenceFrame.addEventListener('error', () => {
-      console.error('Displayed frame failed:', sequenceFrame.src);
-      sequenceFrame.src = fallbackFrame;
-      sequenceFrame.style.objectFit = 'contain';
-      sequenceFrame.style.padding = '18vh 18vw';
-      sequenceFrame.style.background = 'radial-gradient(circle at center, rgba(103,173,222,.16), #01040C 58%)';
-    });
-
-    preloadFrames();
-    setFrame(stations[0].frame);
-    setStationText(0);
-    initRevealAnimations();
-
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('scroll', requestNavUpdate, { passive: true });
-    window.addEventListener('resize', requestNavUpdate);
-    requestNavUpdate();
+    function setFrame(index) { const safeIndex = clamp(Math.round(index), 0, totalFrames - 1); if (safeIndex === currentFrameIndex && sequenceFrame.src) return; currentFrameIndex = safeIndex; sequenceFrame.src = preloaded[safeIndex] || imageSequence[safeIndex]; }
+    function getHeroProgress() { const rect = heroScroll.getBoundingClientRect(); const travel = Math.max(1, rect.height - window.innerHeight); return clamp(-rect.top / travel, 0, 1); }
+    function setHeroCopy(key, title, text) { if (activeCopy === key) return; activeCopy = key; heroCopy.classList.add('is-changing'); window.setTimeout(() => { heroTitle.innerHTML = title; heroText.textContent = text; heroCopy.classList.remove('is-changing'); heroCopy.classList.add('is-entering'); }, 220); }
+    function updateHero() { const progress = getHeroProgress(); const eased = smootherstep(progress); targetFrame = eased * (totalFrames - 1); if (heroProgressBar) heroProgressBar.style.width = `${progress * 100}%`; if (progress < 0.34) { setHeroCopy('start', 'Hydrogen-Activated <span>Hydration</span>', 'Pure water generated from air, enriched with minerals, and activated by hydrogen for a clean active lifestyle.'); } else if (progress < 0.72) { setHeroCopy('middle', 'Generated <span>from Air</span>', 'Atmospheric water generation transforms moisture into premium drinking water through a clean technical process.'); } else { setHeroCopy('end', 'Buy Directly <span>Online</span>', 'Purchase through shop.mahawa.ae or contact Ma Hawa for gyms, offices, events, and business supply.'); } }
+    function animateFrame() { updateHero(); displayedFrame += (targetFrame - displayedFrame) * 0.18; if (Math.abs(targetFrame - displayedFrame) < 0.06) displayedFrame = targetFrame; setFrame(displayedFrame); if (Math.abs(targetFrame - displayedFrame) > 0.06) { requestAnimationFrame(animateFrame); } else { frameTicking = false; } }
+    function requestFrameUpdate() { if (!frameTicking) { requestAnimationFrame(animateFrame); frameTicking = true; } }
+    function setActiveNav() { const sections = ['product', 'process', 'order', 'contact']; let active = 'product'; sections.forEach((id) => { const el = document.getElementById(id); if (!el) return; const rect = el.getBoundingClientRect(); if (rect.top <= window.innerHeight * 0.38 && rect.bottom >= window.innerHeight * 0.38) active = id; }); navLinks.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === `#${active}`)); navTicking = false; }
+    function requestNavUpdate() { if (!navTicking) { requestAnimationFrame(setActiveNav); navTicking = true; } }
+    function initRevealAnimations() { const revealTargets = document.querySelectorAll('.reveal'); const observer = new IntersectionObserver((entries) => { entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('is-visible'); }); }, { threshold: 0.18 }); revealTargets.forEach((el, index) => { if (index % 3 === 1) el.classList.add('reveal-delay-1'); if (index % 3 === 2) el.classList.add('reveal-delay-2'); observer.observe(el); }); }
+    sequenceFrame.addEventListener('error', () => { console.error('Displayed frame failed:', sequenceFrame.src); sequenceFrame.src = fallbackFrame; sequenceFrame.style.objectFit = 'contain'; sequenceFrame.style.padding = '18vh 18vw'; sequenceFrame.style.background = 'radial-gradient(circle at center, rgba(103,173,222,.16), #01040C 58%)'; });
+    preloadFrames(); setFrame(0); updateHero(); initRevealAnimations();
+    window.addEventListener('scroll', () => { requestFrameUpdate(); requestNavUpdate(); }, { passive: true });
+    window.addEventListener('resize', () => { requestFrameUpdate(); requestNavUpdate(); });
+    requestFrameUpdate(); requestNavUpdate();
   </script>
 </body>
 </html>
