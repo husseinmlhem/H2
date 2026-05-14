@@ -3,34 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ma Hawa Hydrogen Water — Scroll Experience</title>
+  <title>Ma Hawa H₂ — Hydrogen Water Scroll Experience</title>
+
   <style>
     :root {
-      --bg: #01040C;
-      --bg-2: #041224;
-      --blue: #67ADDE;
-      --blue-deep: #075B9F;
-      --cyan: #9CE8FF;
-      --ice: #E7F8FF;
-      --white: #FFFFFF;
-      --muted: #8AA8BA;
+      --bg: #01040c;
+      --bg2: #041224;
+      --blue: #67adde;
+      --cyan: #9ce8ff;
+      --ice: #e7f8ff;
+      --muted: #8aa8ba;
       --line: rgba(103, 173, 222, 0.34);
-      --glass: rgba(255, 255, 255, 0.065);
-      --glass-2: rgba(103, 173, 222, 0.11);
-      --shadow: 0 34px 120px rgba(0, 0, 0, 0.68);
+      --glass: rgba(255, 255, 255, 0.06);
+      --darkGlass: rgba(1, 9, 20, 0.58);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    html { scroll-behavior: smooth; background: var(--bg); }
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg);
+    }
 
     body {
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      color: var(--white);
-      background:
-        radial-gradient(circle at 75% 12%, rgba(103, 173, 222, 0.24), transparent 28%),
-        radial-gradient(circle at 12% 26%, rgba(0, 118, 190, 0.16), transparent 32%),
-        linear-gradient(180deg, #00030A 0%, #041122 48%, #01040C 100%);
+      color: #fff;
+      background: #01040c;
       overflow-x: hidden;
     }
 
@@ -40,71 +42,39 @@
       inset: 0;
       pointer-events: none;
       z-index: 0;
-      background-image:
-        linear-gradient(rgba(103,173,222,.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(103,173,222,.045) 1px, transparent 1px),
-        radial-gradient(circle at 50% 50%, rgba(103,173,222,.08), transparent 38%);
-      background-size: 54px 54px, 54px 54px, 100% 100%;
-      mask-image: radial-gradient(circle at 50% 20%, black, transparent 78%);
-    }
-
-    body::after {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-      opacity: .3;
       background:
-        linear-gradient(180deg, transparent 0 48%, rgba(103,173,222,.08) 49%, transparent 50%),
-        repeating-linear-gradient(90deg, transparent 0 80px, rgba(103,173,222,.035) 81px, transparent 82px);
-      mix-blend-mode: screen;
+        radial-gradient(circle at 75% 15%, rgba(103, 173, 222, 0.24), transparent 30%),
+        radial-gradient(circle at 12% 28%, rgba(0, 118, 190, 0.16), transparent 34%),
+        linear-gradient(rgba(103,173,222,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(103,173,222,.04) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 56px 56px, 56px 56px;
+      opacity: 0.9;
+      mask-image: radial-gradient(circle at 50% 20%, black, transparent 82%);
     }
 
     .noise {
       position: fixed;
       inset: 0;
       pointer-events: none;
-      opacity: 0.09;
+      opacity: 0.08;
       z-index: 2;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.45'/%3E%3C/svg%3E");
     }
 
-    .orb {
-      position: fixed;
-      border-radius: 999px;
-      pointer-events: none;
-      filter: blur(1px);
-      opacity: 0.55;
-      z-index: 0;
-      animation: floatOrb 11s ease-in-out infinite alternate;
+    .page {
+      position: relative;
+      z-index: 3;
     }
 
-    .orb.one {
-      width: 310px;
-      height: 310px;
-      top: 7vh;
-      right: 8vw;
-      background: radial-gradient(circle, rgba(103,173,222,.36), transparent 68%);
+    /* ===============================
+       FULLSCREEN SCROLL FRAMES SECTION
+       =============================== */
+
+    .scroll-stage {
+      height: 780vh;
+      position: relative;
+      background: #01040c;
     }
-
-    .orb.two {
-      width: 210px;
-      height: 210px;
-      bottom: 12vh;
-      left: 7vw;
-      background: radial-gradient(circle, rgba(156,232,255,.13), transparent 68%);
-      animation-delay: -3s;
-    }
-
-    @keyframes floatOrb {
-      from { transform: translate3d(0, 0, 0) scale(1); }
-      to { transform: translate3d(34px, -28px, 0) scale(1.08); }
-    }
-
-    .page { position: relative; z-index: 3; }
-
-    .scroll-stage { height: 760vh; position: relative; }
 
     .pin {
       position: sticky;
@@ -112,8 +82,7 @@
       width: 100vw;
       height: 100vh;
       overflow: hidden;
-      display: block;
-      background: #01040C;
+      background: #01040c;
       isolation: isolate;
     }
 
@@ -121,14 +90,11 @@
       content: "";
       position: absolute;
       inset: 0;
+      z-index: 5;
       pointer-events: none;
       background:
-        radial-gradient(circle at 72% 48%, transparent 0 23%, rgba(103,173,222,.18) 23.2% 23.5%, transparent 24%),
-        radial-gradient(circle at 72% 48%, transparent 0 34%, rgba(103,173,222,.09) 34.2% 34.5%, transparent 35%),
-        repeating-conic-gradient(from 18deg at 72% 48%, rgba(103,173,222,.23) 0deg 1deg, transparent 1deg 12deg);
-      opacity: .38;
-      mask-image: radial-gradient(circle at 72% 48%, black 0 40%, transparent 56%);
-      animation: slowSpin 26s linear infinite;
+        linear-gradient(90deg, rgba(1,4,12,.96) 0%, rgba(1,4,12,.74) 25%, rgba(1,4,12,.28) 52%, rgba(1,4,12,.16) 100%),
+        radial-gradient(circle at 72% 50%, rgba(103,173,222,.11), transparent 44%);
     }
 
     .pin::after {
@@ -138,28 +104,158 @@
       right: 0;
       bottom: -1px;
       height: 34vh;
-      z-index: 5;
+      z-index: 8;
       pointer-events: none;
-      background: linear-gradient(180deg, rgba(1,4,12,0) 0%, rgba(1,4,12,.58) 58%, #01040C 100%);
+      background: linear-gradient(180deg, rgba(1,4,12,0) 0%, rgba(1,4,12,.66) 58%, #01040c 100%);
     }
-
-    @keyframes slowSpin { to { transform: rotate(360deg); } }
 
     .frame-shell {
       width: 100vw;
       height: 100vh;
-      display: block;
       position: relative;
+    }
+
+    .visual-zone,
+    .webpage-stack {
+      position: absolute;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .webpage-shot {
+      position: absolute;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      object-position: center center;
+      opacity: 0;
+      transform: scale(1.08);
+      filter: saturate(.86) brightness(.72) blur(.2px);
+      transition:
+        opacity .55s ease,
+        transform 1.1s cubic-bezier(.2,.8,.2,1),
+        filter .55s ease;
+    }
+
+    .webpage-shot.active {
+      opacity: 1;
+      transform: scale(1);
+      filter: saturate(1.08) brightness(.9) blur(0);
+    }
+
+    .webpage-shot.preload {
+      opacity: 0;
+      transform: scale(1.05);
+      filter: saturate(.7) brightness(.55) blur(1.4px);
+    }
+
+    .webpage-stack::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 18%;
+      height: 2px;
+      z-index: 9;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent, rgba(156,232,255,.55), transparent);
+      box-shadow: 0 0 28px rgba(103,173,222,.55);
+      animation: scan 3.2s ease-in-out infinite;
+      opacity: .36;
+    }
+
+    @keyframes scan {
+      0%, 100% { transform: translateY(-18vh); opacity: .08; }
+      50% { transform: translateY(72vh); opacity: .48; }
+    }
+
+    .hud-ring {
+      position: absolute;
+      width: min(820px, 58vw);
+      aspect-ratio: 1;
+      right: 6vw;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 7;
+      pointer-events: none;
+      border-radius: 50%;
+      background:
+        repeating-conic-gradient(from 0deg, rgba(103,173,222,.38) 0deg 2deg, transparent 2deg 11deg),
+        radial-gradient(circle, transparent 48%, rgba(103,173,222,.10) 49%, transparent 61%);
+      mask-image: radial-gradient(circle, transparent 44%, black 45%, black 70%, transparent 71%);
+      animation: rotate 18s linear infinite;
+      opacity: .66;
+    }
+
+    @keyframes rotate { to { transform: translateY(-50%) rotate(360deg); } }
+
+    .molecule-field {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .mol {
+      position: absolute;
+      width: 78px;
+      height: 34px;
+      opacity: .72;
+      filter: drop-shadow(0 0 18px rgba(103,173,222,.55));
+      animation: moleculeFloat 7s ease-in-out infinite alternate;
+    }
+
+    .mol::before,
+    .mol::after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff, var(--cyan) 30%, #075b9f 70%);
+    }
+
+    .mol::before { left: 0; }
+    .mol::after { right: 0; }
+
+    .mol span {
+      position: absolute;
+      left: 26px;
+      top: 15px;
+      width: 28px;
+      height: 1px;
+      background: rgba(156,232,255,.76);
+      transform: rotate(-12deg);
+    }
+
+    .mol small {
+      position: absolute;
+      left: 25px;
+      top: -12px;
+      color: rgba(231,248,255,.8);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .mol.a { top: 12%; right: 9%; }
+    .mol.b { top: 62%; right: 47%; transform: scale(.72) rotate(-8deg); animation-delay: -2s; }
+    .mol.c { bottom: 13%; right: 18%; transform: scale(.58) rotate(16deg); animation-delay: -4s; }
+
+    @keyframes moleculeFloat {
+      from { translate: 0 0; }
+      to { translate: 18px -28px; }
     }
 
     .stage-copy {
       position: absolute;
-      z-index: 8;
+      z-index: 12;
       left: clamp(28px, 5vw, 86px);
       top: 50%;
       transform: translateY(-50%);
       width: min(620px, 42vw);
-      padding: 0;
       pointer-events: none;
     }
 
@@ -202,9 +298,7 @@
         drop-shadow(0 0 26px rgba(103,173,222,.25));
     }
 
-    .brand-row span {
-      display: none;
-    }
+    .brand-row span { display: none; }
 
     .kicker {
       display: inline-flex;
@@ -223,7 +317,13 @@
       box-shadow: inset 0 0 28px rgba(103,173,222,.06);
     }
 
-    .dot { width: 7px; height: 7px; background: var(--cyan); border-radius: 99px; box-shadow: 0 0 20px var(--cyan); }
+    .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--cyan);
+      border-radius: 99px;
+      box-shadow: 0 0 20px var(--cyan);
+    }
 
     .stage-title {
       font-size: clamp(58px, 7.4vw, 112px);
@@ -235,9 +335,18 @@
       text-shadow: 0 24px 80px rgba(0,0,0,.42);
     }
 
-    .stage-title span { display: block; color: var(--blue); text-shadow: 0 0 42px rgba(103,173,222,.3); }
+    .stage-title span {
+      display: block;
+      color: var(--blue);
+      text-shadow: 0 0 42px rgba(103,173,222,.3);
+    }
 
-    .stage-text { max-width: 560px; color: rgba(255,255,255,.78); font-size: clamp(19px, 1.7vw, 25px); line-height: 1.55; }
+    .stage-text {
+      max-width: 560px;
+      color: rgba(255,255,255,.78);
+      font-size: clamp(19px, 1.7vw, 25px);
+      line-height: 1.55;
+    }
 
     .stage-line {
       width: min(430px, 84%);
@@ -255,11 +364,16 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: var(--white);
+      background: #fff;
       box-shadow: 0 0 22px var(--blue);
     }
 
-    .stage-mini { display: flex; flex-wrap: wrap; gap: 10px; max-width: 560px; }
+    .stage-mini {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      max-width: 560px;
+    }
 
     .pill {
       border: 1px solid var(--line);
@@ -286,168 +400,9 @@
       box-shadow: inset 0 0 35px rgba(103,173,222,.045);
     }
 
-    .terminal b { color: var(--cyan); font-weight: 700; }
-
-    .visual-zone {
-      position: absolute;
-      inset: 0;
-      height: 100vh;
-      width: 100vw;
-      display: block;
-      perspective: 1400px;
-      z-index: 2;
-    }
-
-    .webpage-stack {
-      position: absolute;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      aspect-ratio: auto;
-      transform-style: preserve-3d;
-    }
-
-    .webpage-shot {
-      position: absolute;
-      inset: 0;
-      object-fit: cover;
-      object-position: center center;
-      width: 100vw;
-      height: 100vh;
-      border-radius: 0;
-      border: 0;
-      box-shadow: none;
-      opacity: 0;
-      transform: scale(1.08);
-      transition: opacity .7s ease, transform 1.15s cubic-bezier(.2,.8,.2,1), filter .55s ease;
-      filter: saturate(.85) brightness(.72) blur(.25px);
-    }
-
-    .webpage-shot::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-    }
-
-    .webpage-shot.active {
-      opacity: 1;
-      transform: scale(1);
-      filter: saturate(1.08) brightness(.9) blur(0);
-    }
-
-    .webpage-shot.preload {
-      opacity: 0;
-      transform: scale(1.06);
-      filter: saturate(.75) brightness(.55) blur(1.5px);
-    }
-
-    .webpage-stack::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 4;
-      pointer-events: none;
-      background:
-        linear-gradient(90deg, rgba(1,4,12,.92) 0%, rgba(1,4,12,.68) 22%, rgba(1,4,12,.22) 46%, rgba(1,4,12,.15) 100%),
-        radial-gradient(circle at 72% 50%, rgba(103,173,222,.08), transparent 42%);
-    }
-
-    .webpage-stack::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 18%;
-      height: 2px;
-      z-index: 6;
-      background: linear-gradient(90deg, transparent, rgba(156,232,255,.55), transparent);
-      box-shadow: 0 0 28px rgba(103,173,222,.5);
-      animation: scan 3.2s ease-in-out infinite;
-      pointer-events: none;
-      opacity: .38;
-    }
-
-    @keyframes scan {
-      0%, 100% { transform: translateY(-18vh); opacity: .08; }
-      50% { transform: translateY(72vh); opacity: .48; }
-    }
-
-    .hud-ring {
-      position: absolute;
-      width: min(820px, 58vw);
-      aspect-ratio: 1;
-      right: 6vw;
-      top: 50%;
-      transform: translateY(-50%);
-      border-radius: 50%;
-      border: 1px solid rgba(103,173,222,.14);
-      background:
-        repeating-conic-gradient(from 0deg, rgba(103,173,222,.38) 0deg 2deg, transparent 2deg 11deg),
-        radial-gradient(circle, transparent 48%, rgba(103,173,222,.10) 49%, transparent 61%);
-      mask-image: radial-gradient(circle, transparent 44%, black 45%, black 70%, transparent 71%);
-      animation: rotate 18s linear infinite;
-      opacity: .68;
-      z-index: 3;
-      pointer-events: none;
-    }
-
-    @keyframes rotate { to { transform: rotate(360deg); } }
-
-    .molecule-field {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 7;
-    }
-
-    .mol {
-      position: absolute;
-      width: 78px;
-      height: 34px;
-      opacity: .75;
-      filter: drop-shadow(0 0 18px rgba(103,173,222,.55));
-      animation: moleculeFloat 7s ease-in-out infinite alternate;
-    }
-
-    .mol::before, .mol::after {
-      content: "";
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fff, var(--cyan) 30%, var(--blue-deep) 70%);
-      top: 6px;
-    }
-
-    .mol::before { left: 0; }
-    .mol::after { right: 0; }
-
-    .mol span {
-      position: absolute;
-      left: 26px;
-      top: 15px;
-      width: 28px;
-      height: 1px;
-      background: rgba(156,232,255,.76);
-      transform: rotate(-12deg);
-    }
-
-    .mol small {
-      position: absolute;
-      left: 25px;
-      top: -12px;
-      color: rgba(231,248,255,.8);
-      font-size: 12px;
-      font-weight: 800;
-    }
-
-    .mol.a { top: 12%; right: 9%; }
-    .mol.b { top: 62%; right: 47%; transform: scale(.72) rotate(-8deg); animation-delay: -2s; }
-    .mol.c { bottom: 13%; right: 18%; transform: scale(.58) rotate(16deg); animation-delay: -4s; }
-
-    @keyframes moleculeFloat {
-      from { translate: 0 0; }
-      to { translate: 18px -28px; }
+    .terminal b {
+      color: var(--cyan);
+      font-weight: 700;
     }
 
     .progress {
@@ -460,7 +415,7 @@
       border-radius: 999px;
       background: rgba(255,255,255,.08);
       overflow: hidden;
-      z-index: 10;
+      z-index: 15;
     }
 
     .progress-bar {
@@ -471,13 +426,16 @@
       box-shadow: 0 0 24px rgba(103,173,222,.88);
     }
 
+    /* ===============================
+       DETAILS SECTION
+       =============================== */
+
     .details {
       position: relative;
       overflow: hidden;
       margin-top: -1px;
       padding: clamp(120px, 13vw, 190px) clamp(20px, 5vw, 86px);
-      background:
-        linear-gradient(180deg, #01040C 0%, #01040C 8%, #06182E 42%, #01040C 100%);
+      background: linear-gradient(180deg, #01040c 0%, #01040c 8%, #06182e 42%, #01040c 100%);
     }
 
     .details::before {
@@ -519,9 +477,21 @@
       transform: rotate(-8deg);
     }
 
-    .details-inner { position: relative; z-index: 2; max-width: 1260px; margin: 0 auto; }
+    .details-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1260px;
+      margin: 0 auto;
+    }
 
-    .section-kicker { color: var(--blue); letter-spacing: .22em; text-transform: uppercase; font-size: 13px; font-weight: 850; margin-bottom: 16px; }
+    .section-kicker {
+      color: var(--blue);
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      font-size: 13px;
+      font-weight: 850;
+      margin-bottom: 16px;
+    }
 
     .details-hero {
       display: grid;
@@ -531,15 +501,28 @@
       margin-bottom: 86px;
     }
 
-    .details h2 { font-size: clamp(48px, 6.2vw, 98px); line-height: .94; letter-spacing: -0.06em; margin-bottom: 24px; }
+    .details h2 {
+      font-size: clamp(48px, 6.2vw, 98px);
+      line-height: .94;
+      letter-spacing: -0.06em;
+      margin-bottom: 24px;
+    }
+
     .details h2 span { color: var(--blue); }
 
-    .lead { color: rgba(255,255,255,.76); font-size: clamp(18px, 1.55vw, 23px); line-height: 1.62; max-width: 740px; }
+    .lead {
+      color: rgba(255,255,255,.76);
+      font-size: clamp(18px, 1.55vw, 23px);
+      line-height: 1.62;
+      max-width: 740px;
+    }
 
-    .tech-card, .feature, .step, .company-band {
+    .tech-card,
+    .feature,
+    .step,
+    .company-band {
       border: 1px solid var(--line);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.028));
+      background: linear-gradient(180deg, rgba(255,255,255,.075), rgba(255,255,255,.028));
       backdrop-filter: blur(18px);
       box-shadow: 0 26px 90px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.025);
     }
@@ -551,27 +534,53 @@
       overflow: hidden;
     }
 
-    .tech-card::before, .feature::before {
-      content: "";
-      position: absolute;
-      inset: -1px;
-      background: linear-gradient(120deg, rgba(103,173,222,.34), transparent 38%, rgba(255,255,255,.08));
-      opacity: .32;
-      pointer-events: none;
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 30px;
     }
 
-    .tech-card > *, .feature > * { position: relative; z-index: 2; }
+    .stat {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(103,173,222,.24);
+      background: rgba(1, 8, 18, .45);
+    }
 
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; }
+    .stat strong {
+      display: block;
+      color: #fff;
+      font-size: 30px;
+      margin-bottom: 6px;
+    }
 
-    .stat { padding: 18px; border-radius: 20px; border: 1px solid rgba(103,173,222,.24); background: rgba(1, 8, 18, .45); }
-    .stat strong { display: block; color: var(--white); font-size: 30px; margin-bottom: 6px; }
-    .stat span { color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
 
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 34px 0 86px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin: 34px 0 86px;
+    }
 
-    .feature { min-height: 235px; border-radius: 30px; padding: 29px; position: relative; overflow: hidden; transition: transform .28s ease, border-color .28s ease, background .28s ease; }
-    .feature:hover { transform: translateY(-8px); border-color: rgba(103,173,222,.7); }
+    .feature {
+      min-height: 235px;
+      border-radius: 30px;
+      padding: 29px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .28s ease, border-color .28s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-8px);
+      border-color: rgba(103,173,222,.7);
+    }
 
     .feature-icon {
       width: 56px;
@@ -588,14 +597,49 @@
       font-weight: 850;
     }
 
-    .feature h3 { font-size: 24px; margin-bottom: 12px; letter-spacing: -0.025em; }
-    .feature p { color: rgba(255,255,255,.68); line-height: 1.55; font-size: 15.5px; }
+    .feature h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
+      letter-spacing: -0.025em;
+    }
 
-    .process { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-bottom: 86px; }
-    .step { border-radius: 30px; padding: 30px; background: rgba(103,173,222,.055); }
-    .step-number { color: var(--blue); font-size: 13px; letter-spacing: .22em; text-transform: uppercase; margin-bottom: 16px; font-weight: 850; }
-    .step h3 { font-size: 26px; margin-bottom: 10px; }
-    .step p { color: rgba(255,255,255,.68); line-height: 1.55; }
+    .feature p {
+      color: rgba(255,255,255,.68);
+      line-height: 1.55;
+      font-size: 15.5px;
+    }
+
+    .process {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 86px;
+    }
+
+    .step {
+      border-radius: 30px;
+      padding: 30px;
+      background: rgba(103,173,222,.055);
+    }
+
+    .step-number {
+      color: var(--blue);
+      font-size: 13px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      font-weight: 850;
+    }
+
+    .step h3 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      color: rgba(255,255,255,.68);
+      line-height: 1.55;
+    }
 
     .company-band {
       display: grid;
@@ -606,20 +650,57 @@
       padding: clamp(28px, 4vw, 50px);
     }
 
-    .company-band h3 { font-size: clamp(30px, 3vw, 48px); letter-spacing: -0.045em; margin-bottom: 14px; }
-    .company-band p { color: rgba(255,255,255,.72); line-height: 1.6; max-width: 850px; font-size: 17px; }
+    .company-band h3 {
+      font-size: clamp(30px, 3vw, 48px);
+      letter-spacing: -0.045em;
+      margin-bottom: 14px;
+    }
 
-    .flag-card { min-width: 220px; border-radius: 24px; padding: 22px; border: 1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.28); text-align: center; }
-    .flag { width: 96px; height: 50px; margin: 0 auto 14px; box-shadow: 0 14px 30px rgba(0,0,0,.38); background: linear-gradient(90deg, #D71920 0 25%, transparent 25% 100%), linear-gradient(180deg, #00732F 0 33.333%, #FFFFFF 33.333% 66.666%, #000000 66.666% 100%); }
-    .flag-card span { color: var(--ice); font-weight: 750; line-height: 1.35; display: block; }
+    .company-band p {
+      color: rgba(255,255,255,.72);
+      line-height: 1.6;
+      max-width: 850px;
+      font-size: 17px;
+    }
 
-    .footer { padding: 38px 20px 52px; text-align: center; color: var(--muted); border-top: 1px solid rgba(103,173,222,.14); background: #01040C; }
+    .flag-card {
+      min-width: 220px;
+      border-radius: 24px;
+      padding: 22px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.28);
+      text-align: center;
+    }
+
+    .flag {
+      width: 96px;
+      height: 50px;
+      margin: 0 auto 14px;
+      box-shadow: 0 14px 30px rgba(0,0,0,.38);
+      background:
+        linear-gradient(90deg, #d71920 0 25%, transparent 25% 100%),
+        linear-gradient(180deg, #00732f 0 33.333%, #fff 33.333% 66.666%, #000 66.666% 100%);
+    }
+
+    .flag-card span {
+      color: var(--ice);
+      font-weight: 750;
+      line-height: 1.35;
+      display: block;
+    }
+
+    .footer {
+      padding: 38px 20px 52px;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid rgba(103,173,222,.14);
+      background: #01040c;
+    }
+
     .footer strong { color: var(--blue); }
 
     @media (max-width: 900px) {
-      .frame-shell, .details-hero, .company-band { grid-template-columns: 1fr; }
-      .pin { height: 100vh; min-height: 100vh; padding: 0; }
-      .scroll-stage { height: 420vh; }
+      .scroll-stage { height: 520vh; }
       .stage-copy {
         left: 24px;
         right: 24px;
@@ -628,27 +709,46 @@
         bottom: 84px;
         transform: none;
       }
-      .webpage-stack { width: 100vw; height: 100vh; }
-      .webpage-shot { position: absolute; display: block; opacity: 0; transform: scale(1.08); }
-      .webpage-shot.active { opacity: 1 !important; transform: scale(1) !important; }
-      .progress { width: 72vw; bottom: 28px; }
-      .grid, .process, .stats { grid-template-columns: 1fr; }
-      .stage-title { font-size: clamp(48px, 12vw, 82px); }
+
+      .stage-title {
+        font-size: clamp(48px, 12vw, 82px);
+      }
+
       .terminal { display: none; }
+      .details-hero,
+      .grid,
+      .process,
+      .stats,
+      .company-band {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="noise"></div>
-  <div class="orb one"></div>
-  <div class="orb two"></div>
 
   <main class="page">
     <section class="scroll-stage" id="scrollStage">
       <div class="pin">
         <div class="frame-shell">
+          <div class="visual-zone">
+            <div class="webpage-stack" id="webpageStack"></div>
+            <div class="hud-ring"></div>
+            <div class="molecule-field">
+              <div class="mol a"><span></span><small>H₂</small></div>
+              <div class="mol b"><span></span><small>H₂</small></div>
+              <div class="mol c"><span></span><small>H₂</small></div>
+            </div>
+          </div>
+
           <div class="stage-copy">
-            <div class="brand-row"><img class="brand-logo" src="assets/logo.svg" alt="Ma Hawa logo" /> <span>MA HAWA H₂</span></div>
+            <div class="brand-row">
+              <img class="brand-logo" src="./assets/logo.svg" alt="Ma Hawa logo" />
+              <span>MA HAWA H₂</span>
+            </div>
+
             <div class="kicker"><span class="dot"></span><span id="stageKicker">HYDROGEN WATER</span></div>
             <h1 class="stage-title" id="stageTitle">Hydrogen-Activated <span>Hydration</span></h1>
             <p class="stage-text" id="stageText">A cinematic product story for premium water generated from air, enriched with minerals, and crafted for active lifestyles.</p>
@@ -664,24 +764,8 @@
               <div><b>OUTPUT</b> // premium hydration experience</div>
             </div>
           </div>
-
-          <div class="visual-zone">
-            <div class="molecule-field">
-              <div class="mol a"><span></span><small>H₂</small></div>
-              <div class="mol b"><span></span><small>H₂</small></div>
-              <div class="mol c"><span></span><small>H₂</small></div>
-            </div>
-            <div class="hud-ring"></div>
-            <div class="webpage-stack" id="webpageStack">
-              <!-- Default placeholder paths. Replace later with your final image sequence. -->
-              <!-- Recommended naming: assets/frames/frame-001.png, frame-002.png, frame-003.png ... -->
-              <img class="webpage-shot active" src="assets/frames/frame-001.png" alt="Ma Hawa frame 001" />
-              <img class="webpage-shot" src="assets/frames/frame-002.png" alt="Ma Hawa frame 002" />
-              <img class="webpage-shot" src="assets/frames/frame-003.png" alt="Ma Hawa frame 003" />
-              <img class="webpage-shot" src="assets/frames/frame-004.png" alt="Ma Hawa frame 004" />
-            </div>
-          </div>
         </div>
+
         <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
       </div>
     </section>
@@ -709,55 +793,19 @@
 
         <div class="section-kicker">CORE BENEFITS</div>
         <div class="grid">
-          <article class="feature">
-            <div class="feature-icon">H₂</div>
-            <h3>Hydrogen Activated</h3>
-            <p>Designed around a clean, modern hydrogen-water positioning with a refreshing, smooth drinking experience.</p>
-          </article>
-          <article class="feature">
-            <div class="feature-icon">☁</div>
-            <h3>Generated from Air</h3>
-            <p>Produced through atmospheric water generation: moisture in the air is transformed into drinking water.</p>
-          </article>
-          <article class="feature">
-            <div class="feature-icon">◈</div>
-            <h3>Rich in Minerals</h3>
-            <p>Mineralized for a balanced taste profile suitable for everyday premium hydration.</p>
-          </article>
-          <article class="feature">
-            <div class="feature-icon">Na</div>
-            <h3>Zero Sodium</h3>
-            <p>A sodium-free hydration option for people who prefer a lighter, cleaner water choice.</p>
-          </article>
-          <article class="feature">
-            <div class="feature-icon">0</div>
-            <h3>Zero Calories & No Sugar</h3>
-            <p>Pure refreshment without calories or added sugar, suitable for gym, wellness, and active routines.</p>
-          </article>
-          <article class="feature">
-            <div class="feature-icon">✦</div>
-            <h3>No Additives</h3>
-            <p>A clean formulation approach: no unnecessary additives, only premium water for daily use.</p>
-          </article>
+          <article class="feature"><div class="feature-icon">H₂</div><h3>Hydrogen Activated</h3><p>Designed around a clean, modern hydrogen-water positioning with a refreshing, smooth drinking experience.</p></article>
+          <article class="feature"><div class="feature-icon">☁</div><h3>Generated from Air</h3><p>Produced through atmospheric water generation: moisture in the air is transformed into drinking water.</p></article>
+          <article class="feature"><div class="feature-icon">◈</div><h3>Rich in Minerals</h3><p>Mineralized for a balanced taste profile suitable for everyday premium hydration.</p></article>
+          <article class="feature"><div class="feature-icon">Na</div><h3>Zero Sodium</h3><p>A sodium-free hydration option for people who prefer a lighter, cleaner water choice.</p></article>
+          <article class="feature"><div class="feature-icon">0</div><h3>Zero Calories & No Sugar</h3><p>Pure refreshment without calories or added sugar, suitable for gym, wellness, and active routines.</p></article>
+          <article class="feature"><div class="feature-icon">✦</div><h3>No Additives</h3><p>A clean formulation approach: no unnecessary additives, only premium water for daily use.</p></article>
         </div>
 
         <div class="section-kicker">FROM AIR TO WATER</div>
         <div class="process">
-          <div class="step">
-            <div class="step-number">STEP 01</div>
-            <h3>Capture Moisture</h3>
-            <p>Atmospheric water generation technology captures humidity from the surrounding air.</p>
-          </div>
-          <div class="step">
-            <div class="step-number">STEP 02</div>
-            <h3>Purify & Mineralize</h3>
-            <p>The water is purified and mineralized to deliver a clean, balanced drinking experience.</p>
-          </div>
-          <div class="step">
-            <div class="step-number">STEP 03</div>
-            <h3>Hydrogen-Activated</h3>
-            <p>The final product is positioned as a premium hydrogen water for active modern lifestyles.</p>
-          </div>
+          <div class="step"><div class="step-number">STEP 01</div><h3>Capture Moisture</h3><p>Atmospheric water generation technology captures humidity from the surrounding air.</p></div>
+          <div class="step"><div class="step-number">STEP 02</div><h3>Purify & Mineralize</h3><p>The water is purified and mineralized to deliver a clean, balanced drinking experience.</p></div>
+          <div class="step"><div class="step-number">STEP 03</div><h3>Hydrogen-Activated</h3><p>The final product is positioned as a premium hydrogen water for active modern lifestyles.</p></div>
         </div>
 
         <div class="company-band">
@@ -789,22 +837,31 @@
     const terminal = document.getElementById('stageTerminal');
 
     /*
-      Put your final scroll image sequence here later.
-      Keep the default path structure below, then only replace file names/count.
-      Example:
-      'assets/frames/frame-001.png',
-      'assets/frames/frame-002.png',
-      'assets/frames/frame-003.png'
+      Your frame files are inside:
+      ./assets/frames/
+
+      Naming pattern:
+      frame_0001_0.00s.webp
+      frame_0002_0.13s.webp
+      frame_0003_0.27s.webp
+      ...
+
+      IMPORTANT:
+      totalFrames = 92 because the render count starts from 0,
+      but your visible file naming starts from frame_0001.
     */
+
     const totalFrames = 92;
+    const frameRate = 7.5;
 
-    const imageSequence = Array.from({ length: totalFrames }, (_, index) => {
+    function framePath(index) {
       const frameNumber = String(index + 1).padStart(4, '0');
-      const seconds = (index * 0.1333333333).toFixed(2);
-      return `assets/frames/frame_${frameNumber}_${seconds}s.webp`;
-    });
+      const seconds = (Math.round((index / frameRate) * 100) / 100).toFixed(2);
+      return `./assets/frames/frame_${frameNumber}_${seconds}s.webp`;
+    }
 
-    const fallbackFrame = 'assets/logo.svg';
+    const imageSequence = Array.from({ length: totalFrames }, (_, index) => framePath(index));
+    const fallbackFrame = './assets/logo.svg';
 
     const stages = [
       {
@@ -839,16 +896,22 @@
 
     function mountImages() {
       stack.innerHTML = imageSequence.map((src, index) => `
-        <img class="webpage-shot ${index === 0 ? 'active' : ''}" src="${src}" alt="Ma Hawa scroll frame ${String(index + 1).padStart(3, '0')}" data-frame="${src}" />
+        <img
+          class="webpage-shot ${index === 0 ? 'active' : ''}"
+          src="${src}"
+          alt="Ma Hawa scroll frame ${String(index + 1).padStart(3, '0')}"
+          data-frame="${src}"
+          loading="eager"
+        />
       `).join('');
 
       stack.querySelectorAll('img').forEach((img) => {
         img.addEventListener('error', () => {
-          console.warn('Missing frame:', img.dataset.frame);
+          console.error('Frame not found or blocked:', img.dataset.frame);
           img.src = fallbackFrame;
           img.style.objectFit = 'contain';
           img.style.padding = '18vh 18vw';
-          img.style.background = '#01040C';
+          img.style.background = 'radial-gradient(circle at center, rgba(103,173,222,.16), #01040C 58%)';
         }, { once: true });
       });
     }
