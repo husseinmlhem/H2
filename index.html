@@ -843,10 +843,122 @@
         flex-direction: column;
       }
     }
+  
+    /* Final hero text placement + header cleanup */
+    .nav-chip {
+      display: none !important;
+    }
+
+    .hero-copy.hero-start {
+      top: clamp(120px, 18vh, 190px) !important;
+      bottom: auto !important;
+      transform: none !important;
+    }
+
+    .hero-copy.hero-end {
+      top: auto !important;
+      bottom: clamp(54px, 10vh, 110px) !important;
+      transform: none !important;
+    }
+
+    .hero-copy.hero-start.is-hidden,
+    .hero-copy.hero-end.is-hidden {
+      transform: translateY(28px) !important;
+    }
+
+    .footer-origin {
+      color: rgba(156,232,255,.62);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    html[dir="rtl"] .footer-origin {
+      letter-spacing: 0;
+      font-size: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-copy.hero-start {
+        top: 108px !important;
+        bottom: auto !important;
+        left: 20px !important;
+        right: 20px !important;
+        transform: none !important;
+      }
+
+      .hero-copy.hero-end {
+        top: auto !important;
+        bottom: 34px !important;
+        left: 20px !important;
+        right: 20px !important;
+        transform: none !important;
+      }
+
+      .hero-copy.hero-start.is-hidden,
+      .hero-copy.hero-end.is-hidden {
+        transform: translateY(24px) !important;
+      }
+
+      .footer-origin {
+        white-space: normal;
+      }
+    }
+
+  
+    /* ABSOLUTE FINAL FIX: first hero text top, last hero text bottom */
+    body.hero-at-start .hero-copy,
+    .hero-copy.hero-start {
+      top: clamp(112px, 17vh, 180px) !important;
+      bottom: auto !important;
+      transform: none !important;
+    }
+
+    body.hero-at-end .hero-copy,
+    .hero-copy.hero-end {
+      top: auto !important;
+      bottom: clamp(54px, 10vh, 110px) !important;
+      transform: none !important;
+    }
+
+    body.hero-mid .hero-copy,
+    .hero-copy.is-hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    body.hero-at-start .hero-copy:not(.is-hidden),
+    body.hero-at-end .hero-copy:not(.is-hidden) {
+      opacity: 1 !important;
+      filter: blur(0) !important;
+    }
+
+    @media (max-width: 768px) {
+      body.hero-at-start .hero-copy,
+      .hero-copy.hero-start {
+        top: 96px !important;
+        bottom: auto !important;
+        left: 20px !important;
+        right: 20px !important;
+        transform: none !important;
+      }
+
+      body.hero-at-end .hero-copy,
+      .hero-copy.hero-end {
+        top: auto !important;
+        bottom: 34px !important;
+        left: 20px !important;
+        right: 20px !important;
+        transform: none !important;
+      }
+    }
+
   </style>
 </head>
 
-<body>
+<body class="hero-at-start">
   <header class="site-header" id="top">
     <div class="nav-wrap">
       <a class="nav-brand" href="#top" aria-label="Ma Hawa Home">
@@ -861,7 +973,6 @@
       </nav>
 
       <div class="nav-actions">
-        <span class="nav-chip" data-i18n="product_uae">Product of UAE</span>
         <button class="lang-toggle" id="langToggle" type="button" aria-label="Switch language">AR</button>
         <a class="nav-cta" href="https://shop.mahawa.ae" target="_blank" rel="noopener" data-i18n="buy_now">Buy Now</a>
       </div>
@@ -1007,7 +1118,7 @@
   <footer class="site-footer">
     <div class="footer-bottom">
       <span data-i18n="rights">© Ma Hawa Hydrogen Water. All rights reserved.</span>
-      <span data-i18n="company">Baynunah Watergeneration Technologies SP LLC — Abu Dhabi, UAE</span>
+      <span data-i18n="company">Baynunah Watergeneration Technologies SP LLC — Abu Dhabi, UAE</span><span class="footer-origin" data-i18n="product_uae">Product of UAE</span>
     </div>
   </footer>
 
@@ -1250,10 +1361,14 @@
       if (activeHeroState === state && !force) return;
       activeHeroState = state;
 
+      heroCopy.classList.remove('hero-start', 'hero-end');
+
       if (state === 'hidden') {
         heroCopy.classList.add('is-hidden');
         return;
       }
+
+      heroCopy.classList.add(state === 'start' ? 'hero-start' : 'hero-end');
 
       const copy = heroCopies[currentLang][state];
       heroCopy.classList.add('is-hidden');
@@ -1270,11 +1385,16 @@
       const eased = smootherstep(progress);
       targetFrame = eased * (totalFrames - 1);
 
+      document.body.classList.remove('hero-at-start', 'hero-mid', 'hero-at-end');
+
       if (progress < 0.16) {
+        document.body.classList.add('hero-at-start');
         renderHeroState('start', force);
       } else if (progress > 0.84) {
+        document.body.classList.add('hero-at-end');
         renderHeroState('end', force);
       } else {
+        document.body.classList.add('hero-mid');
         renderHeroState('hidden', force);
       }
     }
