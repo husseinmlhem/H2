@@ -45,10 +45,11 @@
       right: 0;
       z-index: 80;
       width: 100%;
-      background: rgba(1, 4, 12, 0.96);
-      border-bottom: 1px solid rgba(103,173,222,.16);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: transparent;
+      border-bottom: 0;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      pointer-events: none;
     }
 
     .nav-wrap {
@@ -59,6 +60,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 24px;
+      pointer-events: auto;
     }
 
     .nav-brand img {
@@ -101,15 +103,16 @@
     .nav-actions { display: flex; align-items: center; gap: 10px; }
 
     .nav-chip {
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(103,173,222,.20);
+      padding: 0;
+      border-radius: 0;
+      border: 0;
       color: rgba(231,248,255,.82);
       font-size: 12px;
       font-weight: 850;
       letter-spacing: .12em;
       text-transform: uppercase;
       background: transparent;
+      box-shadow: none;
     }
 
     .nav-cta {
@@ -236,9 +239,9 @@
       background: transparent;
       opacity: 1;
       transition:
-        opacity .42s ease,
-        transform .58s cubic-bezier(.22, 1, .36, 1),
-        filter .42s ease;
+        opacity .62s ease,
+        transform .78s cubic-bezier(.22, 1, .36, 1),
+        filter .62s ease;
     }
 
     .stage-copy-left { left: clamp(28px, 5vw, 86px); text-align: left; }
@@ -705,6 +708,8 @@
     let isAnimatingFrames = false;
     let navTicking = false;
     let textTimer = null;
+    let wheelAccumulator = 0;
+    const wheelThreshold = 90;
 
     function preloadFrames() {
       imageSequence.forEach((src, index) => {
@@ -716,13 +721,9 @@
     }
 
     function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
-    function easeInOutCubic(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-
-    function setFrame(index) {
-      const safeIndex = clamp(Math.round(index), 0, totalFrames - 1);
-      if (safeIndex === currentFrameIndex && sequenceFrame.src) return;
-      currentFrameIndex = safeIndex;
-      sequenceFrame.src = preloaded[safeIndex] || imageSequence[safeIndex];
+    function easeInOutCubic(t) {
+      // Smootherstep easing: softer start and softer landing than normal ease-in-out.
+      return t * t * t * (t * (t * 6 - 15) + 10);
     }
 
     function setStationText(index) {
@@ -744,7 +745,7 @@
         stageCopyRight.classList.remove('is-changing');
         stageCopyLeft.classList.add('is-entering');
         stageCopyRight.classList.add('is-entering');
-      }, 260);
+      }, 360);
     }
 
     function animateToStation(nextStationIndex) {
@@ -752,7 +753,7 @@
       const fromFrame = stations[currentStationIndex].frame;
       const toFrame = stations[nextStationIndex].frame;
       const startTime = performance.now();
-      const duration = 1050;
+      const duration = 1550;
       isAnimatingFrames = true;
       currentStationIndex = nextStationIndex;
       setStationText(nextStationIndex);
@@ -780,10 +781,32 @@
 
     function handleWheel(event) {
       if (!isStageReadyForLockedScroll()) return;
+
       const direction = Math.sign(event.deltaY);
       if (direction === 0) return;
-      if (direction > 0 && currentStationIndex < stations.length - 1) { event.preventDefault(); animateToStation(currentStationIndex + 1); return; }
-      if (direction < 0 && currentStationIndex > 0) { event.preventDefault(); animateToStation(currentStationIndex - 1); }
+
+      // Keep native page scrolling when the sequence has reached its boundaries.
+      if (direction > 0 && currentStationIndex === stations.length - 1) return;
+      if (direction < 0 && currentStationIndex === 0) return;
+
+      event.preventDefault();
+
+      if (isAnimatingFrames) return;
+
+      // Trackpads generate many tiny wheel events. Accumulating the delta makes
+      // each station jump intentional and prevents jittery accidental triggers.
+      wheelAccumulator += event.deltaY;
+
+      if (Math.abs(wheelAccumulator) < wheelThreshold) return;
+
+      const nextDirection = Math.sign(wheelAccumulator);
+      wheelAccumulator = 0;
+
+      if (nextDirection > 0 && currentStationIndex < stations.length - 1) {
+        animateToStation(currentStationIndex + 1);
+      } else if (nextDirection < 0 && currentStationIndex > 0) {
+        animateToStation(currentStationIndex - 1);
+      }
     }
 
     function setActiveNav() {
