@@ -157,14 +157,11 @@
        =============================== */
 
     .scroll-stage {
-      height: 320vh;
+      height: 100vh;
       position: relative;
       background: #01040c;
-    }
-
-    .pin {
-      width: 1.pin {
-      position: sticky;
+      overf.pin {
+      position: relative;
       top: 0;
       width: 100vw;
       height: 100vh;
@@ -173,7 +170,11 @@
       isolation: isolate;
     }
 
-    .frame-shell,  .webpage-stack {
+    .frame-shell,    }
+
+    .frame-shell,
+    .visual-zone,
+    .webpage-stack {
       position: absolute;
       inset: 0;
       width: 100vw;
@@ -616,7 +617,7 @@
     }
 
     @media (max-width: 900px) {
-      .scroll-stage { height: 300vh; }
+      .scroll-stage { height: 100vh; }
       .stage-copy { left: 20px; right: 20px; width: auto; top: auto; bottom: 84px; transform: none !important; opacity: 1 !important; }
       .stage-copy-right { text-align: left; }
       .stage-title { font-size: clamp(48px, 12vw, 82px); }
@@ -865,8 +866,7 @@
 
     const imageSequence = Array.from({ length: totalFrames }, (_, index) => framePath(index));
 
-    // Scroll-driven 3 stations. This is more reliable than wheel-locking:
-    // frame_0001 -> frame_0040 -> frame_0092
+    // Locked 3-station hero. Page scroll is paused while moving between these stops.
     const stations = [
       {
         frame: 0,
@@ -892,12 +892,12 @@
 
     const preloaded = [];
     let currentFrameIndex = -1;
-    let displayedFrame = 0;
-    let targetFrame = 0;
-    let currentStationIndex = -1;
-    let rafRunning = false;
+    let currentStationIndex = 0;
+    let isAnimatingFrames = false;
     let navTicking = false;
     let textTimer = null;
+    let wheelAccumulator = 0;
+    const wheelThreshold = 90;
 
     function preloadFrames() {
       imageSequence.forEach((src, index) => {
@@ -927,8 +927,6 @@
     }
 
     function setStationText(index) {
-      if (index === currentStationIndex) return;
-      currentStationIndex = index;
       const station = stations[index];
       clearTimeout(textTimer);
 
@@ -952,52 +950,70 @@
           stageCopyRight.classList.remove('is-changing');
           stageCopyRight.classList.add('is-entering');
         }
-      }, 220);
+      }, 260);
     }
 
-    function getStageProgress() {
-      const rect = stage.getBoundingClientRect();
-      const travel = Math.max(1, rect.height - window.innerHeight);
-      return clamp(-rect.top / travel, 0, 1);
-    }
+    function animateToStation(nextStationIndex) {
+      if (isAnimatingFrames || nextStationIndex === currentStationIndex) return;
 
-    function updateTargetFromScroll() {
-      const progress = getStageProgress();
-      const segmentCount = stations.length - 1;
-      const raw = progress * segmentCount;
-      const segment = clamp(Math.floor(raw), 0, segmentCount - 1);
-      const local = clamp(raw - segment, 0, 1);
-      const eased = smootherstep(local);
+      const fromFrame = stations[currentStationIndex].frame;
+      const toFrame = stations[nextStationIndex].frame;
+      const startTime = performance.now();
+      const duration = 1450;
 
-      const fromFrame = stations[segment].frame;
-      const toFrame = stations[segment + 1].frame;
-      targetFrame = fromFrame + (toFrame - fromFrame) * eased;
+      isAnimatingFrames = true;
+      currentStationIndex = nextStationIndex;
+      setStationText(nextStationIndex);
 
-      let stationIndex = 0;
-      if (progress >= 0.72) stationIndex = 2;
-      else if (progress >= 0.28) stationIndex = 1;
-      setStationText(stationIndex);
-    }
+      function step(now) {
+        const elapsed = now - startTime;
+        const t = clamp(elapsed / duration, 0, 1);
+        const eased = smootherstep(t);
+        const frame = fromFrame + (toFrame - fromFrame) * eased;
 
-    function animateFrame() {
-      updateTargetFromScroll();
+        setFrame(frame);
 
-      // Smoothly chase the target frame; this removes the harsh stepped feeling.
-      displayedFrame += (targetFrame - displayedFrame) * 0.16;
-      if (Math.abs(targetFrame - displayedFrame) < 0.08) displayedFrame = targetFrame;
-      setFrame(displayedFrame);
-
-      rafRunning = false;
-      if (Math.abs(targetFrame - displayedFrame) > 0.08) {
-        requestAnimationFrame(animateFrame);
-        rafRunning = true;
+        if (t < 1) {
+          requestAnimationFrame(step);
+        } else {
+          setFrame(toFrame);
+          isAnimatingFrames = false;
+        }
       }
+
+      requestAnimationFrame(step);
     }
 
-    function requestFrameUpdate() {
-      if (!rafRunning) {
-        requestAnimationFrame(animateFrame);
-        rafRunning = true;
+    function isStageAligned() {
+      const rect = stage.getBoundingClientRect();
+      const tolerance = 10;
+      return rect.top <= tolerance && rect.bottom >= window.innerHeight - tolerance;
+    }
+
+    function handleWheel(event) {
+      if (!isStageAligned()) return;
+
+      const direction = Math.sign(event.deltaY);
+      if (direction === 0) return;
+
+      // At the boundaries, allow normal page scrolling.
+      if (direction > 0 && currentStationIndex === stations.length - 1) return;
+      if (direction < 0 && currentStationIndex === 0) return;
+
+      // Inside the hero sequence, stop page movement and animate frames only.
+      event.preventDefault();
+      if (isAnimatingFrames) return;
+
+      wheelAccumulator += event.deltaY;
+      if (Math.abs(wheelAccumulator) < wheelThreshold) return;
+
+      const nextDirection = Math.sign(wheelAccumulator);
+      wheelAccumulator = 0;
+
+      if (nextDirection > 0 && currentStationIndex < stations.length - 1) {
+        animateToStation(currentStationIndex + 1);
+      } else if (nextDirection < 0 && currentStationIndex > 0) {
+        animateToStation(currentStationIndex - 1);
       }
     }
 
@@ -1049,23 +1065,13 @@
     });
 
     preloadFrames();
-    displayedFrame = stations[0].frame;
-    targetFrame = stations[0].frame;
     setFrame(stations[0].frame);
     setStationText(0);
     initRevealAnimations();
 
-    window.addEventListener('scroll', () => {
-      requestFrameUpdate();
-      requestNavUpdate();
-    }, { passive: true });
-
-    window.addEventListener('resize', () => {
-      requestFrameUpdate();
-      requestNavUpdate();
-    });
-
-    requestFrameUpdate();
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('scroll', requestNavUpdate, { passive: true });
+    window.addEventListener('resize', requestNavUpdate);
     requestNavUpdate();
   </script>
 </body>
