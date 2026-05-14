@@ -45,10 +45,10 @@
       right: 0;
       z-index: 80;
       width: 100%;
-      background: rgba(1, 4, 12, 0.72);
-      border-bottom: 1px solid rgba(103,173,222,.14);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      background: transparent;
+      border-bottom: 0;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
 
     .nav-wrap {
@@ -75,9 +75,9 @@
       align-items: center;
       gap: 8px;
       padding: 8px;
-      border: 1px solid rgba(103,173,222,.16);
+      border: 1px solid rgba(103,173,222,.10);
       border-radius: 999px;
-      background: rgba(255,255,255,.035);
+      background: transparent;
     }
 
     .nav-link {
@@ -94,8 +94,8 @@
     .nav-link:hover,
     .nav-link.active {
       color: #fff;
-      background: rgba(103,173,222,.14);
-      box-shadow: inset 0 0 0 1px rgba(103,173,222,.28), 0 0 22px rgba(103,173,222,.14);
+      background: rgba(103,173,222,.10);
+      box-shadow: inset 0 0 0 1px rgba(103,173,222,.18), 0 0 22px rgba(103,173,222,.10);
     }
 
     .nav-actions { display: flex; align-items: center; gap: 10px; }
@@ -109,7 +109,7 @@
       font-weight: 850;
       letter-spacing: .12em;
       text-transform: uppercase;
-      background: rgba(1, 9, 20, .12);
+      background: transparent;
     }
 
     .nav-cta {
@@ -242,7 +242,30 @@
     }
 
     .stage-copy-left { left: clamp(28px, 5vw, 86px); text-align: left; }
-    .stage-copy-right { right: clamp(28px, 5vw, 86px); text-align: r   line-height: .9;
+    .stage-copy-right { right: clamp(28px, 5vw, 86px); text-align: right; width: min(560px, 38vw); }
+
+    .stage-copy.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(calc(-50% + 28px));
+      filter: blur(8px);
+    }
+
+    .stage-copy.is-changing {
+      opacity: 0;
+      transform: translateY(calc(-50% + 34px));
+      filter: blur(6px);
+    }
+
+    .stage-copy.is-entering {
+      opacity: 1;
+      transform: translateY(-50%);
+      filter: blur(0);
+    }
+
+    .stage-title {
+      font-size: clamp(58px, 7.4vw, 112px);
+      line-height: .9;
       letter-spacing: -0.07em;
       max-width: 700px;
       font-weight: 850;
@@ -367,7 +390,7 @@
     .dashboard,
     .usage-section {
       display: grid;
-      grid-template-columns: 1.05fr .95fr;
+      grid-template-columns: 1fr;
       gap: 24px;
       margin-bottom: 88px;
     }
@@ -531,12 +554,10 @@
     .flow-icon { width: 78px; height: 78px; border-radius: 25px; display: grid; place-items: center; margin-bottom: 28px; border: 1px solid rgba(103,173,222,.34); background: radial-gradient(circle at 30% 20%, rgba(156,232,255,.2), rgba(103,173,222,.05)); color: var(--cyan); font-size: 36px; box-shadow: 0 0 40px rgba(103,173,222,.14); }
     .flow-step h4 { font-size: 26px; margin-bottom: 12px; letter-spacing: -0.03em; }
 
-    .usage-map, .order-card { padding: clamp(30px, 4vw, 52px); }
+    .usage-map { padding: clamp(30px, 4vw, 52px); }
     .use-cases { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 28px; }
     .use-case { display: flex; align-items: center; gap: 14px; border-radius: 20px; padding: 16px; color: rgba(255,255,255,.78); font-weight: 750; }
     .use-case i { font-style: normal; width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; color: var(--cyan); background: rgba(103,173,222,.09); border: 1px solid rgba(103,173,222,.22); flex: 0 0 auto; }
-    .order-card { display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
-    .qr-box { width: 180px; height: 180px; border-radius: 28px; display: grid; place-items: center; background: #fff; color: #00101e; box-shadow: 0 20px 60px rgba(103,173,222,.22), 0 0 0 1px rgba(103,173,222,.3); font-size: 14px; font-weight: 950; text-align: center; letter-spacing: .08em; text-transform: uppercase; }
     .order-links { display: grid; gap: 12px; margin-top: 26px; }
     .order-link { display: flex; justify-content: space-between; gap: 20px; border-bottom: 1px solid rgba(103,173,222,.16); padding-bottom: 12px; color: rgba(255,255,255,.78); }
     .order-link strong { color: var(--cyan); }
@@ -563,7 +584,7 @@
       .nav-links { display: none; }
       .dashboard, .flow-header, .flow-line, .usage-section, .footer-inner { grid-template-columns: 1fr; }
       .flow-step::after { display: none; }
-      .order-card { grid-template-columns: 1fr; }
+      
     }
 
     @media (max-width: 900px) {
@@ -623,7 +644,7 @@
 
         <div class="flow-section" id="process"><div class="flow-header"><div><div class="section-kicker">FROM AIR TO WATER</div><h2>Atmospheric Water <span>Flow</span></h2></div><div class="flow-copy"><p>A simplified visual journey: moisture is captured from the air, purified and balanced, then delivered as a premium hydrogen water experience.</p></div></div><div class="flow-line"><div class="flow-step"><div class="flow-number">STEP 01</div><div class="flow-icon">☁</div><h4>Capture Moisture</h4><p>Atmospheric water generation captures humidity from the surrounding air.</p></div><div class="flow-step"><div class="flow-number">STEP 02</div><div class="flow-icon">◇</div><h4>Purify & Mineralize</h4><p>The water is purified and mineralized to create a balanced drinking profile.</p></div><div class="flow-step"><div class="flow-number">STEP 03</div><div class="flow-icon">H₂</div><h4>Hydrogen-Activated</h4><p>The final product is positioned as a premium hydrogen water for active lifestyles.</p></div></div></div>
 
-        <div class="usage-section" id="order"><div class="panel usage-map"><div class="section-kicker">WHERE IT FITS</div><h3>Built for Active Spaces</h3><p>Designed for premium environments where clean hydration, visual identity, and convenience matter.</p><div class="use-cases"><div class="use-case"><i>🏋</i> Gyms & Fitness</div><div class="use-case"><i>💼</i> Offices</div><div class="use-case"><i>🎟</i> Events</div><div class="use-case"><i>📦</i> Bulk Orders</div><div class="use-case"><i>🌿</i> Wellness Spaces</div><div class="use-case"><i>🏠</i> Daily Use</div></div></div><div class="panel order-card"><div><div class="section-kicker">ORDER PATH</div><h3>Scan. Order. Refresh.</h3><p>Use the QR code area for your final code, or guide visitors directly to Ma Hawa channels.</p><div class="order-links"><div class="order-link"><span>Brand Website</span><strong>www.mahawa.ae</strong></div><div class="order-link"><span>Online Shop</span><strong>shop.mahawa.ae</strong></div><div class="order-link"><span>Toll Free</span><strong>8006666</strong></div></div></div><div class="qr-box">QR CODE<br />PLACEHOLDER</div></div></div>
+        <div class="usage-section" id="order"><div class="panel usage-map"><div class="section-kicker">WHERE IT FITS</div><h3>Built for Active Spaces</h3><p>Designed for premium environments where clean hydration, visual identity, and convenience matter.</p><div class="use-cases"><div class="use-case"><i>🏋</i> Gyms & Fitness</div><div class="use-case"><i>💼</i> Offices</div><div class="use-case"><i>🎟</i> Events</div><div class="use-case"><i>📦</i> Bulk Orders</div><div class="use-case"><i>🌿</i> Wellness Spaces</div><div class="use-case"><i>🏠</i> Daily Use</div></div><div class="order-links"><div class="order-link"><span>Brand Website</span><strong>www.mahawa.ae</strong></div><div class="order-link"><span>Online Shop</span><strong>shop.mahawa.ae</strong></div><div class="order-link"><span>Toll Free</span><strong>8006666</strong></div></div></div></div>
 
         <div class="company-band" id="contact"><div><h3>Baynunah Watergeneration Technologies SP LLC</h3><p>Ma Hawa is one of the companies of Baynunah Watergeneration Technologies SP LLC, based in Abu Dhabi, United Arab Emirates. Address: 1st Floor, Centro Capital Centre Tower, Abu Dhabi, United Arab Emirates.</p></div><div class="flag-card"><div class="mini-flag"></div><span>Product of the<br />United Arab Emirates</span></div></div>
       </div>
@@ -731,14 +752,19 @@
       requestAnimationFrame(step);
     }
 
-    function isStageFullyVisible() {
+    function isStageReadyForLockedScroll() {
       const rect = stage.getBoundingClientRect();
-      const tolerance = 2;
-      return rect.top >= -tolerance && rect.bottom <= window.innerHeight + tolerance;
+      const header = document.querySelector('.site-header');
+      const headerHeight = header ? header.offsetHeight : 0;
+      const tolerance = 8;
+
+      // Capture the wheel only when the scroller is aligned under the sticky navbar.
+      // This prevents reverse animation from starting while only a small edge of the video is visible.
+      return Math.abs(rect.top - headerHeight) <= tolerance;
     }
 
     function handleWheel(event) {
-      if (!isStageFullyVisible()) return;
+      if (!isStageReadyForLockedScroll()) return;
       const direction = Math.sign(event.deltaY);
       if (direction === 0) return;
       if (direction > 0 && currentStationIndex < stations.length - 1) { event.preventDefault(); animateToStation(currentStationIndex + 1); return; }
