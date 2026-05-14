@@ -42,11 +42,11 @@
     }
 
     /* ===============================
-       FULLSCREEN SCROLL FRAMES SECTION
+       FULLSCREEN 3-STATION FRAME SECTION
        =============================== */
 
     .scroll-stage {
-      height: 780vh;
+      height: 420vh;
       position: relative;
       background: #01040c;
     }
@@ -60,8 +60,6 @@
       background: #01040c;
       isolation: isolate;
     }
-
-    /* إزالة الطبقات السوداء (pin::before و pin::after) لجعل الصور نقية وواضحة تماماً */
 
     .frame-shell {
       width: 100vw;
@@ -86,12 +84,10 @@
       object-position: center center;
       opacity: 1;
       transform: scale(1.012);
-      filter: saturate(1.06) brightness(1); /* تعديل السطوع ليصبح طبيعياً */
+      filter: saturate(1.06) brightness(1);
       transition: none;
       will-change: contents;
     }
-
-    /* إزالة تأثير خط المسح والدائرة (hud-ring) بالكامل */
 
     .molecule-field {
       position: absolute;
@@ -104,8 +100,8 @@
       position: absolute;
       width: 78px;
       height: 34px;
-      opacity: .72;
-      filter: drop-shadow(0 0 18px rgba(103,173,222,.55));
+      opacity: .55;
+      filter: drop-shadow(0 0 18px rgba(103,173,222,.45));
       animation: moleculeFloat 7s ease-in-out infinite alternate;
     }
 
@@ -151,19 +147,19 @@
       to { translate: 18px -28px; }
     }
 
-    /* حماية خلفية النص فقط لتوضيحه بعد إزالة الظل الأسود الشامل */
+    /* Clean text card: logo + headline + paragraph only */
     .stage-copy {
       position: absolute;
       z-index: 12;
       left: clamp(28px, 5vw, 86px);
       top: 50%;
       transform: translateY(-50%);
-      width: min(620px, 42vw);
+      width: min(680px, 45vw);
       pointer-events: none;
       will-change: transform, opacity;
-      padding: 40px;
-      border-radius: 30px;
-      background: radial-gradient(ellipse at left, rgba(1, 4, 12, 0.75) 0%, rgba(1, 4, 12, 0.2) 70%, transparent 100%);
+      padding: clamp(26px, 3vw, 44px);
+      border-radius: 34px;
+      background: radial-gradient(ellipse at left, rgba(1, 4, 12, 0.74) 0%, rgba(1, 4, 12, 0.24) 72%, transparent 100%);
     }
 
     .brand-row {
@@ -171,7 +167,7 @@
       align-items: center;
       justify-content: flex-start;
       width: auto;
-      margin-bottom: 34px;
+      margin-bottom: 32px;
       padding: 0;
       border: 0;
       background: transparent;
@@ -190,40 +186,13 @@
         drop-shadow(0 0 16px rgba(103,173,222,.36));
     }
 
-    .brand-row span { display: none; }
-
-    .kicker {
-      display: inline-flex;
-      gap: 8px;
-      align-items: center;
-      padding: 9px 13px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      color: var(--ice);
-      background: rgba(103, 173, 222, 0.08);
-      font-size: 12px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      margin-bottom: 18px;
-      backdrop-filter: blur(12px);
-      box-shadow: inset 0 0 28px rgba(103,173,222,.06);
-    }
-
-    .dot {
-      width: 7px;
-      height: 7px;
-      background: var(--cyan);
-      border-radius: 99px;
-      box-shadow: 0 0 20px var(--cyan);
-    }
-
     .stage-title {
       font-size: clamp(58px, 7.4vw, 112px);
       line-height: .9;
       letter-spacing: -0.07em;
-      max-width: 650px;
+      max-width: 700px;
       font-weight: 850;
-      margin-bottom: 24px;
+      margin-bottom: 26px;
       text-shadow: 0 24px 80px rgba(0,0,0,.42);
     }
 
@@ -234,67 +203,10 @@
     }
 
     .stage-text {
-      max-width: 560px;
+      max-width: 610px;
       color: rgba(255,255,255,.9);
-      font-size: clamp(19px, 1.7vw, 25px);
-      line-height: 1.55;
-    }
-
-    .stage-line {
-      width: min(430px, 84%);
-      height: 1px;
-      margin: 34px 0;
-      background: linear-gradient(90deg, var(--cyan), rgba(103,173,222,.42), transparent);
-      position: relative;
-    }
-
-    .stage-line::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: -3px;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #fff;
-      box-shadow: 0 0 22px var(--blue);
-    }
-
-    .stage-mini {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      max-width: 560px;
-    }
-
-    .pill {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.045);
-      color: var(--ice);
-      border-radius: 999px;
-      padding: 10px 13px;
-      font-size: 14px;
-      backdrop-filter: blur(10px);
-      box-shadow: inset 0 0 18px rgba(103,173,222,.04);
-    }
-
-    .terminal {
-      margin-top: 28px;
-      width: min(520px, 100%);
-      border: 1px solid rgba(103,173,222,.25);
-      background: rgba(0, 9, 20, .55);
-      border-radius: 18px;
-      padding: 14px 16px;
-      color: rgba(156,232,255,.72);
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: 12px;
-      line-height: 1.65;
-      box-shadow: inset 0 0 35px rgba(103,173,222,.045);
-    }
-
-    .terminal b {
-      color: var(--cyan);
-      font-weight: 700;
+      font-size: clamp(20px, 1.8vw, 27px);
+      line-height: 1.56;
     }
 
     .progress {
@@ -316,6 +228,33 @@
       border-radius: inherit;
       background: linear-gradient(90deg, var(--blue), var(--cyan), var(--ice));
       box-shadow: 0 0 24px rgba(103,173,222,.88);
+    }
+
+    .station-dots {
+      position: absolute;
+      right: clamp(22px, 3vw, 48px);
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 16;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      pointer-events: none;
+    }
+
+    .station-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.32);
+      box-shadow: 0 0 0 1px rgba(103,173,222,.24);
+      transition: all .28s ease;
+    }
+
+    .station-dot.active {
+      height: 34px;
+      background: var(--cyan);
+      box-shadow: 0 0 22px rgba(103,173,222,.9);
     }
 
     /* ===============================
@@ -410,7 +349,6 @@
       max-width: 740px;
     }
 
-    /* Glassmorphism Cards */
     .tech-card,
     .feature,
     .step,
@@ -478,7 +416,6 @@
       padding: 35px;
     }
 
-    /* تأثير الإضاءة عند تمرير الماوس */
     .feature::after, .step::after {
       content: "";
       position: absolute;
@@ -611,7 +548,7 @@
     .footer strong { color: var(--blue); }
 
     @media (max-width: 900px) {
-      .scroll-stage { height: 520vh; }
+      .scroll-stage { height: 360vh; }
       .stage-copy {
         left: 20px;
         right: 20px;
@@ -624,11 +561,8 @@
       }
 
       .stage-title { font-size: clamp(48px, 12vw, 82px); }
-      .terminal { display: none; }
-      
-      .details-hero, .grid, .process, .stats, .company-band {
-        grid-template-columns: 1fr;
-      }
+      .details-hero, .grid, .process, .stats, .company-band { grid-template-columns: 1fr; }
+      .station-dots { display: none; }
     }
   </style>
 </head>
@@ -642,7 +576,6 @@
             <div class="webpage-stack" id="webpageStack">
               <img class="webpage-shot" id="sequenceFrame" src="./assets/frames/frame_0001_0.00s.webp" alt="Ma Hawa scroll frame" />
             </div>
-            
             <div class="molecule-field">
               <div class="mol a"><span></span><small>H₂</small></div>
               <div class="mol b"><span></span><small>H₂</small></div>
@@ -653,24 +586,17 @@
           <div class="stage-copy">
             <div class="brand-row">
               <img class="brand-logo" src="./assets/logo.svg" alt="Ma Hawa logo" />
-              <span>MA HAWA H₂</span>
             </div>
 
-            <div class="kicker"><span class="dot"></span><span id="stageKicker">HYDROGEN WATER</span></div>
             <h1 class="stage-title" id="stageTitle">Hydrogen-Activated <span>Hydration</span></h1>
             <p class="stage-text" id="stageText">A cinematic product story for premium water generated from air, enriched with minerals, and crafted for active lifestyles.</p>
-            <div class="stage-line"></div>
-            <div class="stage-mini" id="stagePills">
-              <span class="pill">Generated from air</span>
-              <span class="pill">Rich in minerals</span>
-              <span class="pill">Zero sodium</span>
-            </div>
-            <div class="terminal" id="stageTerminal">
-              <div><b>INPUT</b> // atmospheric moisture</div>
-              <div><b>PROCESS</b> // purification + mineral balance + H₂ activation</div>
-              <div><b>OUTPUT</b> // premium hydration experience</div>
-            </div>
           </div>
+        </div>
+
+        <div class="station-dots" id="stationDots">
+          <span class="station-dot active"></span>
+          <span class="station-dot"></span>
+          <span class="station-dot"></span>
         </div>
 
         <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
@@ -737,11 +663,9 @@
     const stage = document.getElementById('scrollStage');
     const progressBar = document.getElementById('progressBar');
     const title = document.getElementById('stageTitle');
-    const kicker = document.getElementById('stageKicker');
     const text = document.getElementById('stageText');
-    const pills = document.getElementById('stagePills');
-    const terminal = document.getElementById('stageTerminal');
     const sequenceFrame = document.getElementById('sequenceFrame');
+    const dots = Array.from(document.querySelectorAll('.station-dot'));
 
     const totalFrames = 92;
     const frameRate = 7.5;
@@ -755,40 +679,27 @@
 
     const imageSequence = Array.from({ length: totalFrames }, (_, index) => framePath(index));
 
-    const stages = [
+    const stations = [
       {
-        kicker: 'HYDROGEN WATER',
+        frame: 0,
         title: 'Hydrogen-Activated <span>Hydration</span>',
-        text: 'A cinematic macro product story for Ma Hawa Hydrogen Water: generated from air, rich in minerals, and zero sodium.',
-        pills: ['Hydrogen activated', 'Generated from air', 'Zero sodium'],
-        terminal: ['INPUT // atmospheric moisture', 'PROCESS // purification + minerals + H₂', 'OUTPUT // premium active hydration']
+        text: 'Generated from air, rich in minerals, zero sodium, and crafted for a clean active lifestyle.'
       },
       {
-        kicker: 'ATMOSPHERIC WATER GENERATION',
-        title: 'Air Becomes <span>Water</span>',
-        text: 'A high-tech visual transition from moisture in the air into clean drinking water with a premium UAE product identity.',
-        pills: ['Water from air', 'Purified', 'Mineralized'],
-        terminal: ['CAPTURE // humidity particles', 'FILTER // clean water pathway', 'BALANCE // mineral profile']
-      },
-      {
-        kicker: 'UAE PRODUCT',
+        frame: Math.round((totalFrames - 1) / 2),
         title: 'Technology You <span>Can Drink</span>',
-        text: 'A premium UAE water brand powered by atmospheric water generation, quality standards, and sustainable innovation.',
-        pills: ['Premium bottled water', 'Sustainable vision', 'Product of UAE'],
-        terminal: ['LOCATION // Abu Dhabi, UAE', 'BRAND // Ma Hawa', 'COMPANY // Baynunah Watergeneration Technologies']
+        text: 'Atmospheric water generation transforms moisture in the air into premium drinking water.'
       },
       {
-        kicker: 'SCAN TO ORDER',
+        frame: totalFrames - 1,
         title: 'Scan. Order. <span>Refresh.</span>',
-        text: 'A clean ordering experience for individuals, gyms, offices, events, and corporate supply requirements.',
-        pills: ['www.mahawa.ae', 'shop.mahawa.ae', '8006666'],
-        terminal: ['SCAN // QR code', 'SHOP // shop.mahawa.ae', 'CALL // 8006666']
+        text: 'Order directly through Ma Hawa online channels or contact us for gyms, offices, events, and bulk supply.'
       }
     ];
 
     const preloaded = [];
     let currentFrameIndex = -1;
-    let currentTextIndex = -1;
+    let currentStationIndex = -1;
     let targetFrameIndex = 0;
     let ticking = false;
 
@@ -808,48 +719,59 @@
       return Math.max(min, Math.min(max, value));
     }
 
-    function setFrame(index) {
-      if (index === currentFrameIndex) return;
-      currentFrameIndex = index;
-      sequenceFrame.src = preloaded[index] || imageSequence[index];
+    function lerp(start, end, amount) {
+      return start + (end - start) * amount;
     }
 
-    function setText(index) {
-      if (index === currentTextIndex) return;
-      currentTextIndex = index;
-      const data = stages[index];
-      kicker.textContent = data.kicker;
-      title.innerHTML = data.title;
-      text.textContent = data.text;
-      pills.innerHTML = data.pills.map(item => `<span class="pill">${item}</span>`).join('');
-      terminal.innerHTML = data.terminal.map(line => {
-        const [label, value] = line.split('//');
-        return `<div><b>${label.trim()}</b> // ${value.trim()}</div>`;
-      }).join('');
+    function setFrame(index) {
+      const safeIndex = clamp(index, 0, totalFrames - 1);
+      if (safeIndex === currentFrameIndex) return;
+      currentFrameIndex = safeIndex;
+      sequenceFrame.src = preloaded[safeIndex] || imageSequence[safeIndex];
+    }
+
+    function setStation(index) {
+      if (index === currentStationIndex) return;
+      currentStationIndex = index;
+      const station = stations[index];
+      title.innerHTML = station.title;
+      text.textContent = station.text;
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+    }
+
+    function frameFromScroll(progress) {
+      // 3 clear stations:
+      // 0.00–0.20: hold first frame
+      // 0.20–0.46: animate first -> middle
+      // 0.46–0.58: hold middle frame
+      // 0.58–0.84: animate middle -> last
+      // 0.84–1.00: hold last frame
+      const first = stations[0].frame;
+      const middle = stations[1].frame;
+      const last = stations[2].frame;
+
+      if (progress < 0.20) return { frame: first, station: 0 };
+      if (progress < 0.46) {
+        const local = (progress - 0.20) / 0.26;
+        return { frame: Math.round(lerp(first, middle, local)), station: local < 0.65 ? 0 : 1 };
+      }
+      if (progress < 0.58) return { frame: middle, station: 1 };
+      if (progress < 0.84) {
+        const local = (progress - 0.58) / 0.26;
+        return { frame: Math.round(lerp(middle, last, local)), station: local < 0.65 ? 1 : 2 };
+      }
+      return { frame: last, station: 2 };
     }
 
     function calculate() {
       const rect = stage.getBoundingClientRect();
       const total = Math.max(1, rect.height - window.innerHeight);
       const scrolled = clamp(-rect.top / total, 0, 1);
-      targetFrameIndex = Math.min(totalFrames - 1, Math.floor(scrolled * totalFrames));
-      
-      // منطق تحريك وتلاشي النصوص
-      const rawIndex = scrolled * stages.length;
-      const textIndex = Math.min(stages.length - 1, Math.floor(rawIndex));
-      const stageProgress = rawIndex % 1;
-      
-      const stageCopy = document.querySelector('.stage-copy');
-      const opacity = 1 - (Math.abs(0.5 - stageProgress) * 2.5);
-      const translateY = (0.5 - stageProgress) * 60;
+      const result = frameFromScroll(scrolled);
 
-      if (window.innerWidth > 900) {
-        stageCopy.style.opacity = Math.max(0, Math.min(1, opacity));
-        stageCopy.style.transform = `translateY(calc(-50% + ${translateY}px))`;
-      }
-
+      targetFrameIndex = result.frame;
       progressBar.style.width = `${scrolled * 100}%`;
-      setText(textIndex);
+      setStation(result.station);
     }
 
     function render() {
