@@ -160,7 +160,10 @@
       height: 100vh;
       position: relative;
       background: #01040c;
-      overf.pin {
+      overflow: hidden;
+    }
+
+    .pin {
       position: relative;
       top: 0;
       width: 100vw;
@@ -169,8 +172,6 @@
       background: #01040c;
       isolation: isolate;
     }
-
-    .frame-shell,    }
 
     .frame-shell,
     .visual-zone,
@@ -325,10 +326,9 @@
       position: relative;
       overflow: hidden;
       margin-top: -1px;
+      padding-top: clamp(90px, 9vw, 130px);
       background:
-        radial-gradient(circle at 72% 8%, rgba(103,173,222,.18), transparent 30%),
-        radial-gradient(circle at 12% 18%, rgba(156,232,255,.08), transparent 28%),
-        linear-gradient(180deg, #01040c 0%, #06182e 46%, #01040c 100%);
+        linear-gradient(180deg, #01040c 0%, #06182e 42%, #01040c 100%);
     }
 
     .details::before {
@@ -786,6 +786,36 @@
     .reveal-delay-1 { transition-delay: .08s; }
     .reveal-delay-2 { transition-delay: .16s; }
     .reveal-delay-3 { transition-delay: .24s; }
+  
+
+    /* Final seam and scroll-experience fixes */
+    .scroll-stage {
+      margin-bottom: 0 !important;
+    }
+
+    .scroll-stage + .details {
+      margin-top: -2px !important;
+    }
+
+    .details {
+      border-top: 0 !important;
+      box-shadow: inset 0 42px 90px rgba(1, 4, 12, 0.55) !important;
+    }
+
+    .order-links {
+      margin-top: 30px !important;
+    }
+
+    .order-link span {
+      color: rgba(255,255,255,.68);
+      font-weight: 650;
+    }
+
+    .order-link strong {
+      color: var(--cyan) !important;
+      font-weight: 900;
+      letter-spacing: .01em;
+    }
   </style>
 </head>
 
@@ -834,7 +864,7 @@
 
         <div class="flow-section" id="process"><div class="flow-header"><div><div class="section-kicker">FROM AIR TO WATER</div><h2>Atmospheric Water <span>Flow</span></h2></div><div class="flow-copy"><p>A simplified visual journey: moisture is captured from the air, purified and balanced, then delivered as a premium hydrogen water experience.</p></div></div><div class="flow-line"><div class="flow-step"><div class="flow-number">STEP 01</div><div class="flow-icon">☁</div><h4>Capture Moisture</h4><p>Atmospheric water generation captures humidity from the surrounding air.</p></div><div class="flow-step"><div class="flow-number">STEP 02</div><div class="flow-icon">◇</div><h4>Purify & Mineralize</h4><p>The water is purified and mineralized to create a balanced drinking profile.</p></div><div class="flow-step"><div class="flow-number">STEP 03</div><div class="flow-icon">H₂</div><h4>Hydrogen-Activated</h4><p>The final product is positioned as a premium hydrogen water for active lifestyles.</p></div></div></div>
 
-        <div class="usage-section" id="order"><div class="panel usage-map"><div class="section-kicker">WHERE IT FITS</div><h3>Built for Active Spaces</h3><p>Designed for premium environments where clean hydration, visual identity, and convenience matter.</p><div class="use-cases"><div class="use-case"><i>🏋</i> Gyms & Fitness</div><div class="use-case"><i>💼</i> Offices</div><div class="use-case"><i>🎟</i> Events</div><div class="use-case"><i>📦</i> Bulk Orders</div><div class="use-case"><i>🌿</i> Wellness Spaces</div><div class="use-case"><i>🏠</i> Daily Use</div></div><div class="order-links"><div class="order-link"><span>Brand Website</span><strong>www.mahawa.ae</strong></div><div class="order-link"><span>Online Shop</span><strong>shop.mahawa.ae</strong></div><div class="order-link"><span>Toll Free</span><strong>8006666</strong></div></div></div></div>
+        <div class="usage-section" id="order"><div class="panel usage-map"><div class="section-kicker">WHERE IT FITS</div><h3>Built for Active Spaces</h3><p>Designed for premium environments where clean hydration, visual identity, and convenience matter.</p><div class="use-cases"><div class="use-case"><i>🏋</i> Gyms & Fitness</div><div class="use-case"><i>💼</i> Offices</div><div class="use-case"><i>🎟</i> Events</div><div class="use-case"><i>📦</i> Bulk Orders</div><div class="use-case"><i>🌿</i> Wellness Spaces</div><div class="use-case"><i>🏠</i> Daily Use</div></div><div class="order-links"><div class="order-link"><span>Official Ma Hawa Website</span><strong>www.mahawa.ae</strong></div><div class="order-link"><span>Order Online</span><strong>shop.mahawa.ae</strong></div><div class="order-link"><span>Toll-Free Support</span><strong>8006666</strong></div></div></div></div>
 
         <div class="company-band" id="contact"><div><h3>Baynunah Watergeneration Technologies SP LLC</h3><p>Ma Hawa is one of the companies of Baynunah Watergeneration Technologies SP LLC, based in Abu Dhabi, United Arab Emirates. Address: 1st Floor, Centro Capital Centre Tower, Abu Dhabi, United Arab Emirates.</p></div><div class="flag-card"><div class="mini-flag"></div><span>Product of the<br />United Arab Emirates</span></div></div>
       </div>
@@ -897,7 +927,7 @@
     let navTicking = false;
     let textTimer = null;
     let wheelAccumulator = 0;
-    const wheelThreshold = 90;
+    const wheelThreshold = 35;
 
     function preloadFrames() {
       imageSequence.forEach((src, index) => {
@@ -959,7 +989,7 @@
       const fromFrame = stations[currentStationIndex].frame;
       const toFrame = stations[nextStationIndex].frame;
       const startTime = performance.now();
-      const duration = 1450;
+      const duration = 1050;
 
       isAnimatingFrames = true;
       currentStationIndex = nextStationIndex;
@@ -1013,66 +1043,4 @@
       if (nextDirection > 0 && currentStationIndex < stations.length - 1) {
         animateToStation(currentStationIndex + 1);
       } else if (nextDirection < 0 && currentStationIndex > 0) {
-        animateToStation(currentStationIndex - 1);
-      }
-    }
-
-    function setActiveNav() {
-      const sections = ['experience', 'product', 'process', 'order', 'contact'];
-      let active = 'experience';
-
-      sections.forEach((id) => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.35 && rect.bottom >= window.innerHeight * 0.35) active = id;
-      });
-
-      navLinks.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === `#${active}`));
-      navTicking = false;
-    }
-
-    function requestNavUpdate() {
-      if (!navTicking) {
-        window.requestAnimationFrame(setActiveNav);
-        navTicking = true;
-      }
-    }
-
-    function initRevealAnimations() {
-      const revealTargets = document.querySelectorAll('.details .panel, .details .flow-step, .details .company-band, .details .section-head, .site-footer .footer-col');
-      revealTargets.forEach((el, index) => {
-        el.classList.add('reveal');
-        if (index % 3 === 1) el.classList.add('reveal-delay-1');
-        if (index % 3 === 2) el.classList.add('reveal-delay-2');
-      });
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('is-visible');
-        });
-      }, { threshold: 0.16 });
-
-      revealTargets.forEach((el) => observer.observe(el));
-    }
-
-    sequenceFrame.addEventListener('error', () => {
-      console.error('Displayed frame failed:', sequenceFrame.src);
-      sequenceFrame.src = fallbackFrame;
-      sequenceFrame.style.objectFit = 'contain';
-      sequenceFrame.style.padding = '18vh 18vw';
-      sequenceFrame.style.background = 'radial-gradient(circle at center, rgba(103,173,222,.16), #01040C 58%)';
-    });
-
-    preloadFrames();
-    setFrame(stations[0].frame);
-    setStationText(0);
-    initRevealAnimations();
-
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('scroll', requestNavUpdate, { passive: true });
-    window.addEventListener('resize', requestNavUpdate);
-    requestNavUpdate();
-  </script>
-</body>
-</html>
+        animateToSta
