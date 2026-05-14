@@ -33,7 +33,7 @@
     .nav-chip { color: rgba(231,248,255,.80); font-size: 12px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; background: transparent; border: 0; box-shadow: none; }
     .nav-cta { display: inline-flex; align-items: center; justify-content: center; height: 44px; padding: 0 22px; border-radius: 999px; background: linear-gradient(90deg, var(--blue), var(--cyan)); color: #00101e; font-size: 12px; font-weight: 950; letter-spacing: .12em; text-transform: uppercase; box-shadow: 0 18px 38px rgba(103,173,222,.24); }
 
-    .hero-scroll { position: relative; height: 520vh; background: #01040c; }
+    .hero-scroll { position: relative; height: 330vh; background: #01040c; }
     .hero-pin { position: sticky; top: 0; height: 100vh; width: 100%; overflow: hidden; background: #01040c; isolation: isolate; }
     .hero-frame { position: absolute; inset: 0; width: 100vw; height: 100vh; object-fit: cover; object-position: center center; transform: scale(1.01); filter: saturate(1.08) brightness(.98); will-change: contents; }
     .hero-vignette { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(90deg, rgba(1,4,12,.74) 0%, rgba(1,4,12,.30) 36%, rgba(1,4,12,.06) 68%), linear-gradient(180deg, rgba(1,4,12,.42) 0%, transparent 20%, transparent 72%, #01040c 100%); }
@@ -92,6 +92,394 @@
 
     @media (max-width: 1100px) { .nav-links { display: none; } .nav-wrap { width: min(100% - 36px, 1440px); } .full-inner { grid-template-columns: 1fr; min-height: auto; padding: 130px 0 80px; } .full-section { min-height: auto; } .process-panel, .deployment-grid { grid-template-columns: 1fr; } .process-connector { display: none; } }
     @media (max-width: 720px) { .nav-chip { display: none; } .hero-copy { width: auto; left: 22px; right: 22px; } .hero-title { font-size: clamp(50px, 15vw, 78px); } .full-inner, .footer-bottom { width: min(100% - 34px, 1400px); } .contact-console a { grid-template-columns: 1fr; } .contact-console strong { text-align: left; } .footer-bottom { flex-direction: column; } }
+  
+    /* ===============================
+       ADVANCED REDESIGN OVERRIDES
+       =============================== */
+
+    .advanced-section {
+      grid-template-columns: minmax(520px, .82fr) minmax(760px, 1.18fr) !important;
+      gap: clamp(64px, 7vw, 120px) !important;
+    }
+
+    .section-copy h2 {
+      font-size: clamp(54px, 5.6vw, 98px) !important;
+      max-width: 840px !important;
+    }
+
+    .section-copy p {
+      max-width: 760px !important;
+      font-size: clamp(18px, 1.22vw, 22px) !important;
+    }
+
+    .copy-data-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 34px;
+      max-width: 760px;
+    }
+
+    .copy-data-strip div {
+      border: 1px solid rgba(103,173,222,.18);
+      background: rgba(1,8,18,.42);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .copy-data-strip b {
+      display: block;
+      color: var(--cyan);
+      font-size: 24px;
+      margin-bottom: 6px;
+    }
+
+    .copy-data-strip span {
+      color: rgba(255,255,255,.62);
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .product-system-panel {
+      min-height: 640px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+
+    .system-core {
+      position: relative;
+      width: 420px;
+      height: 420px;
+      display: grid;
+      place-items: center;
+    }
+
+    .core-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(156,232,255,.22);
+    }
+
+    .r1 {
+      width: 310px;
+      height: 310px;
+      animation: orbitSpin 20s linear infinite;
+    }
+
+    .r2 {
+      width: 420px;
+      height: 420px;
+      border-style: dashed;
+      animation: orbitSpin 34s linear infinite reverse;
+    }
+
+    .core-dot {
+      width: 170px;
+      height: 170px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle at 34% 28%, #fff, var(--cyan) 28%, var(--blue2) 72%);
+      color: #00101e;
+      font-size: 58px;
+      font-weight: 950;
+      box-shadow: 0 0 90px rgba(103,173,222,.54);
+    }
+
+    .spec-node {
+      position: absolute;
+      width: 220px;
+      border-radius: 22px;
+      border: 1px solid rgba(103,173,222,.18);
+      background: rgba(1,8,18,.56);
+      padding: 18px;
+    }
+
+    .spec-node span,
+    .app-cell b,
+    .micro-label,
+    .data-module span {
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .spec-node strong {
+      display: block;
+      margin: 8px 0 5px;
+      font-size: 16px;
+      color: rgba(255,255,255,.9);
+    }
+
+    .spec-node small {
+      color: rgba(255,255,255,.58);
+      line-height: 1.35;
+    }
+
+    .n1 { left: 7%; top: 12%; }
+    .n2 { right: 7%; top: 17%; }
+    .n3 { left: 11%; bottom: 13%; }
+    .n4 { right: 9%; bottom: 13%; }
+
+    .process-map-panel {
+      min-height: 640px;
+      padding: clamp(30px, 4vw, 58px);
+      display: grid;
+      align-content: center;
+      gap: 34px;
+    }
+
+    .process-map {
+      display: grid;
+      grid-template-columns: 1fr 34px 1fr 34px 1fr 34px 1fr 34px 1fr;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .map-stage {
+      min-height: 170px;
+      border: 1px solid rgba(103,173,222,.16);
+      background: rgba(1,8,18,.44);
+      border-radius: 24px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      text-align: center;
+      padding: 18px;
+    }
+
+    .map-stage b {
+      color: var(--cyan);
+      font-size: 11px;
+      letter-spacing: .18em;
+      margin-bottom: 12px;
+    }
+
+    .map-stage strong {
+      font-size: 21px;
+      margin-bottom: 8px;
+    }
+
+    .map-stage span {
+      color: rgba(255,255,255,.58);
+      line-height: 1.35;
+    }
+
+    .map-line {
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      box-shadow: 0 0 18px rgba(103,173,222,.36);
+    }
+
+    .profile-bars {
+      display: grid;
+      gap: 16px;
+    }
+
+    .profile-bars div {
+      display: grid;
+      grid-template-columns: 190px 1fr 42px;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .profile-bars span {
+      color: rgba(255,255,255,.68);
+      font-weight: 700;
+    }
+
+    .profile-bars i,
+    .meter {
+      display: block;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .profile-bars i::after,
+    .meter i {
+      content: "";
+      display: block;
+      width: var(--w);
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      box-shadow: 0 0 18px rgba(103,173,222,.55);
+    }
+
+    .profile-bars b {
+      color: var(--cyan);
+      text-align: right;
+    }
+
+    .deployment-dashboard {
+      min-height: 650px;
+      padding: clamp(30px, 4vw, 58px);
+      display: grid;
+      gap: 24px;
+      align-content: stretch;
+    }
+
+    .dashboard-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .dashboard-header > div,
+    .data-module {
+      border-radius: 24px;
+      border: 1px solid rgba(103,173,222,.16);
+      background: rgba(1,8,18,.42);
+      padding: 22px;
+    }
+
+    .dashboard-header strong,
+    .data-module strong {
+      display: block;
+      color: rgba(255,255,255,.9);
+      font-size: 18px;
+      line-height: 1.35;
+      margin-top: 10px;
+    }
+
+    .application-matrix {
+      display: grid;
+      grid-template-columns: 1.08fr .92fr;
+      grid-template-rows: repeat(2, minmax(155px, 1fr));
+      gap: 18px;
+    }
+
+    .app-cell {
+      position: relative;
+      overflow: hidden;
+      border-radius: 28px;
+      border: 1px solid rgba(103,173,222,.16);
+      background: linear-gradient(135deg, rgba(103,173,222,.08), rgba(255,255,255,.015));
+      padding: 26px;
+      display: grid;
+      align-content: end;
+      min-height: 160px;
+    }
+
+    .app-cell::before {
+      content: "";
+      position: absolute;
+      right: -42px;
+      top: -42px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 1px solid rgba(156,232,255,.14);
+      box-shadow: 0 0 60px rgba(103,173,222,.12);
+    }
+
+    .app-cell b {
+      position: absolute;
+      top: 24px;
+      left: 26px;
+    }
+
+    .app-cell strong {
+      font-size: clamp(22px, 1.8vw, 32px);
+      letter-spacing: -.04em;
+      margin-bottom: 8px;
+    }
+
+    .app-cell span {
+      color: rgba(255,255,255,.64);
+      line-height: 1.45;
+      max-width: 380px;
+    }
+
+    .app-cell.featured {
+      grid-row: span 2;
+      min-height: 340px;
+      background: radial-gradient(circle at 82% 12%, rgba(156,232,255,.18), transparent 36%), linear-gradient(135deg, rgba(103,173,222,.12), rgba(255,255,255,.02));
+    }
+
+    .app-cell.featured strong {
+      font-size: clamp(34px, 3vw, 54px);
+      line-height: .95;
+    }
+
+    .mini-data-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .meter {
+      margin: 16px 0 10px;
+    }
+
+    .advanced-contact {
+      min-height: 520px;
+      align-content: center;
+    }
+
+    .origin-block {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding-top: 24px;
+      color: rgba(255,255,255,.76);
+      font-weight: 850;
+    }
+
+    @media (max-width: 1100px) {
+      .advanced-section,
+      .process-map,
+      .dashboard-header,
+      .application-matrix,
+      .mini-data-row,
+      .copy-data-strip {
+        grid-template-columns: 1fr !important;
+      }
+
+      .map-line {
+        display: none;
+      }
+
+      .product-system-panel,
+      .process-map-panel,
+      .deployment-dashboard {
+        min-height: auto;
+      }
+
+      .system-core {
+        width: 320px;
+        height: 320px;
+      }
+
+      .r1 { width: 250px; height: 250px; }
+      .r2 { width: 320px; height: 320px; }
+
+      .spec-node {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        bottom: auto;
+        width: min(100%, 420px);
+        margin: 8px;
+      }
+
+      .app-cell.featured {
+        grid-row: auto;
+        min-height: 180px;
+      }
+
+      .profile-bars div {
+        grid-template-columns: 1fr;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -118,10 +506,122 @@
       </div>
     </section>
 
-    <section class="full-section" id="product"><div class="section-bg"></div><div class="full-inner reveal"><div class="section-copy"><div class="section-kicker">Product System</div><h2>Hydrogen Water, <span>engineered from air</span></h2><p>Ma Hawa Hydrogen Water is a 450 ml premium aluminum bottle generated from air, purified, mineralized, and activated with hydrogen for a clean active lifestyle.</p></div><div class="glass-panel product-panel"><div class="hud-orbit orbit-a"></div><div class="hud-orbit orbit-b"></div><div class="hud-core">H₂</div><div class="hud-pill p-a">450 ml</div><div class="hud-pill p-b">Zero sodium</div><div class="hud-pill p-c">Rich minerals</div></div></div></section>
-    <section class="full-section" id="process"><div class="section-bg"></div><div class="full-inner reveal"><div class="section-copy"><div class="section-kicker">Atmospheric Flow</div><h2>From moisture to <span>premium water</span></h2><p>A simplified technical flow showing the Ma Hawa story: capture moisture from air, purify it, balance minerals, then finish with hydrogen activation.</p></div><div class="glass-panel process-panel"><div class="process-step"><i>☁</i><strong>Capture</strong><small>Atmospheric moisture</small></div><div class="process-connector"></div><div class="process-step"><i>◇</i><strong>Purify</strong><small>Clean water path</small></div><div class="process-connector"></div><div class="process-step"><i>Mg</i><strong>Mineralize</strong><small>Balanced taste</small></div><div class="process-connector"></div><div class="process-step"><i>H₂</i><strong>Activate</strong><small>Hydrogen profile</small></div></div></div></section>
-    <section class="full-section" id="order"><div class="section-bg"></div><div class="full-inner reveal"><div class="section-copy"><div class="section-kicker">Order & Deployment</div><h2>Designed for <span>active spaces</span></h2><p>Built for gyms, wellness spaces, offices, events, bulk supply, and premium daily hydration routines.</p></div><div class="glass-panel deployment-grid"><div><i>🏋</i><span>Gyms</span></div><div><i>🌿</i><span>Wellness</span></div><div><i>💼</i><span>Offices</span></div><div><i>🎟</i><span>Events</span></div><div><i>📦</i><span>Bulk Orders</span></div><div><i>🏠</i><span>Daily Use</span></div></div></div></section>
-    <section class="full-section" id="contact"><div class="section-bg"></div><div class="full-inner reveal"><div class="section-copy"><div class="section-kicker">Buy Ma Hawa H₂</div><h2>Buy Directly <span>Online</span></h2><p>Purchase Ma Hawa Hydrogen Water through the official shop, or contact the team for gyms, offices, events, and business supply.</p></div><div class="glass-panel contact-console"><a href="https://shop.mahawa.ae" target="_blank" rel="noopener"><span>Buy online</span><strong>shop.mahawa.ae</strong></a><a href="https://www.mahawa.ae" target="_blank" rel="noopener"><span>Explore Ma Hawa</span><strong>www.mahawa.ae</strong></a><a href="tel:8006666"><span>Toll-free support</span><strong>8006666</strong></a><div class="uae-origin"><div class="footer-flag"></div><span>Product of the United Arab Emirates</span></div></div></div></section>
+    <section class="full-section product-redesign" id="product">
+      <div class="section-bg"></div>
+      <div class="full-inner advanced-section reveal">
+        <div class="section-copy">
+          <div class="section-kicker">Product Architecture</div>
+          <h2>Hydrogen water, <span>built as a system</span></h2>
+          <p>Ma Hawa H₂ is a 450 ml premium aluminum bottle generated from air, purified, mineral-balanced, sodium-free, and positioned for clean active hydration.</p>
+
+          <div class="copy-data-strip">
+            <div><b>450 ml</b><span>portable bottle format</span></div>
+            <div><b>0 Na</b><span>zero sodium profile</span></div>
+            <div><b>H₂</b><span>hydrogen-activated identity</span></div>
+          </div>
+        </div>
+
+        <div class="glass-panel product-system-panel">
+          <div class="system-core">
+            <div class="core-ring r1"></div>
+            <div class="core-ring r2"></div>
+            <div class="core-dot">H₂</div>
+          </div>
+
+          <div class="spec-node n1"><span>01</span><strong>Atmospheric source</strong><small>Generated from air</small></div>
+          <div class="spec-node n2"><span>02</span><strong>Purified water path</strong><small>Clean technical process</small></div>
+          <div class="spec-node n3"><span>03</span><strong>Mineral balance</strong><small>Smooth drinking profile</small></div>
+          <div class="spec-node n4"><span>04</span><strong>Hydrogen activation</strong><small>Premium H₂ positioning</small></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="full-section process-redesign" id="process">
+      <div class="section-bg"></div>
+      <div class="full-inner advanced-section reveal">
+        <div class="section-copy">
+          <div class="section-kicker">Atmospheric Water Flow</div>
+          <h2>From moisture to <span>bottled clarity</span></h2>
+          <p>A clean process narrative for explaining the product without visual clutter: capture, purify, mineralize, activate, bottle.</p>
+        </div>
+
+        <div class="glass-panel process-map-panel">
+          <div class="process-map">
+            <div class="map-stage"><b>01</b><strong>Air</strong><span>Moisture capture</span></div>
+            <div class="map-line"></div>
+            <div class="map-stage"><b>02</b><strong>Purify</strong><span>Water path cleaning</span></div>
+            <div class="map-line"></div>
+            <div class="map-stage"><b>03</b><strong>Minerals</strong><span>Balanced taste</span></div>
+            <div class="map-line"></div>
+            <div class="map-stage"><b>04</b><strong>H₂</strong><span>Hydrogen identity</span></div>
+            <div class="map-line"></div>
+            <div class="map-stage"><b>05</b><strong>Bottle</strong><span>450 ml aluminum</span></div>
+          </div>
+
+          <div class="profile-bars">
+            <div><span>Purity positioning</span><i style="--w:94%"></i><b>94</b></div>
+            <div><span>Light drinking feel</span><i style="--w:88%"></i><b>88</b></div>
+            <div><span>Mineral balance</span><i style="--w:76%"></i><b>76</b></div>
+            <div><span>Premium shelf impact</span><i style="--w:91%"></i><b>91</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="full-section order-redesign" id="order">
+      <div class="section-bg"></div>
+      <div class="full-inner advanced-section order-advanced reveal">
+        <div class="section-copy">
+          <div class="section-kicker">Deployment Intelligence</div>
+          <h2>Designed for <span>high-frequency spaces</span></h2>
+          <p>Instead of treating the product as a generic beverage, this section maps where the bottle has the strongest commercial and lifestyle fit.</p>
+        </div>
+
+        <div class="glass-panel deployment-dashboard">
+          <div class="dashboard-header">
+            <div>
+              <span class="micro-label">Primary use case</span>
+              <strong>Fitness, wellness, offices, events, and bulk hospitality supply</strong>
+            </div>
+            <div>
+              <span class="micro-label">Commercial direction</span>
+              <strong>Premium hydration with strong visual shelf presence</strong>
+            </div>
+          </div>
+
+          <div class="application-matrix">
+            <div class="app-cell featured"><b>01</b><strong>Fitness Clubs</strong><span>Post-workout fridges, reception counters, PT zones, and recovery lounges.</span></div>
+            <div class="app-cell"><b>02</b><strong>Wellness</strong><span>Spa areas, clean lifestyle counters, premium refreshment points.</span></div>
+            <div class="app-cell"><b>03</b><strong>Corporate</strong><span>Meeting rooms, executive pantries, visitor hospitality.</span></div>
+            <div class="app-cell"><b>04</b><strong>Events</strong><span>Sports activations, brand booths, VIP lounges, and sampling moments.</span></div>
+          </div>
+
+          <div class="mini-data-row">
+            <div class="data-module"><span>Occasion fit</span><div class="meter"><i style="--w:92%"></i></div><strong>High</strong></div>
+            <div class="data-module"><span>Visual impact</span><div class="meter"><i style="--w:88%"></i></div><strong>Premium</strong></div>
+            <div class="data-module"><span>Routine use</span><div class="meter"><i style="--w:76%"></i></div><strong>Daily</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="full-section contact-redesign" id="contact">
+      <div class="section-bg"></div>
+      <div class="full-inner advanced-section reveal">
+        <div class="section-copy">
+          <div class="section-kicker">Buy Ma Hawa H₂</div>
+          <h2>Buy directly <span>from the source</span></h2>
+          <p>Use the official Ma Hawa online shop for direct purchase, or contact the team for gyms, offices, events, and corporate supply.</p>
+        </div>
+
+        <div class="glass-panel contact-console advanced-contact">
+          <a href="https://shop.mahawa.ae" target="_blank" rel="noopener"><span>Buy online</span><strong>shop.mahawa.ae</strong></a>
+          <a href="https://www.mahawa.ae" target="_blank" rel="noopener"><span>Explore Ma Hawa</span><strong>www.mahawa.ae</strong></a>
+          <a href="tel:8006666"><span>Toll-free support</span><strong>8006666</strong></a>
+          <div class="origin-block"><div class="footer-flag"></div><span>Product of the United Arab Emirates</span></div>
+        </div>
+      </div>
+    </section>
   </main>
   <footer class="site-footer"><div class="footer-bottom"><span>© Ma Hawa Hydrogen Water. All rights reserved.</span><span>Baynunah Watergeneration Technologies SP LLC — Abu Dhabi, UAE</span></div></footer>
 
@@ -153,7 +653,7 @@
     function getHeroProgress() { const rect = heroScroll.getBoundingClientRect(); const travel = Math.max(1, rect.height - window.innerHeight); return clamp(-rect.top / travel, 0, 1); }
     function setHeroCopy(key, title, text) { if (activeCopy === key) return; activeCopy = key; heroCopy.classList.add('is-changing'); window.setTimeout(() => { heroTitle.innerHTML = title; heroText.textContent = text; heroCopy.classList.remove('is-changing'); heroCopy.classList.add('is-entering'); }, 220); }
     function updateHero() { const progress = getHeroProgress(); const eased = smootherstep(progress); targetFrame = eased * (totalFrames - 1); if (heroProgressBar) heroProgressBar.style.width = `${progress * 100}%`; if (progress < 0.34) { setHeroCopy('start', 'Hydrogen-Activated <span>Hydration</span>', 'Pure water generated from air, enriched with minerals, and activated by hydrogen for a clean active lifestyle.'); } else if (progress < 0.72) { setHeroCopy('middle', 'Generated <span>from Air</span>', 'Atmospheric water generation transforms moisture into premium drinking water through a clean technical process.'); } else { setHeroCopy('end', 'Buy Directly <span>Online</span>', 'Purchase through shop.mahawa.ae or contact Ma Hawa for gyms, offices, events, and business supply.'); } }
-    function animateFrame() { updateHero(); displayedFrame += (targetFrame - displayedFrame) * 0.18; if (Math.abs(targetFrame - displayedFrame) < 0.06) displayedFrame = targetFrame; setFrame(displayedFrame); if (Math.abs(targetFrame - displayedFrame) > 0.06) { requestAnimationFrame(animateFrame); } else { frameTicking = false; } }
+    function animateFrame() { updateHero(); displayedFrame += (targetFrame - displayedFrame) * 0.32; if (Math.abs(targetFrame - displayedFrame) < 0.06) displayedFrame = targetFrame; setFrame(displayedFrame); if (Math.abs(targetFrame - displayedFrame) > 0.06) { requestAnimationFrame(animateFrame); } else { frameTicking = false; } }
     function requestFrameUpdate() { if (!frameTicking) { requestAnimationFrame(animateFrame); frameTicking = true; } }
     function setActiveNav() { const sections = ['product', 'process', 'order', 'contact']; let active = 'product'; sections.forEach((id) => { const el = document.getElementById(id); if (!el) return; const rect = el.getBoundingClientRect(); if (rect.top <= window.innerHeight * 0.38 && rect.bottom >= window.innerHeight * 0.38) active = id; }); navLinks.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === `#${active}`)); navTicking = false; }
     function requestNavUpdate() { if (!navTicking) { requestAnimationFrame(setActiveNav); navTicking = true; } }
